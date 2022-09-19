@@ -4,6 +4,6 @@ import model.Reporter;
 
 public interface ReporterRepository {
 
-    void setInDB(Reporter reporter);
+    Reporter setInDB(Reporter reporter);
 
 }

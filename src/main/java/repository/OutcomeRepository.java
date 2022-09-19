@@ -4,5 +4,5 @@ import model.Outcome;
 
 public interface OutcomeRepository {
 
-    void setInDB(Outcome outcome);
+    Outcome setInDB(Outcome outcome);
 }

@@ -4,6 +4,6 @@ import model.Type;
 
 public interface ReporterTypeRepository {
 
-    void setInDB(Type reporterType);
+    Type setInDB(Type reporterType);
 
 }

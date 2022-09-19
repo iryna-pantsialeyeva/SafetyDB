@@ -1,23 +1,23 @@
 package model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 
 public class AdverseReaction {
 
     private int id;
-    private Date reportDate;
-    private String description;
-    private String suspectedDrug;
-    private Outcome outcome;
-    private Criteria criteria;
-    private Type type;
-    private Reporter fullName;
+    @NonNull private Date reportDate;
+    @NonNull private String description;
+    @NonNull private String suspectedDrug;
+    @NonNull private Outcome outcome;
+    @NonNull private Criteria criteria;
+    @NonNull private Type type;
+    @NonNull private Reporter fullName;
 }

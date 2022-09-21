@@ -1,6 +1,7 @@
-package service;
+package service.impl;
 
 import model.Criteria;
+import service.CriteriaService;
 
 public class CriteriaServiceImpl implements CriteriaService {
 
@@ -8,18 +9,10 @@ public class CriteriaServiceImpl implements CriteriaService {
     @Override
     public Criteria save(String name) {
         Criteria criteria = null;
-        if(!isPresent(name)) {
+        if(getId(name) == 0) {
             criteria = new Criteria(name);
         }
         return criteria;
-    }
-
-    @Override
-    public boolean isPresent(String name) {
-        if (getId(name) > 0) {
-            return true;
-        }
-        return false;
     }
 
     @Override

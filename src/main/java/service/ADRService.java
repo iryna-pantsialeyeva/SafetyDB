@@ -17,7 +17,5 @@ public interface ADRService {
 
     boolean update(Date reportDate, String description, String suspectedDrug, Outcome outcome, Criteria criteria, Type type, Reporter fullName);
 
-    boolean isPresent(AdverseReaction adverseReaction);
-
     int getId(AdverseReaction adverseReaction);
 }

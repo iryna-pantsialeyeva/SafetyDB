@@ -1,23 +1,16 @@
-package service;
+package service.impl;
 
 import model.Reporter;
+import service.ReporterService;
 
 public class ReporterServiceImpl implements ReporterService {
     @Override
     public Reporter add(String fullName) {
        Reporter reporter = null;
-       if(!isPresent(fullName)) {
+       if(getId(fullName) == 0) {
            reporter = new Reporter(fullName);
        }
         return reporter;
-    }
-
-    @Override
-    public boolean isPresent(String fullName) {
-        if(getId(fullName) > 0){
-            return true;
-        }
-        return false;
     }
 
     @Override

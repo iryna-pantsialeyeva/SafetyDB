@@ -1,7 +1,8 @@
-package service;
+package service.impl;
 
 
 import model.*;
+import service.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,39 +19,39 @@ public class ADRServiceImpl implements ADRService {
     @Override
     public AdverseReaction save(String reportDate, String description, String suspectedDrug, String outcome,
                                 String criteria, String type, String fullName) throws ParseException {
-        AdverseReaction adverseReaction;
+        AdverseReaction adverseReaction = null;
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(reportDate);
-        Outcome outcomeFromDB = this.outcome.save(outcome);
-        Criteria criteriaFromDB = this.criteria.save(criteria);
-        Type typeFromDB = this.type.save(type);
-        Reporter reporterFromDB = this.reporter.add(fullName);
+        Outcome outcomeToAdd = this.outcome.save(outcome);
+        Criteria criteriaToAdd = this.criteria.save(criteria);
+        Type typeToAdd = this.type.save(type);
+        Reporter reporterToAdd = this.reporter.add(fullName);
 
-        if (outcomeFromDB == null) {
-            outcomeFromDB = new Outcome(outcome);
+        if (outcomeToAdd == null) {
+            outcomeToAdd = new Outcome(outcome);
         }
 
-        if (criteriaFromDB == null) {
-            criteriaFromDB = new Criteria(criteria);
+        if (criteriaToAdd == null) {
+            criteriaToAdd = new Criteria(criteria);
         }
 
-        if (typeFromDB == null) {
-            typeFromDB = new Type(type);
+        if (typeToAdd == null) {
+            typeToAdd = new Type(type);
         }
-        if (reporterFromDB == null) {
-            reporterFromDB = new Reporter(fullName);
+        if (reporterToAdd == null) {
+            reporterToAdd = new Reporter(fullName);
         }
 
-        adverseReaction = new AdverseReaction(date, description, suspectedDrug, outcomeFromDB, criteriaFromDB,
-                typeFromDB, reporterFromDB);
-
-        if (isPresent(adverseReaction)) {
-            adverseReaction = null;
+        if (getId(adverseReaction) == 0) {
+            adverseReaction = new AdverseReaction(date, description, suspectedDrug, outcomeToAdd, criteriaToAdd,
+                    typeToAdd, reporterToAdd);
         }
         return adverseReaction;
     }
 
     @Override
     public List<AdverseReaction> get(String suspectedDrug) {
+        //return RepositorySupplier.getAdverseReactionRepository().get(suspectedDrug);
+        // TODO: 21.09.2022 change after Repository layer method get implementation in AdverseReactionRepositoryImpl class
         return null;
     }
 
@@ -61,14 +62,6 @@ public class ADRServiceImpl implements ADRService {
 
     @Override
     public boolean update(Date reportDate, String description, String suspectedDrug, Outcome outcome, Criteria criteria, Type type, Reporter fullName) {
-        return false;
-    }
-
-    @Override
-    public boolean isPresent(AdverseReaction adverseReaction) {
-        if (getId(adverseReaction) > 0) {
-            return true;
-        }
         return false;
     }
 

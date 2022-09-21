@@ -1,23 +1,16 @@
-package service;
+package service.impl;
 
 import model.Outcome;
+import service.OutcomeService;
 
 public class OutcomeServiceImpl implements OutcomeService {
     @Override
     public Outcome save(String name) {
         Outcome outcome = null;
-        if (!isPresent(name)) {
+        if (getId(name) == 0) {
             outcome = new Outcome(name);
         }
         return outcome;
-    }
-
-    @Override
-    public boolean isPresent(String name) {
-        if (getId(name) > 0) {
-            return true;
-        }
-        return false;
     }
 
     @Override

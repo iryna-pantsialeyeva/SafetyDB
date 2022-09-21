@@ -1,24 +1,17 @@
-package service;
+package service.impl;
 
 import model.Type;
+import service.TypeService;
 
 public class TypeServiceImpl implements TypeService {
 
     @Override
     public Type save(String name) {
         Type type = null;
-        if (!isPresent(name)) {
+        if (getId(name) == 0) {
             type = new Type(name);
         }
         return type;
-    }
-
-    @Override
-    public boolean isPresent(String name) {
-        if (getId(name) > 0) {
-            return true;
-        }
-        return false;
     }
 
     @Override

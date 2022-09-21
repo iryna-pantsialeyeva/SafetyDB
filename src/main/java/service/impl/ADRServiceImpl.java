@@ -49,9 +49,11 @@ public class ADRServiceImpl implements ADRService {
     }
 
     @Override
-    public List<AdverseReaction> get(String suspectedDrug) {
-        //return RepositorySupplier.getAdverseReactionRepository().get(suspectedDrug);
+    public List<AdverseReaction> get(String suspectedDrug) throws ServiceException {
         // TODO: 21.09.2022 change after Repository layer method get implementation in AdverseReactionRepositoryImpl class
+//        if(RepositorySupplier.getAdverseReactionRepository().get(suspectedDrug) == null) {
+//            throw new ServiceException("There are no reports on this medicinal product in database.");
+//        }
         return null;
     }
 

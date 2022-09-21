@@ -11,7 +11,7 @@ public interface ADRService {
 
     AdverseReaction save(String reportDate, String description, String suspectedDrug, String outcome, String criteria, String type, String fullName) throws ParseException;
 
-    List<AdverseReaction> get(String suspectedDrug);
+    List<AdverseReaction> get(String suspectedDrug) throws ServiceException;
 
     boolean delete(Date reportDate, Reporter fullName);
 

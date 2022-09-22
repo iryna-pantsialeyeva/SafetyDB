@@ -73,6 +73,26 @@ public class ReporterRepositoryImpl implements ReporterRepository {
         return reporter;
     }
 
+    public int getId(String name) {
+        Connection con = ConnectionToDB.connectionPool.getConnection();
+        int id = 0;
+        try {
+            PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            closePS(ps);
+            closeRS(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionToDB.connectionPool.releaseConnection(con);
+        }
+        return id;
+    }
+
     private static void closePS(PreparedStatement ps) {
         if (ps != null) {
             try {

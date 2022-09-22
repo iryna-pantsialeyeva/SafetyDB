@@ -163,17 +163,16 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         Connection con = ConnectionToDB.connectionPool.getConnection();
         try {
             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
-            ps.setString(1, title);
+            ps.setDate(1, (Date) advReaction.getReportDate());
+            ps.setString(2, advReaction.getDescription());
+            ps.setString(3, advReaction.getSuspectedDrug());
+            ps.setInt(4, advReaction.getCriteria().getId());
+            ps.setInt(5, advReaction.getOutcome().getId());
+            ps.setInt(6, advReaction.getFullName().getId());
+            ps.setInt(7, advReaction.getType().getId());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                newAdvReaction.setId(rs.getInt("id"));
-                newAdvReaction.setReportDate(rs.getDate("report_date"));
-                newAdvReaction.setDescription(rs.getString("description"));
-                newAdvReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newAdvReaction.setOutcome(OUTCOME_REPOSITORY.getByID(rs.getInt("outcome_id")));
-                newAdvReaction.setCriteria(CRITERIA_REPOSITORY.getByID(rs.getInt("criteria_id")));
-                newAdvReaction.setFullName(REPORTER_REPOSITORY.getByID(rs.getInt("reporter_id")));
-                newAdvReaction.setType(REPORTER_TYPE_REPOSITORY.getByID(rs.getInt("reporter_type_id")));
+                id = rs.getInt("id");
             }
             closePS(ps);
             closeRS(rs);

@@ -6,6 +6,8 @@ public class SQLQuery {
     public static final String GET_ADVERSE_REACTION_BY_ID = "select * from adverse_reactions where id = ?";
     public static final String GET_ADVERSE_REACTION_BY_TITLE = "select * from adverse_reactions where title = ?";
     public static final String GET_ADVERSE_REACTION_BY_SUSPECTED_DRUG = "select * from adverse_reactions where suspected_drug = ?";
+    public static final String GET_ADVERSE_REACTION_ID_BY_PARAMETERS = "select id from adverse_reactions where report_date = ? " +
+            "and description = ? and suspected_drug = ? and criteria_id = ? and outcome_id = ? and reporter_id = ? and reporter_type_id = ?";
     public static final String INSERT_IN_ADVERSE_REACTIONS = "insert into adverse_reactions (report_date, " +
             "description, suspected_drug, criteria_id, outcome_id, reporter_id, reporter_type_id) values " +
             "(?, ?, ?, ?, ?, ?, ?)";

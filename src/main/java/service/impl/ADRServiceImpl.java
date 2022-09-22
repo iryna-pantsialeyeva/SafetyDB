@@ -3,6 +3,7 @@ package service.impl;
 
 import model.*;
 import service.*;
+import repository.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,10 +12,19 @@ import java.util.List;
 
 public class ADRServiceImpl implements ADRService {
 
+    private AdverseReactionRepository adRepository;
     private ReporterService reporter;
     private CriteriaService criteria;
     private OutcomeService outcome;
     private TypeService type;
+
+    public ADRServiceImpl() {
+        adRepository = new AdverseReactionRepositoryImpl();
+        reporter = new ReporterServiceImpl();
+        criteria = new CriteriaServiceImpl();
+        outcome = new OutcomeServiceImpl();
+        type = new TypeServiceImpl();
+    }
 
     @Override
     public AdverseReaction save(String reportDate, String description, String suspectedDrug, String outcome,
@@ -50,11 +60,11 @@ public class ADRServiceImpl implements ADRService {
 
     @Override
     public List<AdverseReaction> get(String suspectedDrug) throws ServiceException {
-        // TODO: 21.09.2022 change after Repository layer method get implementation in AdverseReactionRepositoryImpl class
-//        if(RepositorySupplier.getAdverseReactionRepository().get(suspectedDrug) == null) {
-//            throw new ServiceException("There are no reports on this medicinal product in database.");
-//        }
-        return null;
+        List<AdverseReaction> adverseReactionList = adRepository.get(suspectedDrug);
+        if (adverseReactionList == null) {
+            throw new ServiceException("There are no reports on this medicinal product in database.");
+        }
+        return adverseReactionList;
     }
 
     @Override
@@ -69,7 +79,6 @@ public class ADRServiceImpl implements ADRService {
 
     @Override
     public int getId(AdverseReaction adverseReaction) {
-        // TODO: 20.09.2022 add method after Repository layer method implementation
-        return 0;
+        return adRepository.getId(adverseReaction);
     }
 }

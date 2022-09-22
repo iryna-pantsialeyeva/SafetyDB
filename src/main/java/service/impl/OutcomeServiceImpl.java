@@ -2,8 +2,16 @@ package service.impl;
 
 import model.Outcome;
 import service.OutcomeService;
+import repository.*;
 
 public class OutcomeServiceImpl implements OutcomeService {
+
+    private OutcomeRepository outcomeRepository;
+
+    public OutcomeServiceImpl() {
+        outcomeRepository = new OutcomeRepositoryImpl();
+    }
+
     @Override
     public Outcome save(String name) {
         Outcome outcome = null;
@@ -15,7 +23,6 @@ public class OutcomeServiceImpl implements OutcomeService {
 
     @Override
     public int getId(String name) {
-        // TODO: 19.09.2022 add method after Repository layer method implementation
-        return 0;
+        return outcomeRepository.getId(name);
     }
 }

@@ -2,8 +2,15 @@ package service.impl;
 
 import model.Type;
 import service.TypeService;
+import repository.*;
 
 public class TypeServiceImpl implements TypeService {
+
+    private ReporterTypeRepository typeRepository;
+
+    public TypeServiceImpl() {
+        typeRepository = new ReporterTypeRepositoryImpl();
+    }
 
     @Override
     public Type save(String name) {
@@ -16,7 +23,6 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public int getId(String name) {
-        // TODO: 19.09.2022 add method after Repository layer method implementation
-        return 0;
+        return typeRepository.getId(name);
     }
 }

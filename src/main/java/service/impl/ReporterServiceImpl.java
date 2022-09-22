@@ -2,8 +2,16 @@ package service.impl;
 
 import model.Reporter;
 import service.ReporterService;
+import repository.*;
 
 public class ReporterServiceImpl implements ReporterService {
+
+    private ReporterRepository reporterRepository;
+
+    public ReporterServiceImpl() {
+        reporterRepository = new ReporterRepositoryImpl();
+    }
+
     @Override
     public Reporter add(String fullName) {
        Reporter reporter = null;
@@ -15,7 +23,6 @@ public class ReporterServiceImpl implements ReporterService {
 
     @Override
     public int getId(String fullName) {
-        // TODO: 19.09.2022 add method after Repository layer method implementation
-        return 0;
+        return reporterRepository.getId(fullName);
     }
 }

@@ -2,9 +2,16 @@ package service.impl;
 
 import model.Criteria;
 import service.CriteriaService;
+import repository.*;
+import service.ServiceException;
 
 public class CriteriaServiceImpl implements CriteriaService {
 
+    private CriteriaRepository criteriaRepository;
+
+    public CriteriaServiceImpl() {
+        criteriaRepository = new CriteriaRepositoryImpl();
+    }
 
     @Override
     public Criteria save(String name) {
@@ -17,7 +24,6 @@ public class CriteriaServiceImpl implements CriteriaService {
 
     @Override
     public int getId(String name) {
-        // TODO: 19.09.2022 add method after Repository layer method implementation 
-        return 0;
+        return criteriaRepository.getId(name);
     }
 }

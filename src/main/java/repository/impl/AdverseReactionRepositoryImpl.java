@@ -69,8 +69,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 
     public int getId(AdverseReaction advReaction) {
         int id = 0;
-        Connection con = ConnectionToDB.connectionPool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
+        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
              PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
              ResultSet rs = ps2.executeQuery();
              PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
@@ -78,8 +78,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
              PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
              ResultSet rs3 = ps4.executeQuery();
              PreparedStatement ps5 = con.prepareStatement(SQLQuery.GET_REPORTER_TYPE_ID_BY_NAME);
-             ResultSet rs4 = ps5.executeQuery();
-             ResultSet rs5 = ps.executeQuery()){
+             ResultSet rs4 = ps5.executeQuery(); ResultSet rs5 = ps.executeQuery()) {
 
             ps.setDate(1, (Date) advReaction.getReportDate());
             ps.setString(2, advReaction.getDescription());

@@ -9,13 +9,16 @@ import java.util.List;
 
 public interface ADRService {
 
-    AdverseReaction save(String reportDate, String description, String suspectedDrug, String outcome, String criteria, String type, String fullName) throws ParseException;
+    boolean save(AdverseReaction adverseReaction) throws ParseException;
 
     List<AdverseReaction> get(String suspectedDrug) throws ServiceException;
 
-    boolean delete(Date reportDate, Reporter fullName);
+    List<AdverseReaction> getByFullName(String fullName) throws ServiceException;
 
-    boolean update(Date reportDate, String description, String suspectedDrug, Outcome outcome, Criteria criteria, Type type, Reporter fullName);
+    boolean delete(Date reportDate, Reporter fullName) throws ServiceException;
+
+    public boolean update(int id, String description, String suspectedDrug, Outcome outcome, Criteria criteria)
+            throws ServiceException;
 
     int getId(AdverseReaction adverseReaction);
 }

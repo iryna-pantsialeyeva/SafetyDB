@@ -14,12 +14,10 @@ public class CriteriaServiceImpl implements CriteriaService {
     }
 
     @Override
-    public Criteria save(String name) {
-        Criteria criteria = null;
+    public void save(String name) {
         if(getId(name) == 0) {
-            criteria = new Criteria(name);
+            Criteria criteria = new Criteria(name);
         }
-        return criteria;
     }
 
     @Override

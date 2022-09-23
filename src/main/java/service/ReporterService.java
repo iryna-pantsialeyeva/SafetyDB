@@ -4,7 +4,7 @@ import model.Reporter;
 
 public interface ReporterService {
 
-    Reporter add(String fullName);
+    void add(String fullName);
 
     int getId(String fullName);
 }

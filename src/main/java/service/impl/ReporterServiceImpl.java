@@ -13,12 +13,10 @@ public class ReporterServiceImpl implements ReporterService {
     }
 
     @Override
-    public Reporter add(String fullName) {
-       Reporter reporter = null;
-       if(getId(fullName) == 0) {
-           reporter = new Reporter(fullName);
+    public void add(String fullName) {
+        if(getId(fullName) == 0) {
+           Reporter reporter = new Reporter(fullName);
        }
-        return reporter;
     }
 
     @Override

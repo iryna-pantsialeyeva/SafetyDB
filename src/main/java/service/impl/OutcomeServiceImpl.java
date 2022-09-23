@@ -13,12 +13,11 @@ public class OutcomeServiceImpl implements OutcomeService {
     }
 
     @Override
-    public Outcome save(String name) {
-        Outcome outcome = null;
+    public void save(String name) {
         if (getId(name) == 0) {
-            outcome = new Outcome(name);
+            Outcome outcome = new Outcome(name);
+            outcomeRepository.add(outcome);
         }
-        return outcome;
     }
 
     @Override

@@ -13,12 +13,11 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public Type save(String name) {
-        Type type = null;
+    public void save(String name) {
         if (getId(name) == 0) {
-            type = new Type(name);
+            Type type = new Type(name);
+            typeRepository.add(name);
         }
-        return type;
     }
 
     @Override

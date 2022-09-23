@@ -4,7 +4,7 @@ import model.Type;
 
 public interface TypeService {
 
-    Type save(String name);
+    void save(String name);
 
     int getId(String name);
 }

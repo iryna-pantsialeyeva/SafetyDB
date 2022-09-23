@@ -70,54 +70,44 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     public int getId(AdverseReaction advReaction) {
         int id = 0;
         Connection con = ConnectionToDB.connectionPool.getConnection();
-        try {
-            PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
+             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
+             ResultSet rs = ps2.executeQuery();
+             PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
+             ResultSet rs2 = ps3.executeQuery();
+             PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
+             ResultSet rs3 = ps4.executeQuery();
+             PreparedStatement ps5 = con.prepareStatement(SQLQuery.GET_REPORTER_TYPE_ID_BY_NAME);
+             ResultSet rs4 = ps5.executeQuery();
+             ResultSet rs5 = ps.executeQuery()){
+
             ps.setDate(1, (Date) advReaction.getReportDate());
             ps.setString(2, advReaction.getDescription());
             ps.setString(3, advReaction.getSuspectedDrug());
 
-            PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
             ps2.setString(1, advReaction.getCriteria().getName());
-            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 ps.setInt(4, rs.getInt(1));
             }
 
-            PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
-            ps2.setString(1, advReaction.getOutcome().getName());
-            ResultSet rs2 = ps.executeQuery();
+            ps3.setString(1, advReaction.getOutcome().getName());
             if (rs2.next()) {
                 ps.setInt(5, rs2.getInt(1));
             }
 
-            PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
-            ps2.setString(1, advReaction.getFullName().getFullName());
-            ResultSet rs3 = ps.executeQuery();
+            ps4.setString(1, advReaction.getFullName().getFullName());
             if (rs3.next()) {
                 ps.setInt(6, rs3.getInt(1));
             }
 
-            PreparedStatement ps5 = con.prepareStatement(SQLQuery.GET_REPORTER_TYPE_ID_BY_NAME);
-            ps2.setString(1, advReaction.getType().getName());
-            ResultSet rs4 = ps.executeQuery();
+            ps5.setString(1, advReaction.getType().getName());
             if (rs4.next()) {
                 ps.setInt(7, rs4.getInt(1));
             }
 
-            ResultSet rs5 = ps.executeQuery();
             if (rs5.next()) {
                 id = rs5.getInt("id");
             }
-            closePS(ps);
-            closePS(ps2);
-            closePS(ps3);
-            closePS(ps4);
-            closePS(ps5);
-            closeRS(rs);
-            closeRS(rs2);
-            closeRS(rs3);
-            closeRS(rs4);
-            closeRS(rs5);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

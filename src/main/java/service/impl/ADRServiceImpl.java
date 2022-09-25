@@ -2,6 +2,9 @@ package service.impl;
 
 
 import model.*;
+import model.enums.CriteriaType;
+import model.enums.OutcomeType;
+import model.enums.RelationshipType;
 import service.*;
 import repository.*;
 
@@ -16,6 +19,9 @@ public class ADRServiceImpl implements ADRService {
     private CriteriaService criteria;
     private OutcomeService outcome;
     private TypeService type;
+    private RelationshipService relationship;
+    private CompanyAssessmentService companyAssessment;
+
 
     public ADRServiceImpl() {
         adRepository = new AdverseReactionRepositoryImpl();
@@ -23,18 +29,22 @@ public class ADRServiceImpl implements ADRService {
         criteria = new CriteriaServiceImpl();
         outcome = new OutcomeServiceImpl();
         type = new TypeServiceImpl();
+        relationship = new RelationshipServiceImpl();
+        companyAssessment = new CompanyAssessmentServiceImpl();
     }
 
     public boolean save(AdverseReaction adverseReaction) {
-        String outcomeToAdd = adverseReaction.getOutcome().getName();
-        String criteriaToAdd = adverseReaction.getCriteria().getName();
-        String typeToAdd = adverseReaction.getType().getName();
-        String reporterToAdd = adverseReaction.getFullName().getFullName();
+        OutcomeType outcomeToAdd = adverseReaction.getOutcome().getName();
+        CriteriaType criteriaToAdd = adverseReaction.getCriteria().getName();
+        Relationship relationshipToAdd = adverseReaction.getRelationship();
+        CompanyAssessment companyAssessmentToAdd = new CompanyAssessment(companyAssessment.evaluate(relationshipToAdd));
 
         outcome.save(outcomeToAdd);
         criteria.save(criteriaToAdd);
-        type.save(typeToAdd);
-        reporter.add(reporterToAdd);
+        relationship.save(relationshipToAdd);
+        companyAssessment.save(companyAssessmentToAdd);
+
+        adverseReaction.setRelationshipByCompany(companyAssessmentToAdd);
 
         if (getId(adverseReaction) != 0) {
             adRepository.save(adverseReaction);
@@ -50,6 +60,10 @@ public class ADRServiceImpl implements ADRService {
             throw new ServiceException("There are no reports on this medicinal product in database.");
         }
         return adverseReactionList;
+    }
+
+    public List<AdverseReaction> getAll() {
+       return adRepository.getAll();
     }
 
     // для метода update - 1. reporter вводит свое ФИО и получает список побочных реакций, выбирает id нужной реакции

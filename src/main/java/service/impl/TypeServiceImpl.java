@@ -1,6 +1,7 @@
 package service.impl;
 
 import model.Type;
+import model.enums.ReporterType;
 import service.TypeService;
 import repository.*;
 
@@ -13,7 +14,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public void save(String name) {
+    public void save(ReporterType name) {
         if (getId(name) == 0) {
             Type type = new Type(name);
             typeRepository.add(name);
@@ -21,7 +22,11 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public int getId(String name) {
+    public int getId(ReporterType name) {
         return typeRepository.getId(name);
+    }
+
+    public Type getByID(int id) {
+        return typeRepository.getByID(id);
     }
 }

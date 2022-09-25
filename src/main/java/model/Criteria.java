@@ -1,6 +1,7 @@
 package model;
 
 import lombok.*;
+import model.enums.CriteriaType;
 
 @Data
 @NoArgsConstructor
@@ -8,6 +9,5 @@ import lombok.*;
 @RequiredArgsConstructor
 public class Criteria {
     private int id;
-    @NonNull
-    private String name;
+    @NonNull private CriteriaType name;
 }

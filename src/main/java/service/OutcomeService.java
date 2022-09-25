@@ -1,10 +1,11 @@
 package service;
 
 import model.Outcome;
+import model.enums.OutcomeType;
 
 public interface OutcomeService {
 
-    void save(String name);
+    void save(OutcomeType name);
 
-    int getId(String name);
+    int getId(OutcomeType name);
 }

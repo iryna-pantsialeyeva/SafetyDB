@@ -13,6 +13,8 @@ public interface ADRService {
 
     List<AdverseReaction> get(String suspectedDrug) throws ServiceException;
 
+    List<AdverseReaction> getAll();
+
     List<AdverseReaction> getByFullName(String fullName) throws ServiceException;
 
     boolean delete(Date reportDate, Reporter fullName) throws ServiceException;

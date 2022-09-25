@@ -9,7 +9,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-
 public class AdverseReaction {
 
     private int id;
@@ -18,6 +17,7 @@ public class AdverseReaction {
     @NonNull private String suspectedDrug;
     @NonNull private Outcome outcome;
     @NonNull private Criteria criteria;
-    @NonNull private Type type;
-    @NonNull private Reporter fullName;
+    private User user;
+    @NonNull private Relationship relationship;
+    private CompanyAssessment relationshipByCompany;
 }

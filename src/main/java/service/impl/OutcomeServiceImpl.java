@@ -1,6 +1,7 @@
 package service.impl;
 
 import model.Outcome;
+import model.enums.OutcomeType;
 import service.OutcomeService;
 import repository.*;
 
@@ -13,7 +14,7 @@ public class OutcomeServiceImpl implements OutcomeService {
     }
 
     @Override
-    public void save(String name) {
+    public void save(OutcomeType name) {
         if (getId(name) == 0) {
             Outcome outcome = new Outcome(name);
             outcomeRepository.add(outcome);
@@ -21,7 +22,7 @@ public class OutcomeServiceImpl implements OutcomeService {
     }
 
     @Override
-    public int getId(String name) {
+    public int getId(OutcomeType name) {
         return outcomeRepository.getId(name);
     }
 }

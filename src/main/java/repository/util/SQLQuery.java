@@ -13,8 +13,8 @@ public class SQLQuery {
             "report_date = ? and description = ? and suspected_drug = ? and criteria_id = ? and outcome_id = ? " +
             "and reporter_id = ? and reporter_type_id = ?";
     public static final String INSERT_IN_ADVERSE_REACTIONS = "insert into adverse_reactions (report_date, " +
-            "description, suspected_drug, criteria_id, outcome_id, reporter_id, reporter_type_id) values " +
-            "(?, ?, ?, ?, ?, ?, ?)";
+            "description, suspected_drug, criteria_id, outcome_id, user_id, causal_relationship_reporter_id, " +
+            "causal_relationship_company_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_ADVERSE_REACTIONS = "update adverse_reactions set description = ?, " +
             "suspected_drug = ?, criteria_id = ?, outcome_id = ? where id = ?";
     public static final String DELETE_FROM_ADVERSE_REACTIONS = "delete from adverse_reactions where report_date = ? " +
@@ -36,5 +36,17 @@ public class SQLQuery {
     public static final String GET_REPORTER_TYPE_ID_BY_NAME = "select id from reporter_types where name = ?";
     public static final String GET_FROM_REPORTER_TYPES_BY_ID = "select * from reporter_types where id = ?";
     public static final String GET_FROM_REPORTER_TYPES_BY_NAME = "select * from reporter_types where name = ?";
+    public static final String GET_FROM_USERS_BY_ID = "select * from users where id = ?";
+    public static final String GET_FROM_USERS_BY_NAME = "select * from users where email = ?";
+    public static final String GET_RELATIONSHIP_ID = "select id from causal_relationships where " +
+            "name = ? and time_relationship = ? and withdrawal_result = ? and reintroduction_result = ? " +
+            "and other_explanaition = ?";
+    public static final String GET_RELATIONSHIP_BY_ID = "select * from causal_relationships where id = ?";
+    public static final String GET_RELATIONSHIP_ID_BY_NAME = "select * from causal_relationships where name = ?";
+    public static final String GET_COMPANY_ASSESSMENT_ID = "select id from company_assessment where " +
+            "name = ?";
+    public static final String GET_COMPANY_ASSESSMENT_BY_ID = "select * from company_assessment where id = ?";
+    public static final String GET_COMPANY_ASSESSMENT_ID_BY_NAME = "select * from company_assessment where name = ?";
+    public static final String GET_USER_ID_BY_NAME = "select id from users where email = ?";
 
 }

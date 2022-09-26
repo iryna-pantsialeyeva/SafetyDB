@@ -12,6 +12,7 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
     public CriteriaRepositoryImpl() {
     }
 
+    @Override
     public Criteria getByID(int id) {
         Criteria newCriteria = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -28,6 +29,7 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
         return newCriteria;
     }
 
+    @Override
     public Criteria getByName(String name) {
         Criteria newCriteria = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -44,6 +46,7 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
         return newCriteria;
     }
 
+    @Override
     public Criteria add(Criteria criteria) {
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_CRITERIAS, Statement.RETURN_GENERATED_KEYS);
@@ -62,6 +65,7 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
         return criteria;
     }
 
+    @Override
     public int getId(String name) {
         int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();

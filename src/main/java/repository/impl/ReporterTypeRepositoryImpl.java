@@ -12,6 +12,7 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
     public ReporterTypeRepositoryImpl() {
     }
 
+    @Override
     public Type getByID(int id) {
         Type newType = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -28,6 +29,7 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
         return newType;
     }
 
+    @Override
     public Type getByName(String name) {
         Type newType = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -44,6 +46,7 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
         return newType;
     }
 
+    @Override
     public Type add(Type type) {
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTER_TYPES, Statement.RETURN_GENERATED_KEYS);
@@ -62,6 +65,7 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
         return type;
     }
 
+    @Override
     public int getId(String name) {
         int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();

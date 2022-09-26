@@ -12,6 +12,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
     public OutcomeRepositoryImpl() {
     }
 
+    @Override
     public Outcome getByID(int id) {
         Outcome newOutcome = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -28,6 +29,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
         return newOutcome;
     }
 
+    @Override
     public Outcome getByName(String name) {
         Outcome newOutcome = null;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -44,6 +46,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
         return newOutcome;
     }
 
+    @Override
     public Outcome add(Outcome outcome) {
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_OUTCOMES, Statement.RETURN_GENERATED_KEYS);
@@ -62,6 +65,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
         return outcome;
     }
 
+    @Override
     public int getId(String name) {
                 int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();

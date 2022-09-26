@@ -13,17 +13,21 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 
     private final OutcomeRepositoryImpl outcomeRepository;
     private final CriteriaRepositoryImpl criteriaRepository;
+    private final UserRepositoryImpl userRepository;
+    private final RelationshipRepositoryImpl relationshipRepository;
     private final ReporterRepositoryImpl reporterRepository;
-    private final ReporterTypeRepositoryImpl reporterTypeRepository;
+    private final CompanyAssessmentRepositoryImpl companyAssessmentRepository;
 
     public AdverseReactionRepositoryImpl() {
         outcomeRepository = new OutcomeRepositoryImpl();
         criteriaRepository = new CriteriaRepositoryImpl();
+        userRepository = new UserRepositoryImpl();
+        relationshipRepository = new RelationshipRepositoryImpl();
         reporterRepository = new ReporterRepositoryImpl();
-        reporterTypeRepository = new ReporterTypeRepositoryImpl();
-
+        companyAssessmentRepository = new CompanyAssessmentRepositoryImpl();
     }
 
+    @Override
     public List<AdverseReaction> getAll() {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -31,14 +35,17 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                AdverseReaction newADReaction = new AdverseReaction(rs.getInt("id"),
-                        rs.getDate("report_date"),
-                        rs.getString("description"),
-                        rs.getString("suspected_drug"),
-                        outcomeRepository.getByID(rs.getInt("outcome_id")),
-                        criteriaRepository.getByID(rs.getInt("criteria_id")),
-                        reporterTypeRepository.getByID(rs.getInt("reporter_type_id")),
-                        reporterRepository.getByID(rs.getInt("reporter_id")));
+                AdverseReaction newADReaction = new AdverseReaction();
+                newADReaction.setId(rs.getInt("id"));
+                newADReaction.setReportDate(rs.getDate("report_date"));
+                newADReaction.setDescription(rs.getString("description"));
+                newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
+                newADReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
+                newADReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
+                newADReaction.setUser(userRepository.getByID(rs.getInt("user_id")));
+                newADReaction.setReporter(reporterRepository.getByID(rs.getInt("reporter_id")));
+                newADReaction.setRelationship(relationshipRepository.getByID(rs.getInt("causal_relationship_reporter_id")));
+                newADReaction.setCompanyAssessment.valueOf(companyAssessmentRepository.getByID(rs.getInt("causal_relationship_company_id")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {
@@ -47,17 +54,40 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return adverseReactions;
     }
 
+    @Override
     public void save(AdverseReaction advReact) {
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS);
+             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
+             ResultSet rs = ps2.executeQuery();
+             PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
+             ResultSet rs2 = ps3.executeQuery();
+             PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_USER_ID_BY_NAME);
+             ResultSet rs3 = ps4.executeQuery()) {
 
             ps.setDate(1, (Date) advReact.getReportDate());
             ps.setString(2, advReact.getDescription());
             ps.setString(3, advReact.getSuspectedDrug());
-            ps.setInt(4, advReact.getCriteria().getId());
-            ps.setInt(5, advReact.getOutcome().getId());
-            ps.setInt(6, advReact.getFullName().getId());
-            ps.setInt(7, advReact.getType().getId());
+
+            ps2.setString(1, advReact.getCriteria().getName());
+            if (rs.next()) {
+                ps.setInt(4, rs.getInt(1));
+            }
+
+            ps3.setString(1, advReact.getOutcome().getName());
+            if (rs2.next()) {
+                ps.setInt(5, rs2.getInt(1));
+            }
+
+            ps4.setString(1, advReact.getUser().getEmail());
+            if (rs3.next()) {
+                ps.setInt(6, rs3.getInt(1));
+            }
+
+            //Я не могу доставать Relationship and CompanyAssessment id по name, т. к. они не уникальны для каждого ADR
+            //Их можно получить только по id ADR, т.е. их нужно сразу при создании добавлять в ADR с id.
+            ps.setInt(7, advReact.getRelationship().getId());
+            ps.setInt(8, advReact.getCompanyAssessment().getId());
             int updatedRows = ps.executeUpdate();
             System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
@@ -65,7 +95,9 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         }
     }
 
+    @Override
     public int getId(AdverseReaction advReaction) {
+        //Проверка дубликатов по 4 параметрам: description, suspected drug, date, reporter id
         int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_ID_BY_PARAMETERS);
@@ -73,37 +105,35 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
              ResultSet rs = ps2.executeQuery();
              PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
              ResultSet rs2 = ps3.executeQuery();
-             PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
-             ResultSet rs3 = ps4.executeQuery();
-             PreparedStatement ps5 = con.prepareStatement(SQLQuery.GET_REPORTER_TYPE_ID_BY_NAME);
-             ResultSet rs4 = ps5.executeQuery(); ResultSet rs5 = ps.executeQuery()) {
+             PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_USER_ID_BY_NAME);
+             ResultSet rs3 = ps4.executeQuery(); ResultSet rs4 = ps.executeQuery();) {
 
-            ps.setDate(1, (Date) advReaction.getReportDate());
-            ps.setString(2, advReaction.getDescription());
-            ps.setString(3, advReaction.getSuspectedDrug());
+            ps.setDate(1, (Date) advReact.getReportDate());
+            ps.setString(2, advReact.getDescription());
+            ps.setString(3, advReact.getSuspectedDrug());
 
-            ps2.setString(1, advReaction.getCriteria().getName());
+            ps2.setString(1, advReact.getCriteria().getName());
             if (rs.next()) {
                 ps.setInt(4, rs.getInt(1));
             }
 
-            ps3.setString(1, advReaction.getOutcome().getName());
+            ps3.setString(1, advReact.getOutcome().getName());
             if (rs2.next()) {
                 ps.setInt(5, rs2.getInt(1));
             }
 
-            ps4.setString(1, advReaction.getFullName().getFullName());
+            ps4.setString(1, advReact.getUser().getEmail());
             if (rs3.next()) {
                 ps.setInt(6, rs3.getInt(1));
             }
 
-            ps5.setString(1, advReaction.getType().getName());
-            if (rs4.next()) {
-                ps.setInt(7, rs4.getInt(1));
-            }
+            //Я не могу доставать Relationship and CompanyAssessment id по name, т. к. они не уникальны для каждого ADR
+            //Их можно получить только по id ADR, т.е. их нужно сразу при создании добавлять в ADR с id.
+            ps.setInt(7, advReact.getRelationship().getId());
+            ps.setInt(8, advReact.getCompanyAssessment().getId());
 
-            if (rs5.next()) {
-                id = rs5.getInt("id");
+            if (rs4.next()) {
+                id = rs4.getInt("id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,6 +141,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return id;
     }
 
+    @Override
     public List<AdverseReaction> get(String suspectedDrug) {
         List<AdverseReaction> advReactions = new ArrayList();
         AdverseReaction newAdvReaction = new AdverseReaction();
@@ -136,6 +167,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return advReactions;
     }
 
+    @Override
     public List<AdverseReaction> getByFullName(String fullName) {
         List<AdverseReaction> advReactions = new ArrayList();
         AdverseReaction newAdvReaction = new AdverseReaction();
@@ -164,6 +196,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return advReactions;
     }
 
+    @Override
     public int delete(Date reportDate, Reporter fullName) {
         int updatedRows = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -186,6 +219,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return updatedRows;
     }
 
+    @Override
     public int update(AdverseReaction advReact) {
         int updatedRows = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -213,6 +247,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return updatedRows;
     }
 
+    @Override
     public AdverseReaction getById(int id) {
         AdverseReaction advReaction = new AdverseReaction();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -236,6 +271,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return advReaction;
     }
 
+    @Override
     public AdverseReaction getByName(String title) {
         AdverseReaction newAdvReaction = new AdverseReaction();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();

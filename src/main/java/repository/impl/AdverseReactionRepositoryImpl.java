@@ -16,14 +16,11 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     private final ReporterRepositoryImpl reporterRepository;
     private final ReporterTypeRepositoryImpl reporterTypeRepository;
 
-    public AdverseReactionRepositoryImpl(OutcomeRepositoryImpl outcomeRepository,
-                                         CriteriaRepositoryImpl criteriaRepository,
-                                         ReporterRepositoryImpl reporterRepository,
-                                         ReporterTypeRepositoryImpl reporterTypeRepository) {
-        this.outcomeRepository = outcomeRepository;
-        this.criteriaRepository = criteriaRepository;
-        this.reporterRepository = reporterRepository;
-        this.reporterTypeRepository = reporterTypeRepository;
+    public AdverseReactionRepositoryImpl() {
+        outcomeRepository = new OutcomeRepositoryImpl();
+        criteriaRepository = new CriteriaRepositoryImpl();
+        reporterRepository = new ReporterRepositoryImpl();
+        reporterTypeRepository = new ReporterTypeRepositoryImpl();
 
     }
 

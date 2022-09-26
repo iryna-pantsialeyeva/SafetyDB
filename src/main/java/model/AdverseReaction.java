@@ -18,6 +18,7 @@ public class AdverseReaction {
     @NonNull private Outcome outcome;
     @NonNull private Criteria criteria;
     private User user;
+    @NonNull private Reporter reporter;
     @NonNull private Relationship relationship;
     private CompanyAssessment relationshipByCompany;
 }

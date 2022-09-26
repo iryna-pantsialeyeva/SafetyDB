@@ -10,8 +10,6 @@ import lombok.*;
 
 public class Reporter {
     private int id;
-    @NonNull
-    private String fullName;
-    @NonNull
-    private Type type;
+    @NonNull private String fullName;
+    @NonNull private Type type;
     }

@@ -41,7 +41,7 @@ public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentReposit
     }
 
     @Override
-    public CompanyAssessment getById(int id) {
+    public CompanyAssessment getByID(int id) {
         CompanyAssessment companyAssessment = new CompanyAssessment();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID);

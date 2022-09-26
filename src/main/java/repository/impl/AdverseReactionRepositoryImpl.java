@@ -11,12 +11,20 @@ import java.util.List;
 
 public final class AdverseReactionRepositoryImpl implements AdverseReactionRepository {
 
-    private static final CriteriaRepositoryImpl CRITERIA_REPOSITORY = new CriteriaRepositoryImpl();
-    private static final OutcomeRepositoryImpl OUTCOME_REPOSITORY = new OutcomeRepositoryImpl();
-    private static final ReporterRepositoryImpl REPORTER_REPOSITORY = new ReporterRepositoryImpl();
-    private static final ReporterTypeRepositoryImpl REPORTER_TYPE_REPOSITORY = new ReporterTypeRepositoryImpl();
+    private final OutcomeRepositoryImpl outcomeRepository;
+    private final CriteriaRepositoryImpl criteriaRepository;
+    private final ReporterRepositoryImpl reporterRepository;
+    private final ReporterTypeRepositoryImpl reporterTypeRepository;
 
-    public AdverseReactionRepositoryImpl() {
+    public AdverseReactionRepositoryImpl(OutcomeRepositoryImpl outcomeRepository,
+                                         CriteriaRepositoryImpl criteriaRepository,
+                                         ReporterRepositoryImpl reporterRepository,
+                                         ReporterTypeRepositoryImpl reporterTypeRepository) {
+        this.outcomeRepository = outcomeRepository;
+        this.criteriaRepository = criteriaRepository;
+        this.reporterRepository = reporterRepository;
+        this.reporterTypeRepository = reporterTypeRepository;
+
     }
 
     public List<AdverseReaction> getAll() {
@@ -30,10 +38,10 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                         rs.getDate("report_date"),
                         rs.getString("description"),
                         rs.getString("suspected_drug"),
-                        OUTCOME_REPOSITORY.getByID(rs.getInt("outcome_id")),
-                        CRITERIA_REPOSITORY.getByID(rs.getInt("criteria_id")),
-                        REPORTER_TYPE_REPOSITORY.getByID(rs.getInt("reporter_type_id")),
-                        REPORTER_REPOSITORY.getByID(rs.getInt("reporter_id")));
+                        outcomeRepository.getByID(rs.getInt("outcome_id")),
+                        criteriaRepository.getByID(rs.getInt("criteria_id")),
+                        reporterTypeRepository.getByID(rs.getInt("reporter_type_id")),
+                        reporterRepository.getByID(rs.getInt("reporter_id")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {
@@ -119,10 +127,10 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newAdvReaction.setReportDate(rs.getDate("report_date"));
                 newAdvReaction.setDescription(rs.getString("description"));
                 newAdvReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newAdvReaction.setOutcome(OUTCOME_REPOSITORY.getByID(rs.getInt("outcome_id")));
-                newAdvReaction.setCriteria(CRITERIA_REPOSITORY.getByID(rs.getInt("criteria_id")));
-                newAdvReaction.setFullName(REPORTER_REPOSITORY.getByID(rs.getInt("reporter_id")));
-                newAdvReaction.setType(REPORTER_TYPE_REPOSITORY.getByID(rs.getInt("reporter_type_id")));
+                newAdvReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
+                newAdvReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
+                newAdvReaction.setFullName(reporterRepository.getByID(rs.getInt("reporter_id")));
+                newAdvReaction.setType(reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
                 advReactions.add(newAdvReaction);
             }
         } catch (SQLException e) {
@@ -131,7 +139,36 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return advReactions;
     }
 
-    public void delete(Date reportDate, Reporter fullName) {
+    public List<AdverseReaction> getByFullName(String fullName) {
+        List<AdverseReaction> advReactions = new ArrayList();
+        AdverseReaction newAdvReaction = new AdverseReaction();
+        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
+             ResultSet rs = ps.executeQuery();
+             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_REPORTER);
+             ResultSet rs2 = ps2.executeQuery()) {
+
+            ps.setString(1, fullName);
+            ps2.setInt(1, rs.getInt("id"));
+            while (rs2.next()) {
+                newAdvReaction.setId(rs2.getInt("id"));
+                newAdvReaction.setReportDate(rs2.getDate("report_date"));
+                newAdvReaction.setDescription(rs2.getString("description"));
+                newAdvReaction.setSuspectedDrug(rs2.getString("suspected_drug"));
+                newAdvReaction.setOutcome(outcomeRepository.getByID(rs2.getInt("outcome_id")));
+                newAdvReaction.setCriteria(criteriaRepository.getByID(rs2.getInt("criteria_id")));
+                newAdvReaction.setFullName(reporterRepository.getByID(rs2.getInt("reporter_id")));
+                newAdvReaction.setType(reporterTypeRepository.getByID(rs2.getInt("reporter_type_id")));
+                advReactions.add(newAdvReaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return advReactions;
+    }
+
+    public int delete(Date reportDate, Reporter fullName) {
+        int updatedRows = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.DELETE_FROM_ADVERSE_REACTIONS);
              PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
@@ -144,29 +181,39 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 ps.setInt(2, rs.getInt(1));
             }
 
-            int updatedRows = ps.executeUpdate();
+            updatedRows = ps.executeUpdate();
             System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return updatedRows;
     }
 
-    public void update(AdverseReaction advReact) {
+    public int update(AdverseReaction advReact) {
+        int updatedRows = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_ADVERSE_REACTIONS)) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_ADVERSE_REACTIONS);
+             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
+             ResultSet rs = ps2.executeQuery();
+             PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
+             ResultSet rs2 = ps3.executeQuery()) {
 
-            ps.setDate(1, (Date) advReact.getReportDate());
-            ps.setString(2, advReact.getDescription());
-            ps.setString(3, advReact.getSuspectedDrug());
-            ps.setInt(4, advReact.getCriteria().getId());
-            ps.setInt(5, advReact.getOutcome().getId());
-            ps.setInt(6, advReact.getFullName().getId());
-            ps.setInt(7, advReact.getType().getId());
-            int updatedRows = ps.executeUpdate();
+            ps.setString(1, advReact.getDescription());
+            ps.setString(2, advReact.getSuspectedDrug());
+
+            ps2.setString(1, advReact.getCriteria().getName());
+            ps.setInt(3, rs.getInt("id"));
+
+            ps3.setString(1, advReact.getOutcome().getName());
+            ps.setInt(4, rs2.getInt("id"));
+
+            ps.setInt(5, advReact.getId());
+            updatedRows = ps.executeUpdate();
             System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return updatedRows;
     }
 
     public AdverseReaction getById(int id) {
@@ -181,10 +228,10 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 advReaction.setReportDate(rs.getDate("report_date"));
                 advReaction.setDescription(rs.getString("description"));
                 advReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                advReaction.setOutcome(OUTCOME_REPOSITORY.getByID(rs.getInt("outcome_id")));
-                advReaction.setCriteria(CRITERIA_REPOSITORY.getByID(rs.getInt("criteria_id")));
-                advReaction.setFullName(REPORTER_REPOSITORY.getByID(rs.getInt("reporter_id")));
-                advReaction.setType(REPORTER_TYPE_REPOSITORY.getByID(rs.getInt("reporter_type_id")));
+                advReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
+                advReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
+                advReaction.setFullName(reporterRepository.getByID(rs.getInt("reporter_id")));
+                advReaction.setType(reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,10 +251,10 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newAdvReaction.setReportDate(rs.getDate("report_date"));
                 newAdvReaction.setDescription(rs.getString("description"));
                 newAdvReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newAdvReaction.setOutcome(OUTCOME_REPOSITORY.getByID(rs.getInt("outcome_id")));
-                newAdvReaction.setCriteria(CRITERIA_REPOSITORY.getByID(rs.getInt("criteria_id")));
-                newAdvReaction.setFullName(REPORTER_REPOSITORY.getByID(rs.getInt("reporter_id")));
-                newAdvReaction.setType(REPORTER_TYPE_REPOSITORY.getByID(rs.getInt("reporter_type_id")));
+                newAdvReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
+                newAdvReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
+                newAdvReaction.setFullName(reporterRepository.getByID(rs.getInt("reporter_id")));
+                newAdvReaction.setType(reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

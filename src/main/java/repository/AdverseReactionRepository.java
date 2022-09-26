@@ -10,8 +10,8 @@ public interface AdverseReactionRepository {
 
     List<AdverseReaction> getAll();
     void save(AdverseReaction advReact);
-    void update(AdverseReaction advReact);
-    void delete(Date reportDate, Reporter fullName);
+    int update(AdverseReaction advReact);
+    int delete(Date reportDate, Reporter fullName);
     AdverseReaction getById(int id);
     AdverseReaction getByName(String title);
 

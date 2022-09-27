@@ -1,11 +1,12 @@
 package service;
 
 import model.Criteria;
-import model.enums.CriteriaType;
 
 public interface CriteriaService {
 
-    void save(CriteriaType name);
+    void save(Criteria criteria);
 
-    int getId(CriteriaType name);
+    Criteria getByID(int id);
+
+    int getId(Criteria criteria);
 }

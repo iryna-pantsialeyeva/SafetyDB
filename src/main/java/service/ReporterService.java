@@ -1,14 +1,12 @@
 package service;
 
 import model.Reporter;
-import model.Type;
-import model.enums.ReporterType;
 
 public interface ReporterService {
 
-    void add(String fullName, Type type);
+    void save(Reporter reporter);
 
-    int getId(String fullName);
+    int getId(Reporter reporter);
 
     Reporter getByID(int id);
 }

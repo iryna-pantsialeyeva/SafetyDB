@@ -1,8 +1,6 @@
 package service.impl;
 
 import model.Reporter;
-import model.Type;
-import model.enums.ReporterType;
 import service.ReporterService;
 import repository.*;
 
@@ -15,18 +13,18 @@ public class ReporterServiceImpl implements ReporterService {
     }
 
     @Override
-    public void add(String fullName, Type type) {
-        if(getId(fullName) == 0) {
-           Reporter reporter = new Reporter(fullName, type);
+    public void save(Reporter reporter) {
+        if(getId(reporter) == 0) {
            reporterRepository.add(reporter);
        }
     }
 
     @Override
-    public int getId(String fullName) {
-        return reporterRepository.getId(fullName);
+    public int getId(Reporter reporter) {
+        return reporterRepository.getId(reporter.getFullName());
     }
 
+    @Override
     public Reporter getByID(int id) {
         return reporterRepository.getByID(id);
     }

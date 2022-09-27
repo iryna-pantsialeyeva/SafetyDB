@@ -1,10 +1,8 @@
 package service.impl;
 
 import model.Criteria;
-import model.enums.CriteriaType;
 import service.CriteriaService;
 import repository.*;
-import service.ServiceException;
 
 public class CriteriaServiceImpl implements CriteriaService {
 
@@ -15,15 +13,19 @@ public class CriteriaServiceImpl implements CriteriaService {
     }
 
     @Override
-    public void save(CriteriaType name) {
-        if(getId(name) == 0) {
-            Criteria criteria = new Criteria(name);
+    public void save(Criteria criteria) {
+        if(getId(criteria) == 0) {
             criteriaRepository.add(criteria);
         }
     }
 
     @Override
-    public int getId(CriteriaType name) {
-        return criteriaRepository.getId(name);
+    public Criteria getByID(int id) {
+        return criteriaRepository.getByID(id);
+    }
+
+    @Override
+    public int getId(Criteria criteria) {
+        return criteriaRepository.getId(criteria.getName());
     }
 }

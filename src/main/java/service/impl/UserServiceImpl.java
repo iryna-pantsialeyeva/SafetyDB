@@ -1,12 +1,7 @@
 package service.impl;
 
-import model.Reporter;
-import model.Type;
 import model.User;
-import model.enums.ReporterType;
-import service.ReporterService;
 import service.ServiceException;
-import service.TypeService;
 import service.UserService;
 import repository.*;
 import service.validation.UserValidator;
@@ -17,27 +12,19 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private UserValidator userValidator;
-    ReporterService reporterService;
-    TypeService typeService;
 
     public UserServiceImpl() {
         userRepository = new UserRepositoryImpl();
         userValidator = new UserValidator();
-        reporterService = new ReporterServiceImpl();
-        typeService = new TypeServiceImpl();
     }
 
-    public User registration(String email, String password, String fullName, ReporterType type) {
-      typeService.save(type);
-      int typeId = typeService.getId(type);
-      Type typeToAdd = typeService.getByID(typeId);
-      reporterService.add(fullName, typeToAdd);
-      int id = reporterService.getId(fullName);
-      Reporter reporterToAdd = reporterService.getByID(id);
-      User user = new User(email, password, reporterToAdd, true);
+    @Override
+    public User registration(String email, String password) {
+      User user = new User(email, password, true);
       return user;
     }
 
+    @Override
     public User authorization(String email, String password) throws ServiceException {
 
         if (!userValidator.isEmailValid(email)) {
@@ -52,10 +39,12 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
     public int getId(User user) {
         return userRepository.getId(user);
     }
 
+    @Override
     public User getById(int id) {
         return userRepository.getById(id);
     }

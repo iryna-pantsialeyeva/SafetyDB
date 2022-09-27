@@ -1,9 +1,7 @@
 package service.impl;
 
 import model.CompanyAssessment;
-import model.Outcome;
 import model.Relationship;
-import model.enums.OutcomeType;
 import model.enums.RelationshipType;
 import service.CompanyAssessmentService;
 import repository.*;
@@ -17,15 +15,23 @@ public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
     }
 
     @Override
-    public RelationshipType evaluate(Relationship relationshipByReporter) {
-        return RelationshipType.POSSIBLE;
+    public CompanyAssessment evaluate(Relationship relationshipByReporter) {
+        RelationshipType type = RelationshipType.POSSIBLE;
+        //TODO: 27.09.2022 add implementation
+        CompanyAssessment companyAssessment = new CompanyAssessment(type);
+        return companyAssessment;
     }
 
     @Override
     public void save(CompanyAssessment companyAssessmentToAdd) {
         if (getId(companyAssessmentToAdd) == 0) {
-            companyAssessmentRepository.add(companyAssessmentToAdd);
+            companyAssessmentRepository.save(companyAssessmentToAdd);
         }
+    }
+
+    @Override
+    public CompanyAssessment getById(int id) {
+        return companyAssessmentRepository.getByID(id);
     }
 
     @Override
@@ -33,7 +39,5 @@ public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
         return companyAssessmentRepository.getId(relationshipByCompany);
     }
 
-    public CompanyAssessment getById(int id) {
-        return companyAssessmentRepository.getById(id);
-    }
+
 }

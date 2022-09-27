@@ -2,15 +2,14 @@ package service;
 
 import model.CompanyAssessment;
 import model.Relationship;
-import model.enums.RelationshipType;
 
 public interface CompanyAssessmentService {
 
-    RelationshipType evaluate(Relationship relationshipByReporter);
+    CompanyAssessment evaluate(Relationship relationshipByReporter);
 
     void save(CompanyAssessment companyAssessmentToAdd);
 
-    int getId(CompanyAssessment relationshipByCompany);
+    CompanyAssessment getById(int id);
 
-    public CompanyAssessment getById(int id);
+    int getId(CompanyAssessment relationshipByCompany);
 }

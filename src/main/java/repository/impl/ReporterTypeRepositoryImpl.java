@@ -14,14 +14,19 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
 
     @Override
     public Type getByID(int id) {
-        Type newType = null;
+        Type newType = new Type();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTER_TYPES_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+        ) {
 
             ps.setInt(1, id);
-            if (rs.next()) {
-                newType = new Type(rs.getInt("id"), rs.getString("name"));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newType.setId(rs.getInt("id"));
+                    ReporterType name = ReporterType.valueOf(rs.getString("name"));
+                    newType.setName(name);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -50,16 +50,29 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
         Relationship relationship = new Relationship();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+        ) {
 
             ps.setInt(1, id);
 
-            while (rs.next()) {
-                relationship.setNameGivenByReporter.valueOf(rs.getString("name"));
-                relationship.setTimeRelationship.valueOf(rs.getString("time_relationship"));
-                relationship.setWithdrawalResult.valueOf(rs.getString("withdrawal_result"));
-                relationship.setReintroductionResult.valueOf(rs.getString("reintroduction_result"));
-                relationship.setOtherExplanation.valueOf(rs.getString("other_explanaition"));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    relationship.setId(rs.getInt("id"));
+
+                    RelationshipType nameGivenByReporter = RelationshipType.valueOf(rs.getString("name"));
+                    relationship.setNameGivenByReporter(nameGivenByReporter);
+
+                    AnswerType timeRelationship = AnswerType.valueOf(rs.getString("time_relationship"));
+                    relationship.setTimeRelationship(timeRelationship);
+
+                    AnswerType withdrawalResult = AnswerType.valueOf(rs.getString("withdrawal_result"));
+                    relationship.setWithdrawalResult(withdrawalResult);
+
+                    AnswerType reintroductionResult = AnswerType.valueOf(rs.getString("reintroduction_result"));
+                    relationship.setReintroductionResult(reintroductionResult);
+
+                    AnswerType otherExplanation = AnswerType.valueOf(rs.getString("other_explanaition"));
+                    relationship.setOtherExplanation(otherExplanation);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

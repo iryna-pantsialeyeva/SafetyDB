@@ -10,30 +10,26 @@ import java.sql.*;
 
 public class ReporterRepositoryImpl implements ReporterRepository {
 
+    private final ReporterTypeRepositoryImpl reporterTypeRepository;
+
     public ReporterRepositoryImpl() {
+        this.reporterTypeRepository = new ReporterTypeRepositoryImpl();
     }
 
     @Override
     public Reporter getByID(int id) {
-        Reporter newReporter = null;
+        Reporter newReporter = new Reporter();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_ID);
-             ResultSet rs = ps.executeQuery();
-             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_FROM_REPORTER_TYPES_BY_ID);
-             ResultSet rs2 = ps2.executeQuery()) {
+        ) {
 
             ps.setInt(1, id);
 
-
-            if (rs.next()) {
-                ps2.setInt(1, rs.getInt("reporter_type_id"));
-                Type type = new Type();
-                if (rs2.next()) {
-                    type.setId(rs2.getInt("id"));
-                    type.setName.valueOf(rs2.getString("name"));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
+                            reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
                 }
-                newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                        type);
             }
         } catch (SQLException e) {
             e.printStackTrace();

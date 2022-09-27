@@ -23,7 +23,7 @@ public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentReposit
     }
 
     @Override
-    public int getId(CompanyAssessment relationshipByCompany/ companyAssessment) {
+    public int getID(CompanyAssessment relationshipByCompany/ companyAssessment) {
         int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_ID);
@@ -44,13 +44,15 @@ public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentReposit
     public CompanyAssessment getByID(int id) {
         CompanyAssessment companyAssessment = new CompanyAssessment();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID)) {
 
             ps.setInt(1, id);
-
-            while (rs.next()) {
-                companyAssessment.setNameGivenByCompany.valueOf(rs.getString("name"));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    companyAssessment.setId(rs.getInt("id"));
+                    RelationshipType nameGivenByCompany = RelationshipType.valueOf(rs.getString("name"));
+                    companyAssessment.setNameGivenByCompany(nameGivenByCompany);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

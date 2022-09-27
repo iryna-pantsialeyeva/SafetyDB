@@ -20,5 +20,5 @@ public class AdverseReaction {
     private User user;
     @NonNull private Reporter reporter;
     @NonNull private Relationship relationship;
-    private CompanyAssessment relationshipByCompany;
+    @Setter CompanyAssessment relationshipByCompany;
 }

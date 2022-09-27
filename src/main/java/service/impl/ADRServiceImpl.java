@@ -2,9 +2,6 @@ package service.impl;
 
 
 import model.*;
-import model.enums.CriteriaType;
-import model.enums.OutcomeType;
-import model.enums.RelationshipType;
 import service.*;
 import repository.*;
 
@@ -22,7 +19,6 @@ public class ADRServiceImpl implements ADRService {
     private RelationshipService relationship;
     private CompanyAssessmentService companyAssessment;
 
-
     public ADRServiceImpl() {
         adRepository = new AdverseReactionRepositoryImpl();
         reporter = new ReporterServiceImpl();
@@ -33,21 +29,30 @@ public class ADRServiceImpl implements ADRService {
         companyAssessment = new CompanyAssessmentServiceImpl();
     }
 
-    public boolean save(AdverseReaction adverseReaction) {
-        OutcomeType outcomeToAdd = adverseReaction.getOutcome().getName();
-        CriteriaType criteriaToAdd = adverseReaction.getCriteria().getName();
+    @Override
+    public boolean save(AdverseReaction adverseReaction) throws ServiceException {
+        Outcome outcomeToAdd = adverseReaction.getOutcome();
+        Criteria criteriaToAdd = adverseReaction.getCriteria();
+        Reporter reporterToAdd = adverseReaction.getReporter();
+        Type typeToAdd = reporterToAdd.getType();
         Relationship relationshipToAdd = adverseReaction.getRelationship();
-        CompanyAssessment companyAssessmentToAdd = new CompanyAssessment(companyAssessment.evaluate(relationshipToAdd));
+        CompanyAssessment companyAssessmentToAdd = companyAssessment.evaluate(relationshipToAdd);
 
         outcome.save(outcomeToAdd);
         criteria.save(criteriaToAdd);
+        reporter.save(reporterToAdd);
+        type.save(typeToAdd);
         relationship.save(relationshipToAdd);
         companyAssessment.save(companyAssessmentToAdd);
 
         adverseReaction.setRelationshipByCompany(companyAssessmentToAdd);
 
         if (getId(adverseReaction) != 0) {
-            adRepository.save(adverseReaction);
+            try {
+                adRepository.save(adverseReaction);
+            } catch (SQLException e) {
+                throw new ServiceException("Something went wrong. The report was not added. ", e);
+            }
             return true;
         }
         return false;
@@ -62,13 +67,20 @@ public class ADRServiceImpl implements ADRService {
         return adverseReactionList;
     }
 
+    @Override
     public List<AdverseReaction> getAll() {
        return adRepository.getAll();
     }
 
+    @Override
+    public AdverseReaction getByID(int id) {
+        return adRepository.getById(id);
+    }
+
     // для метода update - 1. reporter вводит свое ФИО и получает список побочных реакций, выбирает id нужной реакции
-    public List<AdverseReaction> getByFullName(String fullName) throws ServiceException {
-        List<AdverseReaction> adverseReactionList = adRepository.getByFullName(fullName);
+    @Override
+    public List<AdverseReaction> getByFullName(Reporter reporter) throws ServiceException {
+        List<AdverseReaction> adverseReactionList = adRepository.getByFullName(reporter.getFullName());
         if (adverseReactionList.get(0) == null) {
             throw new ServiceException("There are no reports on this medicinal product in database.");
         }
@@ -76,9 +88,9 @@ public class ADRServiceImpl implements ADRService {
     }
 
     @Override
-    public boolean delete(Date reportDate, Reporter fullName) throws ServiceException {
+    public boolean delete(Date reportDate, Reporter reporter) throws ServiceException {
         try {
-           adRepository.delete(reportDate, fullName);
+           adRepository.delete(reportDate, reporter);
            return true;
         } catch (SQLException e){
             throw new ServiceException("There are no reports regarding your request in database.", e);

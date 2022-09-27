@@ -1,27 +1,30 @@
 package repository.impl;
 
 import model.Criteria;
+import repository.UserRepository;
 import repository.util.ConnectionToDB;
 import repository.util.SQLQuery;
 
 import java.sql.*;
 
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
 
     public UserRepositoryImpl() {
     }
 
     @Override
     public User getByID(int id) {
-        User newUser = null;
+        User newUser = new User();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_ID)) {
 
             ps.setInt(1, id);
-            if (rs.next()) {
-                newUser = new User(rs.getInt("id"), rs.getString("email"),
-                        rs.getString("password"), rs.getBoolean("active"));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newUser = new User(rs.getInt("id"), rs.getString("email"),
+                            rs.getString("password"), rs.getBoolean("active"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

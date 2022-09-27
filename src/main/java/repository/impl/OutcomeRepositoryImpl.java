@@ -14,14 +14,18 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
 
     @Override
     public Outcome getByID(int id) {
-        Outcome newOutcome = null;
+        Outcome newOutcome = new Outcome();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_ID)) {
 
             ps.setInt(1, id);
-            if (rs.next()) {
-                newOutcome = new Outcome(rs.getInt("id"), rs.getString("name"));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newOutcome.setId(rs.getInt("id"));
+                    OutcomeType name = OutcomeType.valueOf(rs.getString("name"));
+                    newOutcome.setName(name);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

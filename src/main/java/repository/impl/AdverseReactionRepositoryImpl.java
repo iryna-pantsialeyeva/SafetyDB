@@ -40,12 +40,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newADReaction.setReportDate(rs.getDate("report_date"));
                 newADReaction.setDescription(rs.getString("description"));
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newADReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
                 newADReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
+                newADReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
                 newADReaction.setUser(userRepository.getByID(rs.getInt("user_id")));
                 newADReaction.setReporter(reporterRepository.getByID(rs.getInt("reporter_id")));
                 newADReaction.setRelationship(relationshipRepository.getByID(rs.getInt("causal_relationship_reporter_id")));
-                newADReaction.setCompanyAssessment.valueOf(companyAssessmentRepository.getByID(rs.getInt("causal_relationship_company_id")));
+                newADReaction.setRelationshipByCompany(companyAssessmentRepository.getByID(rs.getInt("causal_relationship_company_id")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {

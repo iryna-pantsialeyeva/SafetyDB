@@ -14,14 +14,19 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
 
     @Override
     public Criteria getByID(int id) {
-        Criteria newCriteria = null;
+        Criteria newCriteria = new Criteria();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_CRITERIAS_BY_ID);
-             ResultSet rs = ps.executeQuery()) {
+        ) {
 
             ps.setInt(1, id);
-            if (rs.next()) {
-                newCriteria = new Criteria(rs.getInt("id"), rs.getString("name"));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newCriteria.setId(rs.getInt("id"));
+                    CriteriaType name = CriteriaType.valueOf(rs.getString("name"));
+                    newCriteria.setName(name);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -6,7 +6,10 @@
 
     <groupId>org.example</groupId>
     <artifactId>safetyBD</artifactId>
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>SafetyBD Maven Webapp</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -26,6 +29,15 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
+    <build>
+        <finalName>SafetyBD</finalName>
+    </build>
 
 </project>

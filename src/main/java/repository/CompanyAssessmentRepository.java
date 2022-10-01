@@ -1,5 +1,7 @@
 package repository;
 
+import model.CompanyAssessment;
+
 public interface CompanyAssessmentRepository {
 
     void save(CompanyAssessment companyAssessment);

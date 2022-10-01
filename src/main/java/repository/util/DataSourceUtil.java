@@ -14,7 +14,7 @@ public class DataSourceUtil implements ConnectionPool{
 
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
-    private static final int INITIAL_POOL_SIZE = 10;
+    private static final int INITIAL_POOL_SIZE = 20;
 
     public DataSourceUtil(String url, String user, String password, List<Connection> pool) {
         this.url = url;

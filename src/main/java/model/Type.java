@@ -1,13 +1,13 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import model.enums.ReporterType;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Type {
-    private int id;
-    private String name;
+     private int id;
+    @NonNull private ReporterType name;
 }

@@ -1,13 +1,15 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
+
 public class Reporter {
     private int id;
-    private String fullName;
+    @NonNull private String fullName;
+    @NonNull private Type type;
     }

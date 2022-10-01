@@ -1,13 +1,13 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import model.enums.CriteriaType;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Criteria {
     private int id;
-    private String name;
+    @NonNull private CriteriaType name;
 }

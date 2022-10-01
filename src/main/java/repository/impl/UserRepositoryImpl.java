@@ -1,6 +1,6 @@
 package repository.impl;
 
-import model.Criteria;
+import model.User;
 import repository.UserRepository;
 import repository.util.ConnectionToDB;
 import repository.util.SQLQuery;
@@ -13,7 +13,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getByID(int id) {
+    public User getById(int id) {
         User newUser = new User();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_ID)) {
@@ -70,7 +70,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public int getId(String email) {
+    public int getId(User user) {
         int id = 0;
 //        try (Connection con = ConnectionToDB.connectionPool.getConnection();
 //             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_CRITERIAS_BY_NAME);
@@ -84,5 +84,11 @@ public class UserRepositoryImpl implements UserRepository {
 //            e.printStackTrace();
 //        }
         return id;
+    }
+
+    @Override
+    public User authorization(String email, String password) throws SQLException{
+        // TODO: 10/1/2022 add implementation
+        return null;
     }
 }

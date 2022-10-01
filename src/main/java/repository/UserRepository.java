@@ -2,10 +2,13 @@ package repository;
 
 import model.User;
 
+import java.sql.SQLException;
+
 public interface UserRepository {
 
-    User getByID(int id);
+    User getById(int id);
     User getByEmail(String email);
     User add(User user);
-    int getId(String email);
+    int getId(User user);
+    User authorization(String email, String password) throws SQLException;
 }

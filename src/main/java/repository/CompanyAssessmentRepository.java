@@ -5,6 +5,6 @@ import model.CompanyAssessment;
 public interface CompanyAssessmentRepository {
 
     void save(CompanyAssessment companyAssessment);
-    int getID(CompanyAssessment nameGivenByCompany);
-    CompanyAssessment getByID(int id);
+    int getId(CompanyAssessment nameGivenByCompany);
+    CompanyAssessment getById(int id);
 }

@@ -1,6 +1,8 @@
 package repository.impl;
 
 import model.Outcome;
+import model.enums.CriteriaType;
+import model.enums.OutcomeType;
 import repository.OutcomeRepository;
 import repository.util.ConnectionToDB;
 import repository.util.SQLQuery;
@@ -13,7 +15,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
     }
 
     @Override
-    public Outcome getByID(int id) {
+    public Outcome getById(int id) {
         Outcome newOutcome = new Outcome();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_ID)) {
@@ -36,53 +38,54 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
     @Override
     public Outcome getByName(String name) {
         Outcome newOutcome = null;
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_NAME);
-             ResultSet rs = ps.executeQuery()){
-
-            ps.setString(1, name);
-            if (rs.next()) {
-                newOutcome = new Outcome(rs.getInt("id"), rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_NAME);
+//             ResultSet rs = ps.executeQuery()){
+//
+//            ps.setString(1, name);
+//            if (rs.next()) {
+//                newOutcome = new Outcome(rs.getInt("id"), rs.getString("name"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return newOutcome;
     }
 
     @Override
     public Outcome add(Outcome outcome) {
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_OUTCOMES, Statement.RETURN_GENERATED_KEYS);
-             ResultSet rs = ps.getGeneratedKeys()){
-
-            ps.setString(1, outcome.getName());
-            int updatedRows = ps.executeUpdate();
-            System.out.println(updatedRows + " rows were updated in 'authors'.");
-
-            if (rs.next()) {
-                outcome.setId(rs.getInt(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_OUTCOMES, Statement.RETURN_GENERATED_KEYS);
+//             ResultSet rs = ps.getGeneratedKeys()){
+//
+//            ps.setString(1, outcome.getName());
+//            int updatedRows = ps.executeUpdate();
+//            System.out.println(updatedRows + " rows were updated in 'authors'.");
+//
+//            if (rs.next()) {
+//                outcome.setId(rs.getInt(1));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return outcome;
     }
 
     @Override
-    public int getId(String name) {
-                int id = 0;
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_NAME);
-             ResultSet rs = ps.executeQuery();){
-
-            ps.setString(1, name);
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public int getId(OutcomeType outcomeType) {
+        int id = 0;
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_NAME);
+//             ResultSet rs = ps.executeQuery();){
+//
+//            ps.setString(1, name);
+//            if (rs.next()) {
+//                id = rs.getInt("id");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return id;
     }
 }
+

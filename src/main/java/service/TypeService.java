@@ -8,5 +8,5 @@ public interface TypeService {
 
     int getId(Type type);
 
-    Type getByID(int id);
+    Type getById(int id);
 }

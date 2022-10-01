@@ -6,5 +6,5 @@ public interface RelationshipRepository {
 
     void save(Relationship relationship);
     int getId(Relationship relationship);
-    Relationship getByID(int id);
+    Relationship getById(int id);
 }

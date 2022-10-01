@@ -6,7 +6,7 @@ public interface OutcomeService {
 
     void save(Outcome outcome);
 
-    Outcome getByID(int id);
+    Outcome getById(int id);
 
     int getId(Outcome outcome);
 }

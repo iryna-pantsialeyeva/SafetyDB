@@ -2,12 +2,13 @@ package repository;
 
 import model.Reporter;
 import model.Type;
+import model.enums.ReporterType;
 
 public interface ReporterTypeRepository {
 
-    Type getByID(int id);
+    Type getById(int id);
     Type getByName(String name);
     Type add(Type type);
-    int getId(String name);
+    int getId(ReporterType reporterType);
 
 }

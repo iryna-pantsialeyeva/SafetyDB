@@ -17,7 +17,7 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     }
 
     @Override
-    public Reporter getByID(int id) {
+    public Reporter getById(int id) {
         Reporter newReporter = new Reporter();
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_ID);
@@ -28,7 +28,7 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                            reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
+                            reporterTypeRepository.getById(rs.getInt("reporter_type_id")));
                 }
             }
         } catch (SQLException e) {
@@ -40,53 +40,53 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     @Override
     public Reporter getByName(String name) {
         Reporter newReporter = null;
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
-             ResultSet rs = ps.executeQuery()) {
-
-            ps.setString(1, name);
-            if (rs.next()) {
-                newReporter = new Reporter(rs.getInt("id"), rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            ps.setString(1, name);
+//            if (rs.next()) {
+//                newReporter = new Reporter(rs.getInt("id"), rs.getString("name"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return newReporter;
     }
 
     @Override
     public Reporter add(Reporter reporter) {
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS, Statement.RETURN_GENERATED_KEYS);
-             ResultSet rs = ps.getGeneratedKeys()) {
-
-            ps.setString(1, reporter.getFullName());
-            int updatedRows = ps.executeUpdate();
-            System.out.println(updatedRows + " rows were updated in 'authors'.");
-
-            if (rs.next()) {
-                reporter.setId(rs.getInt(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS, Statement.RETURN_GENERATED_KEYS);
+//             ResultSet rs = ps.getGeneratedKeys()) {
+//
+//            ps.setString(1, reporter.getFullName());
+//            int updatedRows = ps.executeUpdate();
+//            System.out.println(updatedRows + " rows were updated in 'authors'.");
+//
+//            if (rs.next()) {
+//                reporter.setId(rs.getInt(1));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return reporter;
     }
 
     @Override
     public int getId(String name) {
         int id = 0;
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
-             ResultSet rs = ps.executeQuery()) {
-
-            ps.setString(1, name);
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            ps.setString(1, name);
+//            if (rs.next()) {
+//                id = rs.getInt("id");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return id;
     }
 }

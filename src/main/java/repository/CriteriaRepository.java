@@ -1,12 +1,13 @@
 package repository;
 
 import model.Criteria;
+import model.enums.CriteriaType;
 
 public interface CriteriaRepository {
 
-    Criteria getByID(int id);
+    Criteria getById(int id);
     Criteria getByName(String name);
     Criteria add(Criteria criteria);
-    int getId(String name);
+    int getId(CriteriaType criteriaType);
 
 }

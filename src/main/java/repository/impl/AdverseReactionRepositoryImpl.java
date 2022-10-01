@@ -69,12 +69,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             ps.setString(2, advReact.getDescription());
             ps.setString(3, advReact.getSuspectedDrug());
 
-            ps2.setString(1, advReact.getCriteria().getName());
+            ps2.setString(1, advReact.getCriteria().getName().toString());
             if (rs.next()) {
                 ps.setInt(4, rs.getInt(1));
             }
 
-            ps3.setString(1, advReact.getOutcome().getName());
+            ps3.setString(1, advReact.getOutcome().getName().toString());
             if (rs2.next()) {
                 ps.setInt(5, rs2.getInt(1));
             }
@@ -96,7 +96,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     @Override
-    public int getId(AdverseReaction advReaction) {
+    public int getId(AdverseReaction advReact) {
         //Проверка дубликатов по 4 параметрам: description, suspected drug, date, reporter id
         int id = 0;
         try (Connection con = ConnectionToDB.connectionPool.getConnection();
@@ -112,12 +112,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             ps.setString(2, advReact.getDescription());
             ps.setString(3, advReact.getSuspectedDrug());
 
-            ps2.setString(1, advReact.getCriteria().getName());
+            ps2.setString(1, advReact.getCriteria().getName().toString());
             if (rs.next()) {
                 ps.setInt(4, rs.getInt(1));
             }
 
-            ps3.setString(1, advReact.getOutcome().getName());
+            ps3.setString(1, advReact.getOutcome().getName().toString());
             if (rs2.next()) {
                 ps.setInt(5, rs2.getInt(1));
             }

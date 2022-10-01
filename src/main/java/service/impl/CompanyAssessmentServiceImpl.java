@@ -32,7 +32,7 @@ public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
 
     @Override
     public CompanyAssessment getById(int id) {
-        return companyAssessmentRepository.getByID(id);
+        return companyAssessmentRepository.getById(id);
     }
 
     @Override

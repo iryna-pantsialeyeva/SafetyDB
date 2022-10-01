@@ -26,7 +26,7 @@ public class ReporterServiceImpl implements ReporterService {
     }
 
     @Override
-    public Reporter getByID(int id) {
-        return reporterRepository.getByID(id);
+    public Reporter getById(int id) {
+        return reporterRepository.getById(id);
     }
 }

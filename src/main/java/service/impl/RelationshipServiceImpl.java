@@ -24,7 +24,7 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public Relationship getByID(int id) {
-        return relationshipRepository.getByID(id);
+    public Relationship getById(int id) {
+        return relationshipRepository.getById(id);
     }
 }

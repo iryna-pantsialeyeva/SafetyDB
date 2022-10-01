@@ -7,5 +7,5 @@ public interface RelationshipService {
 
     int getId(Relationship relationship);
 
-    Relationship getByID(int id);
+    Relationship getById(int id);
 }

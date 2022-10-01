@@ -8,5 +8,5 @@ public interface ReporterService {
 
     int getId(Reporter reporter);
 
-    Reporter getByID(int id);
+    Reporter getById(int id);
 }

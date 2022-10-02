@@ -5,6 +5,7 @@ import model.enums.OutcomeType;
 import model.enums.ReporterType;
 import repository.ReporterTypeRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
     @Override
     public Type getById(int id) {
         Type newType = new Type();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTER_TYPES_BY_ID);
         ) {
 

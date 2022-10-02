@@ -9,13 +9,13 @@ public class ConnectionToDB {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    static {
-        try {
-            connectionPool = DataSourceUtil.create(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            connectionPool = DataSourceUtil.create(URL, USER, PASSWORD);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
 

@@ -5,6 +5,7 @@ import model.enums.CriteriaType;
 import model.enums.OutcomeType;
 import repository.OutcomeRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
     @Override
     public Outcome getById(int id) {
         Outcome newOutcome = new Outcome();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_OUTCOMES_BY_ID)) {
 
             ps.setInt(1, id);

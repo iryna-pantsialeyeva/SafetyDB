@@ -4,6 +4,7 @@ import model.CompanyAssessment;
 import model.enums.RelationshipType;
 import repository.CompanyAssessmentRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentReposit
     @Override
     public CompanyAssessment getById(int id) {
         CompanyAssessment companyAssessment = new CompanyAssessment();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID)) {
 
             ps.setInt(1, id);

@@ -3,6 +3,7 @@ package repository.impl;
 import model.User;
 import repository.UserRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -15,7 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getById(int id) {
         User newUser = new User();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_ID)) {
 
             ps.setInt(1, id);
@@ -35,7 +36,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByEmail(String email) {
         User newUser = null;
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_NAME);
              ResultSet rs = ps.executeQuery()) {
 

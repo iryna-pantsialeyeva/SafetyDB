@@ -6,6 +6,7 @@ import model.enums.OutcomeType;
 import model.enums.RelationshipType;
 import repository.RelationshipRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -52,7 +53,7 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
     @Override
     public Relationship getById(int id) {
         Relationship relationship = new Relationship();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_ID);
         ) {
 

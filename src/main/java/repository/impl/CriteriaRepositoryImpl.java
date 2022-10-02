@@ -5,6 +5,7 @@ import model.enums.CriteriaType;
 import model.enums.RelationshipType;
 import repository.CriteriaRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
     @Override
     public Criteria getById(int id) {
         Criteria newCriteria = new Criteria();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_CRITERIAS_BY_ID);
         ) {
 

@@ -4,6 +4,7 @@ import model.Reporter;
 import model.Type;
 import repository.ReporterRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     @Override
     public Reporter getById(int id) {
         Reporter newReporter = new Reporter();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_ID);
         ) {
 

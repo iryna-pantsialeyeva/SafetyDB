@@ -3,6 +3,7 @@ package repository.impl;
 import model.*;
 import repository.AdverseReactionRepository;
 import repository.util.ConnectionToDB;
+import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
@@ -30,7 +31,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     @Override
     public List<AdverseReaction> getAll() {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
-        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+        try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
              ResultSet rs = ps.executeQuery()) {
 

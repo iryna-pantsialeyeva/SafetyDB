@@ -15,7 +15,8 @@ public class DataSourceUtil implements ConnectionPool {
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
     private static final int INITIAL_POOL_SIZE = 20;
-    private static final String URL = "jdbc:mysql://localhost:3306/adverse_reaction";
+//    private static final String URL = "jdbc:mysql://localhost:3306/adverse_reaction";
+    private static final String URL = "jdbc:mysql://127.0.0.1/adverse_reaction?useSSL=false";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 

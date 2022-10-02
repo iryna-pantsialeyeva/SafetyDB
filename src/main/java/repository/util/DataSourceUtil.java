@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataSourceUtil implements ConnectionPool{
+public class DataSourceUtil implements ConnectionPool {
 
     private String url;
     private String user;
@@ -19,6 +19,7 @@ public class DataSourceUtil implements ConnectionPool{
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
+
     public DataSourceUtil(String url, String user, String password, List<Connection> pool) {
         this.url = url;
         this.user = user;
@@ -27,6 +28,11 @@ public class DataSourceUtil implements ConnectionPool{
     }
 
     public static DataSourceUtil create() throws SQLException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
         for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
             pool.add(createConnection(URL, USER, PASSWORD));

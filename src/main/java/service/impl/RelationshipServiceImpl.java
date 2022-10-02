@@ -12,19 +12,19 @@ public class RelationshipServiceImpl implements RelationshipService {
     public RelationshipServiceImpl() {
         relationshipRepository = new RelationshipRepositoryImpl();
     }
-
-    @Override
-    public void save(Relationship relationship) {
-        relationshipRepository.save(relationship);
-    }
-
-    @Override
-    public int getId(Relationship relationship) {
-        return relationshipRepository.getId(relationship);
-    }
-
-    @Override
-    public Relationship getById(int id) {
-        return relationshipRepository.getById(id);
-    }
+//
+//    @Override
+//    public void save(Relationship relationship) {
+//        relationshipRepository.save(relationship);
+//    }
+//
+//    @Override
+//    public int getId(Relationship relationship) {
+//        return relationshipRepository.getId(relationship);
+//    }
+//
+//    @Override
+//    public Relationship getById(int id) {
+//        return relationshipRepository.getById(id);
+//    }
 }

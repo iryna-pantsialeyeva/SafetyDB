@@ -12,21 +12,21 @@ public class ReporterServiceImpl implements ReporterService {
     public ReporterServiceImpl() {
         reporterRepository = new ReporterRepositoryImpl();
     }
-
-    @Override
-    public void save(Reporter reporter) {
-        if(getId(reporter) == 0) {
-            reporterRepository.add(reporter);
-        }
-    }
-
-    @Override
-    public int getId(Reporter reporter) {
-        return reporterRepository.getId(reporter.getFullName());
-    }
-
-    @Override
-    public Reporter getById(int id) {
-        return reporterRepository.getById(id);
-    }
+//
+//    @Override
+//    public void save(Reporter reporter) {
+//        if(getId(reporter) == 0) {
+//            reporterRepository.add(reporter);
+//        }
+//    }
+//
+//    @Override
+//    public int getId(Reporter reporter) {
+//        return reporterRepository.getId(reporter.getFullName());
+//    }
+//
+//    @Override
+//    public Reporter getById(int id) {
+//        return reporterRepository.getById(id);
+//    }
 }

@@ -11,14 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/getall")
 public class GetAllServlet extends HttpServlet {
 
-    private ADRService adrService; //TODO add implementation
+    private ADRService adrService;
 
     public GetAllServlet() {
         adrService = new ADRServiceImpl();
@@ -30,11 +28,14 @@ public class GetAllServlet extends HttpServlet {
         List<AdverseReaction> adverseReactionList = adrService.getAll();
 
         try {
-            writer.println("<h2>Adverse reactions: ");
+            writer.println("<h2>Adverse reactions: </h2>");
+            writer.println("<h4> ");
             for (AdverseReaction adverseReaction : adverseReactionList) {
                 writer.println(adverseReaction);
+                writer.println("</br>");
+                writer.println("</br>");
             }
-            writer.println("</h2>");
+            writer.println("</h4>");
         } finally {
             writer.close();
         }

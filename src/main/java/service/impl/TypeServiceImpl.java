@@ -13,20 +13,20 @@ public class TypeServiceImpl implements TypeService {
         typeRepository = new ReporterTypeRepositoryImpl();
     }
 
-    @Override
-    public void save(Type type) {
-        if (getId(type) == 0) {
-            typeRepository.add(type);
-        }
-    }
-
-    @Override
-    public int getId(Type type) {
-        return typeRepository.getId(type.getName());
-    }
-
-    @Override
-    public Type getById(int id) {
-        return typeRepository.getById(id);
-    }
+//    @Override
+//    public void save(Type type) {
+//        if (getId(type) == 0) {
+//            typeRepository.add(type);
+//        }
+//    }
+//
+//    @Override
+//    public int getId(Type type) {
+//        return typeRepository.getId(type.getName());
+//    }
+//
+//    @Override
+//    public Type getById(int id) {
+//        return typeRepository.getById(id);
+//    }
 }

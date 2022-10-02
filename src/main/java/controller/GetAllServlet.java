@@ -2,6 +2,7 @@ package controller;
 
 import model.AdverseReaction;
 import service.ADRService;
+import service.impl.ADRServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +20,16 @@ public class GetAllServlet extends HttpServlet {
 
     private ADRService adrService; //TODO add implementation
 
+    public GetAllServlet () {
+        adrService = new ADRServiceImpl();
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        List<AdverseReaction> adverseReactionList = new ArrayList<>();
+        List<AdverseReaction> adverseReactionList = adrService.getAll();
 
-        try{
+                try{
             writer.println("<h2>Adverse reactions: ");
             for (AdverseReaction adverseReaction : adverseReactionList) {
                 writer.println(adverseReaction);

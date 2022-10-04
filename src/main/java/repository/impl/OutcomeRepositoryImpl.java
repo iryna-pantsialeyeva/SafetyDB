@@ -1,10 +1,8 @@
 package repository.impl;
 
 import model.Outcome;
-import model.enums.CriteriaType;
 import model.enums.OutcomeType;
 import repository.OutcomeRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

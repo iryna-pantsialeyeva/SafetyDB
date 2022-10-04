@@ -3,7 +3,6 @@ package repository.impl;
 import model.CompanyAssessment;
 import model.enums.RelationshipType;
 import repository.CompanyAssessmentRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

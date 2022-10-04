@@ -1,9 +1,7 @@
 package repository.impl;
 
 import model.Reporter;
-import model.Type;
 import repository.ReporterRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

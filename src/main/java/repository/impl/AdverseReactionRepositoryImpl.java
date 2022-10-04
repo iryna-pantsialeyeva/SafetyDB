@@ -2,7 +2,6 @@ package repository.impl;
 
 import model.*;
 import repository.AdverseReactionRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
@@ -41,12 +40,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newADReaction.setReportDate(rs.getDate("report_date"));
                 newADReaction.setDescription(rs.getString("description"));
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newADReaction.setCriteria(criteriaRepository.getById(rs.getInt("criteria_id")));
-                newADReaction.setOutcome(outcomeRepository.getById(rs.getInt("outcome_id")));
-                newADReaction.setUser(userRepository.getById(rs.getInt("user_id")));
-                newADReaction.setReporter(reporterRepository.getById(rs.getInt("reporter_id")));
-                newADReaction.setRelationship(relationshipRepository.getById(rs.getInt("causal_relationship_reporter_id")));
-                newADReaction.setRelationshipByCompany(companyAssessmentRepository.getById(rs.getInt("causal_relationship_company_id")));
+                newADReaction.setCriteria(Criteria.values[(rs.getInt("criteria_id"))]);
+//                newADReaction.setOutcome(outcomeRepository.getById(rs.getInt("outcome_id")));
+//                newADReaction.setUser(userRepository.getById(rs.getInt("user_id")));
+//                newADReaction.setReporter(reporterRepository.getById(rs.getInt("reporter_id")));
+//                newADReaction.setRelationship(relationshipRepository.getById(rs.getInt("causal_relationship_reporter_id")));
+//                newADReaction.setRelationshipByCompany(companyAssessmentRepository.getById(rs.getInt("causal_relationship_company_id")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {

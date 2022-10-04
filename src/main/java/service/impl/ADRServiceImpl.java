@@ -5,28 +5,26 @@ import repository.impl.AdverseReactionRepositoryImpl;
 import service.*;
 import repository.*;
 
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 public class ADRServiceImpl implements ADRService {
 
-    private AdverseReactionRepository adRepository;
-    private ReporterService reporter;
-    private CriteriaService criteria;
-    private OutcomeService outcome;
-    private TypeService type;
-    private RelationshipService relationship;
-    private CompanyAssessmentService companyAssessment;
+    private AdverseReactionRepository adverseReactionRepository;
+    private ReporterService reporterService;
+    private CriteriaService criteriaService;
+    private OutcomeService outcomeService;
+    private TypeService typeService;
+    private RelationshipService relationshipService;
+    private CompanyAssessmentService companyAssessmentService;
 
     public ADRServiceImpl() {
-        adRepository = new AdverseReactionRepositoryImpl();
-        reporter = new ReporterServiceImpl();
-        criteria = new CriteriaServiceImpl();
-        outcome = new OutcomeServiceImpl();
-        type = new TypeServiceImpl();
-        relationship = new RelationshipServiceImpl();
-        companyAssessment = new CompanyAssessmentServiceImpl();
+        adverseReactionRepository = new AdverseReactionRepositoryImpl();
+        reporterService = new ReporterServiceImpl();
+        criteriaService = new CriteriaServiceImpl();
+        outcomeService = new OutcomeServiceImpl();
+        typeService = new TypeServiceImpl();
+        relationshipService = new RelationshipServiceImpl();
+        companyAssessmentService = new CompanyAssessmentServiceImpl();
     }
 
 //    @Override
@@ -69,7 +67,9 @@ public class ADRServiceImpl implements ADRService {
 
     @Override
     public List<AdverseReaction> getAll() {
-        return adRepository.getAll();
+        List<AdverseReaction> all = adverseReactionRepository.getAll();
+        all.forEach(reaction -> reaction.setCriteria(criteriaService.getById(reaction.getCriteria().getId())));
+        return all;
     }
 
 //    @Override

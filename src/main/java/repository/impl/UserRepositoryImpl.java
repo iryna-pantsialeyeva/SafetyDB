@@ -2,7 +2,6 @@ package repository.impl;
 
 import model.User;
 import repository.UserRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

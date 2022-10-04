@@ -3,11 +3,15 @@ package model;
 import lombok.*;
 import model.enums.CriteriaType;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class Criteria {
-    private int id;
-    @NonNull private CriteriaType name;
+public enum Criteria {
+    DEATH("death_result"),
+    HOSPITALISATION("bad_feeling");
+
+    private String name;
+
+    Criteria(String name) {
+        this.name = name;
+    }
+
+
 }

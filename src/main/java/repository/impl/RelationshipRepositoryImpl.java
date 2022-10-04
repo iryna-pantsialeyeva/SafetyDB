@@ -2,10 +2,8 @@ package repository.impl;
 
 import model.Relationship;
 import model.enums.AnswerType;
-import model.enums.OutcomeType;
 import model.enums.RelationshipType;
 import repository.RelationshipRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

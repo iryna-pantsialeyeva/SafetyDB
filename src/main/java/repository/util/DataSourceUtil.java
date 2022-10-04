@@ -29,14 +29,17 @@ public class DataSourceUtil implements ConnectionPool {
     }
 
     public static DataSourceUtil create() throws SQLException {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
-        for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
-            pool.add(createConnection(URL, USER, PASSWORD));
+        int retries = 0;
+        while (pool.size() < 20 || retries >= 10) {
+            Connection connection = createConnection(URL, USER, PASSWORD);
+            if(connection == null) {
+                retries++;
+                continue;
+            }
+            pool.add(connection);
+            retries = 0;
+            //
         }
         return new DataSourceUtil(URL, USER, PASSWORD, pool);
     }

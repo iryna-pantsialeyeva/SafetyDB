@@ -17,12 +17,22 @@ import java.util.List;
 public class GetAllServlet extends HttpServlet {
 
     private ADRService adrService;
+    private Object adrValidator;
 
     public GetAllServlet() {
         adrService = new ADRServiceImpl();
+        adrValidator = new Object();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+//        List<String> params = request.getAllPArams();
+//        MyObj mo = new MyObj(params.get(0)...);
+//        try {
+//            adrValidator.validate(mo);
+//        } catch (MyValidationException ex) {
+//            ex.getReson();
+//        }
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         List<AdverseReaction> adverseReactionList = adrService.getAll();

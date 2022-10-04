@@ -9,5 +9,5 @@ import model.enums.OutcomeType;
 @RequiredArgsConstructor
 public class Outcome {
     private int id;
-    @NonNull private OutcomeType name;
+    private OutcomeType name;
 }

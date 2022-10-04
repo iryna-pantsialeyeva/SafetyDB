@@ -1,10 +1,8 @@
 package repository.impl;
 
 import model.Type;
-import model.enums.OutcomeType;
 import model.enums.ReporterType;
 import repository.ReporterTypeRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

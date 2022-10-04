@@ -1,13 +1,15 @@
 package model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import model.enums.RelationshipType;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class CompanyAssessment {
     private int id;
-    @NonNull private RelationshipType nameGivenByCompany;
+    private RelationshipType nameGivenByCompany;
 }

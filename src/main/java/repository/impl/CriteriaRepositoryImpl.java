@@ -2,9 +2,7 @@ package repository.impl;
 
 import model.Criteria;
 import model.enums.CriteriaType;
-import model.enums.RelationshipType;
 import repository.CriteriaRepository;
-import repository.util.ConnectionToDB;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 

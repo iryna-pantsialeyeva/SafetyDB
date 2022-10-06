@@ -1,11 +1,12 @@
 package model;
 
-import lombok.*;
-import model.enums.CriteriaType;
-
 public enum Criteria {
-    DEATH("death_result"),
-    HOSPITALISATION("bad_feeling");
+    DEATH("death"),
+    HOSPITALISATION("hospitalisation"),
+    DISABILITY_OR_INCAPACITY("disability_or_incapacity"),
+    LIFE_THREATENING("life_threatening"),
+    CONGENITAL_ANOMALY("congenital_anomaly"),
+    MEDICALLY_IMPORTANT("medically_important");
 
     private String name;
 

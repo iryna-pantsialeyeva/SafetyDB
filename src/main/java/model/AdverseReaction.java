@@ -2,6 +2,7 @@ package model;
 
 
 import lombok.*;
+import model.enums.RelationshipType;
 
 import java.util.Date;
 
@@ -18,5 +19,5 @@ public class AdverseReaction {
     private User user;
     private Reporter reporter;
     private Relationship relationship;
-    CompanyAssessment relationshipByCompany;
+    private RelationshipType relationshipByCompany;
 }

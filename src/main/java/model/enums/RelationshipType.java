@@ -1,10 +1,16 @@
 package model.enums;
 
 public enum RelationshipType {
-    UNCLASSIFIABLE,
-    UNLIKELY,
-    CONDITIONAL,
-    POSSIBLE,
-    PROBABLE,
-    CERTAIN
+    UNCLASSIFIABLE("unclassifiable"),
+    UNLIKELY("unlikely"),
+    CONDITIONAL("conditional"),
+    POSSIBLE("possible"),
+    PROBABLE("probable"),
+    CERTAIN("certain");
+
+    private String name;
+
+    RelationshipType (String name) {
+        this.name = name;
+    }
 }

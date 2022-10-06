@@ -10,9 +10,9 @@ import model.enums.RelationshipType;
 @RequiredArgsConstructor
 public class Relationship {
     private int id;
-    @NonNull private RelationshipType nameGivenByReporter;
-    @NonNull private AnswerType timeRelationship;
-    @NonNull private AnswerType withdrawalResult;
-    @NonNull private AnswerType reintroductionResult;
-    @NonNull private AnswerType otherExplanation;
+    private RelationshipType nameGivenByReporter;
+    private AnswerType timeRelationship;
+    private AnswerType withdrawalResult;
+    private AnswerType reintroductionResult;
+    private AnswerType otherExplanation;
 }

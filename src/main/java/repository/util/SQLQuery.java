@@ -2,7 +2,15 @@ package repository.util;
 
 public class SQLQuery {
 
-    public static final String GET_ALL_ADVERSE_REACTIONS = "select * from adverse_reactions";
+    public static final String GET_ALL_ADVERSE_REACTIONS = "select id, report_date, description, suspected_drug," +
+            " criteria_name, outcome_name,  from adverse_reactions";
+    public static final String GET_ALL_ADR_ID = "select id from adverse_reactions";
+    public static final String GET_DATE_BY_ID = "select report_date from adverse_reactions where id = ?";
+    public static final String GET_DESCRIPTION_BY_ID = "select description from adverse_reactions where id = ?";
+    public static final String GET_SUSPECTED_DRUG_BY_ID = "select suspected_drug from adverse_reactions where id = ?";
+    public static final String GET_CRITERIA_BY_ID = "select criteria_name from adverse_reactions where id = ?";
+    public static final String GET_OUTCOME_BY_ID = "select outcome_name from adverse_reactions where id = ?";
+
     public static final String GET_ADVERSE_REACTION_BY_ID = "select * from adverse_reactions where id = ?";
     public static final String GET_ADVERSE_REACTION_BY_TITLE = "select * from adverse_reactions where title = ?";
     public static final String GET_ADVERSE_REACTION_BY_SUSPECTED_DRUG = "select * from adverse_reactions where " +
@@ -22,11 +30,9 @@ public class SQLQuery {
     public static final String INSERT_IN_CRITERIAS = "insert into seriousness_criterias (name) values (?)" +
             "(?)";
     public static final String GET_CRITERIA_ID_BY_NAME = "select id from seriousness_criterias where name = ?";
-    public static final String GET_FROM_CRITERIAS_BY_ID = "select * from seriousness_criterias where id = ?";
     public static final String GET_FROM_CRITERIAS_BY_NAME = "select * from seriousness_criterias where name = ?";
     public static final String INSERT_IN_OUTCOMES = "insert into outcomes (name) values (?)";
     public static final String GET_OUTCOME_ID_BY_NAME = "select id from outcomes where name = ?";
-    public static final String GET_FROM_OUTCOMES_BY_ID = "select * from outcomes where id = ?";
     public static final String GET_FROM_OUTCOMES_BY_NAME = "select * from outcomes where name = ?";
     public static final String INSERT_IN_REPORTERS = "insert into reporters (name) values (?)";
     public static final String GET_REPORTER_ID_BY_NAME = "select id from reporters where name = ?";

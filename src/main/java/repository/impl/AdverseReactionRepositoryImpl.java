@@ -1,7 +1,8 @@
 package repository.impl;
 
 import model.*;
-import repository.AdverseReactionRepository;
+import model.enums.RelationshipType;
+import repository.*;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
@@ -11,12 +12,12 @@ import java.util.List;
 
 public final class AdverseReactionRepositoryImpl implements AdverseReactionRepository {
 
-    private final OutcomeRepositoryImpl outcomeRepository;
-    private final CriteriaRepositoryImpl criteriaRepository;
-    private final UserRepositoryImpl userRepository;
-    private final RelationshipRepositoryImpl relationshipRepository;
-    private final ReporterRepositoryImpl reporterRepository;
-    private final CompanyAssessmentRepositoryImpl companyAssessmentRepository;
+    private final OutcomeRepository outcomeRepository;
+    private final CriteriaRepository criteriaRepository;
+    private final UserRepository userRepository;
+    private final RelationshipRepository relationshipRepository;
+    private final ReporterRepository reporterRepository;
+    private final CompanyAssessmentRepository companyAssessmentRepository;
 
     public AdverseReactionRepositoryImpl() {
         outcomeRepository = new OutcomeRepositoryImpl();
@@ -40,12 +41,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newADReaction.setReportDate(rs.getDate("report_date"));
                 newADReaction.setDescription(rs.getString("description"));
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newADReaction.setCriteria(Criteria.values[(rs.getInt("criteria_id"))]);
-//                newADReaction.setOutcome(outcomeRepository.getById(rs.getInt("outcome_id")));
+                newADReaction.setCriteria(Criteria.valueOf(rs.getString("criteria_name")));
+                newADReaction.setOutcome(Outcome.valueOf(rs.getString("outcome_name")));
 //                newADReaction.setUser(userRepository.getById(rs.getInt("user_id")));
 //                newADReaction.setReporter(reporterRepository.getById(rs.getInt("reporter_id")));
 //                newADReaction.setRelationship(relationshipRepository.getById(rs.getInt("causal_relationship_reporter_id")));
-//                newADReaction.setRelationshipByCompany(companyAssessmentRepository.getById(rs.getInt("causal_relationship_company_id")));
+                newADReaction.setRelationshipByCompany(RelationshipType.valueOf(rs.getString("causal_relationship_company")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {
@@ -54,8 +55,84 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return adverseReactions;
     }
 
+    public List<Integer> getAllId() {
+        List<Integer> ADRId = new ArrayList<>();
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADR_ID);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ADRId.add(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ADRId;
+    }
+
+    public Date getDateById(int id) {
+        Date date;
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DATE_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    date = new Date((Date) rs.getDate("report_date"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public String getDescriptionById(int id) {
+        String description = "";
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DESCRIPTION_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    description = rs.getString("report_date"); //make StringBuffer
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return description;
+    }
+
+    public String getSuspectedDrugById(int id) {
+        String suspectedDrug = "";
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_SUSPECTED_DRUG_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    suspectedDrug = rs.getString("suspected_drug"); //make StringBuffer
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return suspectedDrug;
+    }
+
+    public Criteria getCriteriaById(int id) {
+        Criteria criteria = criteriaRepository.getById(id);
+        return criteria;
+    }
+
+    public Outcome getOutcomeById(int id) {
+        Outcome outcome = outcomeRepository.getById(id);
+        return outcome;
+    }
+
     @Override
-    public void save(AdverseReaction advReact) throws SQLException{
+    public void save(AdverseReaction advReact) throws SQLException {
 //        try (Connection con = ConnectionToDB.connectionPool.getConnection();
 //             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS);
 //             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);

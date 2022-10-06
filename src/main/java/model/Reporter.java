@@ -2,6 +2,7 @@ package model;
 
 
 import lombok.*;
+import model.enums.ReporterType;
 
 @Data
 @NoArgsConstructor
@@ -10,6 +11,6 @@ import lombok.*;
 
 public class Reporter {
     private int id;
-    @NonNull private String fullName;
-    @NonNull private Type type;
+    private String fullName;
+    private ReporterType type;
     }

@@ -1,6 +1,12 @@
 package model.enums;
 
 public enum ReporterType {
-    HEALTH_PROFESSIONAL,
-    PATIENT
+    HEALTH_PROFESSIONAL("health_professional"),
+    PATIENT("patient");
+
+    private String name;
+
+    ReporterType (String name) {
+        this.name = name;
+    }
 }

@@ -1,6 +1,7 @@
 package repository.impl;
 
 import model.Reporter;
+import model.enums.ReporterType;
 import repository.ReporterRepository;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
@@ -19,15 +20,13 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     public Reporter getById(int id) {
         Reporter newReporter = new Reporter();
         try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_ID);
-        ) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_REPORTERID)) {
 
             ps.setInt(1, id);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                            reporterTypeRepository.getById(rs.getInt("reporter_type_id")));
+                            ReporterType.valueOf(rs.getString("reporter_type_name")));
                 }
             }
         } catch (SQLException e) {

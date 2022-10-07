@@ -52,7 +52,7 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
     public Relationship getById(int id) {
         Relationship relationship = new Relationship();
         try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_ID);
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_RELATIONSHIPID);
         ) {
 
             ps.setInt(1, id);

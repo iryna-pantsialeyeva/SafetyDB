@@ -16,7 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User getById(int id) {
         User newUser = new User();
         try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_ID)) {
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_USERID)) {
 
             ps.setInt(1, id);
 

@@ -18,6 +18,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     private final RelationshipRepository relationshipRepository;
     private final ReporterRepository reporterRepository;
     private final CompanyAssessmentRepository companyAssessmentRepository;
+    private final RelationshipTypeRepository relationshipTypeRepository;
 
     public AdverseReactionRepositoryImpl() {
         outcomeRepository = new OutcomeRepositoryImpl();
@@ -26,6 +27,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         relationshipRepository = new RelationshipRepositoryImpl();
         reporterRepository = new ReporterRepositoryImpl();
         companyAssessmentRepository = new CompanyAssessmentRepositoryImpl();
+        relationshipTypeRepository = new RelationshipTypeRepositoryImpl();
     }
 
     @Override
@@ -71,14 +73,14 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     public Date getDateById(int id) {
-        Date date;
+        Date date = new Date(0);
         try (Connection con = DataSourceUtil.create().getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DATE_BY_ID)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    date = new Date((Date) rs.getDate("report_date"));
+                    date = new Date(rs.getLong("report_date"));
                 }
             }
         } catch (SQLException e) {
@@ -122,13 +124,78 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     public Criteria getCriteriaById(int id) {
-        Criteria criteria = criteriaRepository.getById(id);
-        return criteria;
+        return criteriaRepository.getById(id);
     }
 
     public Outcome getOutcomeById(int id) {
-        Outcome outcome = outcomeRepository.getById(id);
-        return outcome;
+        return outcomeRepository.getById(id);
+    }
+
+    public int getUserId(int id) {
+        int userId = 0;
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USERID_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    userId = rs.getInt("user_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+    public User getUserById(int userId) {
+        return userRepository.getById(userId);
+    }
+
+    public int getReporterId(int id) {
+        int reporterId = 0;
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTERID_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    reporterId = rs.getInt("reporter_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reporterId;
+    }
+
+    public Reporter getReporterById(int reporterId) {
+        return reporterRepository.getById(reporterId);
+    }
+
+    public int getRelationshipId(int id) {
+        int relationshipId = 0;
+        try (Connection con = DataSourceUtil.create().getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIPID_BY_ID)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    relationshipId = rs.getInt("causal_relationship_reporter_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return relationshipId;
+    }
+
+    public Relationship getRelationshipById(int relationshipId) {
+        return relationshipRepository.getById(relationshipId);
+    }
+
+    public RelationshipType getRelationshipTypeById(int id) {
+        return relationshipTypeRepository.getById(id);
     }
 
     @Override

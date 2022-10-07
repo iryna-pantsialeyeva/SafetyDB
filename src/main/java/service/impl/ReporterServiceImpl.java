@@ -1,9 +1,9 @@
 package service.impl;
 
 import model.Reporter;
+import repository.ReporterRepository;
 import repository.impl.ReporterRepositoryImpl;
 import service.ReporterService;
-import repository.*;
 
 public class ReporterServiceImpl implements ReporterService {
 
@@ -24,9 +24,9 @@ public class ReporterServiceImpl implements ReporterService {
 //    public int getId(Reporter reporter) {
 //        return reporterRepository.getId(reporter.getFullName());
 //    }
-//
-//    @Override
-//    public Reporter getById(int id) {
-//        return reporterRepository.getById(id);
-//    }
+
+    @Override
+    public Reporter getById(int id) {
+        return reporterRepository.getById(id);
+    }
 }

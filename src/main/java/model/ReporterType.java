@@ -1,4 +1,4 @@
-package model.enums;
+package model;
 
 public enum ReporterType {
     HEALTH_PROFESSIONAL("health_professional"),

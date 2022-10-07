@@ -4,7 +4,7 @@ import model.Type;
 import repository.impl.ReporterTypeRepositoryImpl;
 import service.TypeService;
 import repository.*;
-
+@Deprecated
 public class TypeServiceImpl implements TypeService {
 
     private ReporterTypeRepository typeRepository;

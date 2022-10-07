@@ -1,7 +1,7 @@
 package repository;
 
 import model.Outcome;
-import model.enums.OutcomeType;
+import model.OutcomeType;
 
 public interface OutcomeRepository {
 

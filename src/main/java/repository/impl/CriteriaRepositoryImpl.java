@@ -1,7 +1,7 @@
 package repository.impl;
 
 import model.Criteria;
-import model.enums.CriteriaType;
+import model.CriteriaType;
 import repository.CriteriaRepository;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;

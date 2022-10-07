@@ -1,5 +1,5 @@
-package model.enums;
-
+package model;
+@Deprecated
 public enum OutcomeType {
     DEATH,
     RECOVERED,

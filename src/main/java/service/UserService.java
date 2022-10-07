@@ -9,6 +9,6 @@ public interface UserService {
 //    User authorization(String email, String password) throws ServiceException;
 //
 //    int getId(User user);
-//
-//    User getById(int id);
+
+    User getById(int id);
 }

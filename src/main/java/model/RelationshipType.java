@@ -1,4 +1,4 @@
-package model.enums;
+package model;
 
 public enum RelationshipType {
     UNCLASSIFIABLE("unclassifiable"),

@@ -1,7 +1,7 @@
 package repository.impl;
 
 import model.Outcome;
-import model.enums.OutcomeType;
+import model.OutcomeType;
 import repository.OutcomeRepository;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;

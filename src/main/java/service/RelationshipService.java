@@ -6,6 +6,6 @@ public interface RelationshipService {
 //    void save(Relationship relationship);
 //
 //    int getId(Relationship relationship);
-//
-//    Relationship getById(int id);
+
+    Relationship getById(int id);
 }

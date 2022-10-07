@@ -1,8 +1,7 @@
 package model;
 
-
-import lombok.*;
-import model.enums.RelationshipType;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 

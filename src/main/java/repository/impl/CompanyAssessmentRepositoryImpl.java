@@ -1,7 +1,7 @@
 package repository.impl;
 
 import model.CompanyAssessment;
-import model.enums.RelationshipType;
+import model.RelationshipType;
 import repository.CompanyAssessmentRepository;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;

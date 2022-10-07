@@ -7,6 +7,6 @@ public interface ReporterService {
 //    void save(Reporter reporter);
 //
 //    int getId(Reporter reporter);
-//
-//    Reporter getById(int id);
+
+    Reporter getById(int id);
 }

@@ -1,8 +1,7 @@
 package repository;
 
-import model.Reporter;
 import model.Type;
-import model.enums.ReporterType;
+import model.ReporterType;
 
 public interface ReporterTypeRepository {
 

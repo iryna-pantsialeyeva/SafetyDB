@@ -1,9 +1,9 @@
 package service.impl;
 
 import model.Relationship;
+import repository.RelationshipRepository;
 import repository.impl.RelationshipRepositoryImpl;
 import service.RelationshipService;
-import repository.*;
 
 public class RelationshipServiceImpl implements RelationshipService {
 
@@ -22,9 +22,9 @@ public class RelationshipServiceImpl implements RelationshipService {
 //    public int getId(Relationship relationship) {
 //        return relationshipRepository.getId(relationship);
 //    }
-//
-//    @Override
-//    public Relationship getById(int id) {
-//        return relationshipRepository.getById(id);
-//    }
+
+    @Override
+    public Relationship getById(int id) {
+        return relationshipRepository.getById(id);
+    }
 }

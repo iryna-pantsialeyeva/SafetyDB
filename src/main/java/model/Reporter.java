@@ -1,8 +1,10 @@
 package model;
 
-
-import lombok.*;
-import model.enums.ReporterType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import model.enums.ReporterType;
 @RequiredArgsConstructor
 
 public class Reporter {
-    private int id;
+    @NonNull private int id;
     private String fullName;
     private ReporterType type;
-    }
+}

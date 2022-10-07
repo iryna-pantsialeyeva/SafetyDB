@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
 //    public int getId(User user) {
 //        return userRepository.getId(user);
 //    }
-//
-//    @Override
-//    public User getById(int id) {
-//        return userRepository.getById(id);
-//    }
+
+    @Override
+    public User getById(int id) {
+        return userRepository.getById(id);
+    }
 }

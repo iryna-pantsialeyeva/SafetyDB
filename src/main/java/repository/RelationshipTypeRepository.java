@@ -1,7 +1,6 @@
 package repository;
 
-import model.Criteria;
-import model.enums.RelationshipType;
+import model.RelationshipType;
 
 public interface RelationshipTypeRepository {
 

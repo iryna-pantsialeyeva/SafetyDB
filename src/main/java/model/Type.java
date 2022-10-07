@@ -1,8 +1,8 @@
 package model;
 
 import lombok.*;
-import model.enums.ReporterType;
 
+@Deprecated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,11 +1,8 @@
 package service.impl;
 
-import model.CompanyAssessment;
-import model.Relationship;
-import model.enums.RelationshipType;
+import repository.CompanyAssessmentRepository;
 import repository.impl.CompanyAssessmentRepositoryImpl;
 import service.CompanyAssessmentService;
-import repository.*;
 
 public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
 

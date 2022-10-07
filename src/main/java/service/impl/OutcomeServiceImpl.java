@@ -1,9 +1,9 @@
 package service.impl;
 
 import model.Outcome;
+import repository.OutcomeRepository;
 import repository.impl.OutcomeRepositoryImpl;
 import service.OutcomeService;
-import repository.*;
 
 public class OutcomeServiceImpl implements OutcomeService {
 

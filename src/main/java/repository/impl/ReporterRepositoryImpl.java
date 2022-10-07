@@ -1,7 +1,7 @@
 package repository.impl;
 
 import model.Reporter;
-import model.enums.ReporterType;
+import model.ReporterType;
 import repository.ReporterRepository;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;

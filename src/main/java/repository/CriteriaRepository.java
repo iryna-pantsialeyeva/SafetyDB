@@ -1,7 +1,7 @@
 package repository;
 
 import model.Criteria;
-import model.enums.CriteriaType;
+import model.CriteriaType;
 
 public interface CriteriaRepository {
 

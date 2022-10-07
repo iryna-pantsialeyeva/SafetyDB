@@ -1,7 +1,7 @@
 package service;
 
 import model.Type;
-
+@Deprecated
 public interface TypeService {
 
 //    void save(Type type);

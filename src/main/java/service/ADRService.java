@@ -1,8 +1,8 @@
 package service;
 
-import model.*;
 
-import java.text.ParseException;
+import model.AdverseReaction;
+
 import java.util.Date;
 import java.util.List;
 

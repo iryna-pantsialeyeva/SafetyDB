@@ -1,7 +1,7 @@
 package repository.impl;
 
 import model.*;
-import model.enums.RelationshipType;
+import model.RelationshipType;
 import repository.*;
 import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;

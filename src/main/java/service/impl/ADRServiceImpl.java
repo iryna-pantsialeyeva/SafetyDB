@@ -1,9 +1,15 @@
 package service.impl;
 
-import model.*;
+import model.AdverseReaction;
+import repository.AdverseReactionRepository;
 import repository.impl.AdverseReactionRepositoryImpl;
-import service.*;
-import repository.*;
+import service.ADRService;
+import service.CompanyAssessmentService;
+import service.CriteriaService;
+import service.OutcomeService;
+import service.RelationshipService;
+import service.ReporterService;
+import service.UserService;
 
 import java.util.List;
 
@@ -13,18 +19,18 @@ public class ADRServiceImpl implements ADRService {
     private ReporterService reporterService;
     private CriteriaService criteriaService;
     private OutcomeService outcomeService;
-    private TypeService typeService;
     private RelationshipService relationshipService;
     private CompanyAssessmentService companyAssessmentService;
+    private UserService userService;
 
     public ADRServiceImpl() {
         adverseReactionRepository = new AdverseReactionRepositoryImpl();
         reporterService = new ReporterServiceImpl();
         criteriaService = new CriteriaServiceImpl();
         outcomeService = new OutcomeServiceImpl();
-        typeService = new TypeServiceImpl();
         relationshipService = new RelationshipServiceImpl();
         companyAssessmentService = new CompanyAssessmentServiceImpl();
+        userService = new UserServiceImpl();
     }
 
 //    @Override
@@ -67,9 +73,11 @@ public class ADRServiceImpl implements ADRService {
 
     @Override
     public List<AdverseReaction> getAll() {
-        List<AdverseReaction> all = adverseReactionRepository.getAll();
-        all.forEach(reaction -> reaction.setCriteria(criteriaService.getById(reaction.getCriteria().getId())));
-        return all;
+        List<AdverseReaction> adverseReactions = adverseReactionRepository.getAll();
+        adverseReactions.forEach(reaction -> reaction.setUser(userService.getById(reaction.getUser().getId())));
+        adverseReactions.forEach(reaction -> reaction.setReporter(reporterService.getById(reaction.getReporter().getId())));
+        adverseReactions.forEach(reaction -> reaction.setRelationship(relationshipService.getById(reaction.getRelationship().getId())));
+        return adverseReactions;
     }
 
 //    @Override

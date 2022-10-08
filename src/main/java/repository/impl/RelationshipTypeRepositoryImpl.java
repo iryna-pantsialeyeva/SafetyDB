@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 public class RelationshipTypeRepositoryImpl implements RelationshipTypeRepository {
 
+    public RelationshipTypeRepositoryImpl() {
+    }
+
     @Override
     public RelationshipType getById(int id) {
         RelationshipType relationshipType = RelationshipType.valueOf("");

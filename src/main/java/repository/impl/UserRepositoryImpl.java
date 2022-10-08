@@ -35,18 +35,18 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByEmail(String email) {
         User newUser = null;
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_NAME);
-             ResultSet rs = ps.executeQuery()) {
-
-            ps.setString(1, email);
-            if (rs.next()) {
-                newUser = new User(rs.getInt("id"), rs.getString("email"),
-                        rs.getString("password"), rs.getBoolean("active"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_NAME);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            ps.setString(1, email);
+//            if (rs.next()) {
+//                newUser = new User(rs.getInt("id"), rs.getString("email"),
+//                        rs.getString("password"), rs.getBoolean("active"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return newUser;
     }
 

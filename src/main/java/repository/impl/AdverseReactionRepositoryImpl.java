@@ -45,9 +45,15 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
                 newADReaction.setCriteria(Criteria.valueOf(rs.getString("criteria_name")));
                 newADReaction.setOutcome(Outcome.valueOf(rs.getString("outcome_name")));
-//                newADReaction.setUser(userRepository.getById(rs.getInt("user_id")));
-//                newADReaction.setReporter(reporterRepository.getById(rs.getInt("reporter_id")));
-//                newADReaction.setRelationship(relationshipRepository.getById(rs.getInt("causal_relationship_reporter_id")));
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                newADReaction.setUser(user);
+                Reporter reporter = new Reporter();
+                reporter.setId(rs.getInt("reporter_id"));
+                newADReaction.setReporter(reporter);
+                Relationship relationship = new Relationship();
+                relationship.setId(rs.getInt("causal_relationship_reporter_id"));
+                newADReaction.setRelationship(relationship);
                 newADReaction.setRelationshipByCompany(RelationshipType.valueOf(rs.getString("causal_relationship_company")));
                 adverseReactions.add(newADReaction);
             }
@@ -57,146 +63,146 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return adverseReactions;
     }
 
-    public List<Integer> getAllId() {
-        List<Integer> ADRId = new ArrayList<>();
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADR_ID);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                ADRId.add(rs.getInt("id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ADRId;
-    }
-
-    public Date getDateById(int id) {
-        Date date = new Date(0);
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DATE_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    date = new Date(rs.getLong("report_date"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    public String getDescriptionById(int id) {
-        String description = "";
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DESCRIPTION_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    description = rs.getString("report_date"); //make StringBuffer
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return description;
-    }
-
-    public String getSuspectedDrugById(int id) {
-        String suspectedDrug = "";
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_SUSPECTED_DRUG_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    suspectedDrug = rs.getString("suspected_drug"); //make StringBuffer
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return suspectedDrug;
-    }
-
-    public Criteria getCriteriaById(int id) {
-        return criteriaRepository.getById(id);
-    }
-
-    public Outcome getOutcomeById(int id) {
-        return outcomeRepository.getById(id);
-    }
-
-    public int getUserId(int id) {
-        int userId = 0;
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USERID_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    userId = rs.getInt("user_id");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userId;
-    }
-
-    public User getUserById(int userId) {
-        return userRepository.getById(userId);
-    }
-
-    public int getReporterId(int id) {
-        int reporterId = 0;
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTERID_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    reporterId = rs.getInt("reporter_id");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return reporterId;
-    }
-
-    public Reporter getReporterById(int reporterId) {
-        return reporterRepository.getById(reporterId);
-    }
-
-    public int getRelationshipId(int id) {
-        int relationshipId = 0;
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIPID_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    relationshipId = rs.getInt("causal_relationship_reporter_id");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return relationshipId;
-    }
-
-    public Relationship getRelationshipById(int relationshipId) {
-        return relationshipRepository.getById(relationshipId);
-    }
-
-    public RelationshipType getRelationshipTypeById(int id) {
-        return relationshipTypeRepository.getById(id);
-    }
+//    public List<Integer> getAllId() {
+//        List<Integer> ADRId = new ArrayList<>();
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADR_ID);
+//             ResultSet rs = ps.executeQuery()) {
+//
+//            while (rs.next()) {
+//                ADRId.add(rs.getInt("id"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return ADRId;
+//    }
+//
+//    public Date getDateById(int id) {
+//        Date date = new Date(0);
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DATE_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    date = new Date(rs.getLong("report_date"));
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return date;
+//    }
+//
+//    public String getDescriptionById(int id) {
+//        String description = "";
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DESCRIPTION_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    description = rs.getString("report_date"); //make StringBuffer
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return description;
+//    }
+//
+//    public String getSuspectedDrugById(int id) {
+//        String suspectedDrug = "";
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_SUSPECTED_DRUG_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    suspectedDrug = rs.getString("suspected_drug"); //make StringBuffer
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return suspectedDrug;
+//    }
+//
+//    public Criteria getCriteriaById(int id) {
+//        return criteriaRepository.getById(id);
+//    }
+//
+//    public Outcome getOutcomeById(int id) {
+//        return outcomeRepository.getById(id);
+//    }
+//
+//    public int getUserId(int id) {
+//        int userId = 0;
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USERID_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    userId = rs.getInt("user_id");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return userId;
+//    }
+//
+//    public User getUserById(int userId) {
+//        return userRepository.getById(userId);
+//    }
+//
+//    public int getReporterId(int id) {
+//        int reporterId = 0;
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTERID_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    reporterId = rs.getInt("reporter_id");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return reporterId;
+//    }
+//
+//    public Reporter getReporterById(int reporterId) {
+//        return reporterRepository.getById(reporterId);
+//    }
+//
+//    public int getRelationshipId(int id) {
+//        int relationshipId = 0;
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIPID_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    relationshipId = rs.getInt("causal_relationship_reporter_id");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return relationshipId;
+//    }
+//
+//    public Relationship getRelationshipById(int relationshipId) {
+//        return relationshipRepository.getById(relationshipId);
+//    }
+//
+//    public RelationshipType getRelationshipTypeById(int id) {
+//        return relationshipTypeRepository.getById(id);
+//    }
 
     @Override
     public void save(AdverseReaction advReact) throws SQLException {

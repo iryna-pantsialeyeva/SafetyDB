@@ -1,7 +1,7 @@
 package service;
 
 import model.Outcome;
-
+@Deprecated
 public interface OutcomeService {
 
 //    void save(Outcome outcome);

@@ -4,9 +4,10 @@ import model.Reporter;
 
 public interface ReporterService {
 
-//    void save(Reporter reporter);
-//
-//    int getId(Reporter reporter);
+    void save(String reporterFullName, String reporterType);
+
+
+    int getId(Reporter reporter);
 
     Reporter getById(int id);
 }

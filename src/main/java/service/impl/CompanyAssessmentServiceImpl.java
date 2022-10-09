@@ -1,29 +1,29 @@
 package service.impl;
 
+import model.AnswerType;
+import model.CompanyAssessment;
+import model.Relationship;
+import model.RelationshipType;
 import repository.CompanyAssessmentRepository;
+import repository.RelationshipRepository;
 import repository.impl.CompanyAssessmentRepositoryImpl;
 import service.CompanyAssessmentService;
-
+import service.RelationshipService;
+@Deprecated
 public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
 
     CompanyAssessmentRepository companyAssessmentRepository;
+    RelationshipService relationshipService;
 
     public CompanyAssessmentServiceImpl() {
         companyAssessmentRepository = new CompanyAssessmentRepositoryImpl();
+        relationshipService = new RelationshipServiceImpl();
     }
 
 //    @Override
-//    public CompanyAssessment evaluate(Relationship relationshipByReporter) {
-//        RelationshipType type = RelationshipType.POSSIBLE;
-//        //TODO: 27.09.2022 add implementation
-//        CompanyAssessment companyAssessment = new CompanyAssessment(type);
-//        return companyAssessment;
-//    }
-//
-//    @Override
-//    public void save(CompanyAssessment companyAssessmentToAdd) {
-//        if (getId(companyAssessmentToAdd) == 0) {
-//            companyAssessmentRepository.save(companyAssessmentToAdd);
+//    public void save(RelationshipType relationshipByCompany) {
+//        if (getId(relationshipByCompany) == 0) {
+//            companyAssessmentRepository.save(relationshipByCompany);
 //        }
 //    }
 //
@@ -33,7 +33,7 @@ public class CompanyAssessmentServiceImpl implements CompanyAssessmentService {
 //    }
 //
 //    @Override
-//    public int getId(CompanyAssessment relationshipByCompany) {
+//    public int getId(RelationshipType relationshipByCompany) {
 //        return companyAssessmentRepository.getId(relationshipByCompany);
 //    }
 }

@@ -13,6 +13,4 @@ public enum Criteria {
     Criteria(String name) {
         this.name = name;
     }
-
-
 }

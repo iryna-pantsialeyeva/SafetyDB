@@ -2,11 +2,10 @@ package service;
 
 import model.CompanyAssessment;
 import model.Relationship;
-
+import model.RelationshipType;
+@Deprecated
 public interface CompanyAssessmentService {
 
-//    CompanyAssessment evaluate(Relationship relationshipByReporter);
-//
 //    void save(CompanyAssessment companyAssessmentToAdd);
 //
 //    CompanyAssessment getById(int id);

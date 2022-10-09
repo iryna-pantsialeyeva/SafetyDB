@@ -4,7 +4,7 @@ import model.Criteria;
 import repository.CriteriaRepository;
 import repository.impl.CriteriaRepositoryImpl;
 import service.CriteriaService;
-
+@Deprecated
 public class CriteriaServiceImpl implements CriteriaService {
 
     private CriteriaRepository criteriaRepository;
@@ -20,10 +20,10 @@ public class CriteriaServiceImpl implements CriteriaService {
 //        }
 //    }
 //
-    @Override
-    public Criteria getById(int id) {
-        return criteriaRepository.getById(id);
-    }
+//    @Override
+//    public Criteria getById(int id) {
+//        return criteriaRepository.getById(id);
+//    }
 //
 //    @Override
 //    public int getId(Criteria criteria) {

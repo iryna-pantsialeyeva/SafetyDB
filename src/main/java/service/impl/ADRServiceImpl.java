@@ -1,66 +1,61 @@
 package service.impl;
 
 import model.AdverseReaction;
+import model.Criteria;
+import model.Outcome;
+import model.Relationship;
+
 import repository.AdverseReactionRepository;
+import repository.ReporterRepository;
+import repository.UserRepository;
 import repository.impl.AdverseReactionRepositoryImpl;
+import repository.impl.ReporterRepositoryImpl;
+import repository.impl.UserRepositoryImpl;
+
 import service.ADRService;
-import service.CompanyAssessmentService;
-import service.CriteriaService;
-import service.OutcomeService;
 import service.RelationshipService;
 import service.ReporterService;
 import service.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ADRServiceImpl implements ADRService {
 
     private AdverseReactionRepository adverseReactionRepository;
     private ReporterService reporterService;
-    private CriteriaService criteriaService;
-    private OutcomeService outcomeService;
     private RelationshipService relationshipService;
-    private CompanyAssessmentService companyAssessmentService;
     private UserService userService;
+    private UserRepository userRepository;
+    private ReporterRepository reporterRepository;
 
     public ADRServiceImpl() {
         adverseReactionRepository = new AdverseReactionRepositoryImpl();
         reporterService = new ReporterServiceImpl();
-        criteriaService = new CriteriaServiceImpl();
-        outcomeService = new OutcomeServiceImpl();
         relationshipService = new RelationshipServiceImpl();
-        companyAssessmentService = new CompanyAssessmentServiceImpl();
         userService = new UserServiceImpl();
+        userRepository = new UserRepositoryImpl();
+        reporterRepository = new ReporterRepositoryImpl();
     }
 
-//    @Override
-//    public boolean save(AdverseReaction adverseReaction) throws ServiceException {
-//        Outcome outcomeToAdd = adverseReaction.getOutcome();
-//        Criteria criteriaToAdd = adverseReaction.getCriteria();
-//        Reporter reporterToAdd = adverseReaction.getReporter();
-//        Type typeToAdd = reporterToAdd.getType();
-//        Relationship relationshipToAdd = adverseReaction.getRelationship();
-//        CompanyAssessment companyAssessmentToAdd = companyAssessment.evaluate(relationshipToAdd);
-//
-//        outcome.save(outcomeToAdd);
-//        criteria.save(criteriaToAdd);
-//        reporter.save(reporterToAdd);
-//        type.save(typeToAdd);
-//        relationship.save(relationshipToAdd);
-//        companyAssessment.save(companyAssessmentToAdd);
-//
-//        adverseReaction.setRelationshipByCompany(companyAssessmentToAdd);
-//
-//        if (getId(adverseReaction) != 0) {
-//            try {
-//                adRepository.save(adverseReaction);
-//            } catch (SQLException e) {
-//                throw new ServiceException("Something went wrong. The report was not added. ", e);
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public void save(String description, String suspectedDrug, String outcome, String criteria, String userEmail,
+                        String reporterFullName, String reporterType, String nameGivenByReporter, String timeRelationship,
+                        String withdrawalResult, String reintroductionResult, String otherExplanation) {
+        AdverseReaction adverseReaction = new AdverseReaction();
+        adverseReaction.setReportDate(LocalDate.now());
+        adverseReaction.setDescription(description);
+        adverseReaction.setSuspectedDrug(suspectedDrug);
+        adverseReaction.setOutcome(Outcome.valueOf(outcome));
+        adverseReaction.setCriteria(Criteria.valueOf(criteria));
+        adverseReaction.setUser(userRepository.getByEmail(userEmail));
+        reporterService.save(reporterFullName, reporterType);
+        adverseReaction.setReporter(reporterRepository.getByName(reporterFullName));
+        Relationship relationship = relationshipService.save(nameGivenByReporter, timeRelationship, withdrawalResult,
+                reintroductionResult, otherExplanation);
+        adverseReaction.setRelationship(relationshipService.getById(relationshipService.getId(relationship)));
+        adverseReaction.setRelationshipByCompany(relationshipService.evaluate(relationship));
+    }
 
 //    @Override
 //    public List<AdverseReaction> get(String suspectedDrug) throws ServiceException {

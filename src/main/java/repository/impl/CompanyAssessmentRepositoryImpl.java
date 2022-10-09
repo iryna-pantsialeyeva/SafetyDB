@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Deprecated
 public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentRepository {
 
     public CompanyAssessmentRepositoryImpl() {}
@@ -18,20 +19,20 @@ public class CompanyAssessmentRepositoryImpl implements CompanyAssessmentReposit
     @Override
     public CompanyAssessment getById(int id) {
         CompanyAssessment companyAssessment = new CompanyAssessment();
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    companyAssessment.setId(rs.getInt("id"));
-                    RelationshipType nameGivenByCompany = RelationshipType.valueOf(rs.getString("name"));
-                    companyAssessment.setNameGivenByCompany(nameGivenByCompany);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_COMPANY_ASSESSMENT_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    companyAssessment.setId(rs.getInt("id"));
+//                    RelationshipType nameGivenByCompany = RelationshipType.valueOf(rs.getString("name"));
+//                    companyAssessment.setNameGivenByCompany(nameGivenByCompany);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return companyAssessment;
     }
 

@@ -26,7 +26,7 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                            ReporterType.valueOf(rs.getString("reporter_type_name")));
+                            ReporterType.valueOf(rs.getString("reporter_type_name").toUpperCase()));
                 }
             }
         } catch (SQLException e) {

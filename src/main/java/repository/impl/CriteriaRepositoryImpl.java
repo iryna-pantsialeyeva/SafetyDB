@@ -8,6 +8,7 @@ import repository.util.SQLQuery;
 
 import java.sql.*;
 
+@Deprecated
 public class CriteriaRepositoryImpl implements CriteriaRepository {
 
     public CriteriaRepositoryImpl() {
@@ -16,18 +17,18 @@ public class CriteriaRepositoryImpl implements CriteriaRepository {
     @Override
     public Criteria getById(int id) {
         Criteria criteria = Criteria.valueOf("");
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_CRITERIA_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    criteria = Criteria.valueOf(rs.getString("criteria_name"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_CRITERIA_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    criteria = Criteria.valueOf(rs.getString("criteria_name"));
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return criteria;
     }
 

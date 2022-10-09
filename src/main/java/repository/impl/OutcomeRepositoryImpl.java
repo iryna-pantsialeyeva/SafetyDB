@@ -8,6 +8,7 @@ import repository.util.SQLQuery;
 
 import java.sql.*;
 
+@Deprecated
 public class OutcomeRepositoryImpl implements OutcomeRepository {
 
     public OutcomeRepositoryImpl() {
@@ -16,19 +17,19 @@ public class OutcomeRepositoryImpl implements OutcomeRepository {
     @Override
     public Outcome getById(int id) {
         Outcome outcome = Outcome.valueOf("");
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_OUTCOME_BY_ID)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    outcome = Outcome.valueOf(rs.getString("outcome_name"));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_OUTCOME_BY_ID)) {
+//
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    outcome = Outcome.valueOf(rs.getString("outcome_name"));
+//                }
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return outcome;
     }
 

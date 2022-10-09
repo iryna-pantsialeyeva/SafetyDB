@@ -3,7 +3,8 @@ package repository.util;
 public class SQLQuery {
 
     public static final String GET_ALL_ADVERSE_REACTIONS = "select id, report_date, description, suspected_drug," +
-            " criteria_name, outcome_name,  from adverse_reactions";
+            " criteria_name, outcome_name, user_id, reporter_id, causal_relationship_reporter_id, " +
+            "causal_relationship_company from adverse_reactions";
     public static final String GET_ALL_ADR_ID = "select id from adverse_reactions";
     public static final String GET_DATE_BY_ID = "select report_date from adverse_reactions where id = ?";
     public static final String GET_DESCRIPTION_BY_ID = "select description from adverse_reactions where id = ?";

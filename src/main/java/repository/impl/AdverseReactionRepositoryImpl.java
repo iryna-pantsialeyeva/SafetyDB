@@ -43,8 +43,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 newADReaction.setReportDate(rs.getDate("report_date"));
                 newADReaction.setDescription(rs.getString("description"));
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newADReaction.setCriteria(Criteria.valueOf(rs.getString("criteria_name")));
-                newADReaction.setOutcome(Outcome.valueOf(rs.getString("outcome_name")));
+                newADReaction.setCriteria(Criteria.valueOf(rs.getString("criteria_name").toUpperCase()));
+                newADReaction.setOutcome(Outcome.valueOf(rs.getString("outcome_name").toUpperCase()));
                 User user = new User();
                 user.setId(rs.getInt("user_id"));
                 newADReaction.setUser(user);
@@ -54,7 +54,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 Relationship relationship = new Relationship();
                 relationship.setId(rs.getInt("causal_relationship_reporter_id"));
                 newADReaction.setRelationship(relationship);
-                newADReaction.setRelationshipByCompany(RelationshipType.valueOf(rs.getString("causal_relationship_company")));
+                newADReaction.setRelationshipByCompany(RelationshipType.valueOf(rs.getString("causal_relationship_company").toUpperCase()));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {

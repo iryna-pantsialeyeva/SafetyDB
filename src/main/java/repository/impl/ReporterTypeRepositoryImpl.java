@@ -8,6 +8,7 @@ import repository.util.SQLQuery;
 
 import java.sql.*;
 
+@Deprecated
 public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
 
     public ReporterTypeRepositoryImpl() {
@@ -16,22 +17,22 @@ public class ReporterTypeRepositoryImpl implements ReporterTypeRepository {
     @Override
     public Type getById(int id) {
         Type newType = new Type();
-        try (Connection con = DataSourceUtil.create().getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTER_TYPES_BY_ID);
-        ) {
-
-            ps.setInt(1, id);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    newType.setId(rs.getInt("id"));
-                    ReporterType name = ReporterType.valueOf(rs.getString("name"));
-                    newType.setName(name);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection con = DataSourceUtil.create().getConnection();
+//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTER_TYPES_BY_ID);
+//        ) {
+//
+//            ps.setInt(1, id);
+//
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    newType.setId(rs.getInt("id"));
+//                    ReporterType name = ReporterType.valueOf(rs.getString("name"));
+//                    newType.setName(name);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return newType;
     }
 

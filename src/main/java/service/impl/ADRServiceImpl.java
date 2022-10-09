@@ -75,6 +75,7 @@ public class ADRServiceImpl implements ADRService {
         return adverseReactions;
     }
 
+
 //    @Override
 //    public AdverseReaction getByID(int id) {
 //        return adRepository.getById(id);

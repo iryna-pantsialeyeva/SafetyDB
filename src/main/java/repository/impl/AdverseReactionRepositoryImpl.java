@@ -7,6 +7,7 @@ import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +41,11 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             while (rs.next()) {
                 AdverseReaction newADReaction = new AdverseReaction();
                 newADReaction.setId(rs.getInt("id"));
-                newADReaction.setReportDate(rs.getDate("report_date"));
+                newADReaction.setReportDate(rs.getDate("report_date").toLocalDate());
                 newADReaction.setDescription(rs.getString("description"));
                 newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                newADReaction.setCriteria(Criteria.valueOf(rs.getString("criteria_name").toUpperCase()));
-                newADReaction.setOutcome(Outcome.valueOf(rs.getString("outcome_name").toUpperCase()));
+                newADReaction.setCriteria(Criteria.getCriteriaByLabel(rs.getString("criteria_name")));
+                newADReaction.setOutcome(Outcome.getOutcomeByLabel(rs.getString("outcome_name")));
                 User user = new User();
                 user.setId(rs.getInt("user_id"));
                 newADReaction.setUser(user);
@@ -54,7 +55,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                 Relationship relationship = new Relationship();
                 relationship.setId(rs.getInt("causal_relationship_reporter_id"));
                 newADReaction.setRelationship(relationship);
-                newADReaction.setRelationshipByCompany(RelationshipType.valueOf(rs.getString("causal_relationship_company").toUpperCase()));
+                newADReaction.setRelationshipByCompany(RelationshipType.getRelationshipTypeByLabel(rs.getString("causal_relationship_company")));
                 adverseReactions.add(newADReaction);
             }
         } catch (SQLException e) {

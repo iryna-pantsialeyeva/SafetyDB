@@ -26,19 +26,19 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
                 while (rs.next()) {
                     relationship.setId(rs.getInt("id"));
 
-                    RelationshipType nameGivenByReporter = RelationshipType.valueOf(rs.getString("name").toUpperCase());
+                    RelationshipType nameGivenByReporter = RelationshipType.getRelationshipTypeByLabel(rs.getString("name"));
                     relationship.setNameGivenByReporter(nameGivenByReporter);
 
-                    AnswerType timeRelationship = AnswerType.valueOf(rs.getString("time_relationship").toUpperCase());
+                    AnswerType timeRelationship = AnswerType.getAnswerTypeByLabel(rs.getString("time_relationship"));
                     relationship.setTimeRelationship(timeRelationship);
 
-                    AnswerType withdrawalResult = AnswerType.valueOf(rs.getString("withdrawal_result").toUpperCase());
+                    AnswerType withdrawalResult = AnswerType.getAnswerTypeByLabel(rs.getString("withdrawal_result"));
                     relationship.setWithdrawalResult(withdrawalResult);
 
-                    AnswerType reintroductionResult = AnswerType.valueOf(rs.getString("reintroduction_result").toUpperCase());
+                    AnswerType reintroductionResult = AnswerType.getAnswerTypeByLabel(rs.getString("reintroduction_result"));
                     relationship.setReintroductionResult(reintroductionResult);
 
-                    AnswerType otherExplanation = AnswerType.valueOf(rs.getString("other_explanaition").toUpperCase());
+                    AnswerType otherExplanation = AnswerType.getAnswerTypeByLabel(rs.getString("other_explanaition"));
                     relationship.setOtherExplanation(otherExplanation);
                 }
             }

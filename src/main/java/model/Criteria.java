@@ -3,14 +3,28 @@ package model;
 public enum Criteria {
     DEATH("death"),
     HOSPITALISATION("hospitalisation"),
-    DISABILITY_OR_INCAPACITY("disability_or_incapacity"),
-    LIFE_THREATENING("life_threatening"),
-    CONGENITAL_ANOMALY("congenital_anomaly"),
-    MEDICALLY_IMPORTANT("medically_important");
+    DISABILITY_OR_INCAPACITY("disability or incapacity"),
+    LIFE_THREATENING("life threatening"),
+    CONGENITAL_ANOMALY("congenital anomaly"),
+    MEDICALLY_IMPORTANT("medically important");
 
-    private String name;
+    private String label;
 
-    Criteria(String name) {
-        this.name = name;
+    Criteria(String label) {
+        this.label = label;
+    }
+
+    public static Criteria getCriteriaByLabel(String label) {
+        try {
+            for (Criteria criteria : values()) {
+                if (criteria.label.equals(label)) {
+                    return criteria;
+                }
+            }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            System.out.println("The provided value does not exist in Criteria.");
+        }
+        return null;
     }
 }

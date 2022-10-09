@@ -1,15 +1,15 @@
 package service;
 
-
 import model.AdverseReaction;
-
-import java.util.Date;
+import model.Relationship;
+import model.RelationshipType;
 import java.util.List;
-
 
 public interface ADRService {
 
-//    boolean save(AdverseReaction adverseReaction) throws ServiceException;
+    void save(String description, String suspectedDrug, String outcome, String criteria, String userEmail,
+                 String reporterFullName, String reporterType, String nameGivenByReporter, String timeRelationship,
+                 String withdrawalResult, String reintroductionResult, String otherExplanation);
 //
 //    List<AdverseReaction> get(String suspectedDrug) throws ServiceException;
 

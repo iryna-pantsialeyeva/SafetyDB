@@ -29,6 +29,11 @@ public class DataSourceUtil implements ConnectionPool {
     }
 
     public static DataSourceUtil create() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
         int retries = 0;
         while (pool.size() < 20 || retries >= 10) {
@@ -39,7 +44,6 @@ public class DataSourceUtil implements ConnectionPool {
             }
             pool.add(connection);
             retries = 0;
-            //
         }
         return new DataSourceUtil(URL, USER, PASSWORD, pool);
     }

@@ -20,6 +20,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     private final ReporterRepository reporterRepository;
     private final CompanyAssessmentRepository companyAssessmentRepository;
     private final RelationshipTypeRepository relationshipTypeRepository;
+    private static DataSourceUtil pool;
 
     public AdverseReactionRepositoryImpl() {
         outcomeRepository = new OutcomeRepositoryImpl();
@@ -29,12 +30,13 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         reporterRepository = new ReporterRepositoryImpl();
         companyAssessmentRepository = new CompanyAssessmentRepositoryImpl();
         relationshipTypeRepository = new RelationshipTypeRepositoryImpl();
+        pool = DataSourceUtil.create();
     }
 
     @Override
     public List<AdverseReaction> getAll() {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
-        try (Connection con = DataSourceUtil.create().getConnection();
+        try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
              ResultSet rs = ps.executeQuery()) {
 
@@ -207,43 +209,24 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 
     @Override
     public void save(AdverseReaction advReact) throws SQLException {
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS);
-//             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
-//             ResultSet rs = ps2.executeQuery();
-//             PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
-//             ResultSet rs2 = ps3.executeQuery();
-//             PreparedStatement ps4 = con.prepareStatement(SQLQuery.GET_USER_ID_BY_NAME);
-//             ResultSet rs3 = ps4.executeQuery()) {
-//
-//            ps.setDate(1, (Date) advReact.getReportDate());
-//            ps.setString(2, advReact.getDescription());
-//            ps.setString(3, advReact.getSuspectedDrug());
-//
-//            ps2.setString(1, advReact.getCriteria().getName());
-//            if (rs.next()) {
-//                ps.setInt(4, rs.getInt(1));
-//            }
-//
-//            ps3.setString(1, advReact.getOutcome().getName());
-//            if (rs2.next()) {
-//                ps.setInt(5, rs2.getInt(1));
-//            }
-//
-//            ps4.setString(1, advReact.getUser().getEmail());
-//            if (rs3.next()) {
-//                ps.setInt(6, rs3.getInt(1));
-//            }
-//
-//            //Я не могу доставать Relationship and CompanyAssessment id по name, т. к. они не уникальны для каждого ADR
-//            //Их можно получить только по id ADR, т.е. их нужно сразу при создании добавлять в ADR с id.
-//            ps.setInt(7, advReact.getRelationship().getId());
-//            ps.setInt(8, advReact.getCompanyAssessment().getId());
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
+
+            ps.setDate(1, Date.valueOf(advReact.getReportDate()));
+            ps.setString(2, advReact.getDescription());
+            ps.setString(3, advReact.getSuspectedDrug());
+            ps.setString(4, advReact.getOutcome().name());
+            ps.setString(5, advReact.getCriteria().name());
+            ps.setInt(6, advReact.getUser().getId());
+            ps.setInt(7, advReact.getReporter().getId());
+            ps.setInt(8, advReact.getRelationship().getId());
+            ps.setString(9, advReact.getRelationshipByCompany().name());
+            ps.executeUpdate();
 //            int updatedRows = ps.executeUpdate();
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -4,7 +4,7 @@ import model.Outcome;
 import repository.OutcomeRepository;
 import repository.impl.OutcomeRepositoryImpl;
 import service.OutcomeService;
-
+@Deprecated
 public class OutcomeServiceImpl implements OutcomeService {
 
     private OutcomeRepository outcomeRepository;

@@ -18,7 +18,7 @@ public class ReporterServiceImpl implements ReporterService {
     public void save(String reporterFullName, String reporterType) {
         Reporter reporter = new Reporter();
         reporter.setFullName(reporterFullName);
-        reporter.setType(ReporterType.valueOf(reporterType));
+        reporter.setType(ReporterType.getReporterTypeByLabel(reporterType));
         if(getId(reporter) == 0) {
             reporterRepository.add(reporter);
         }

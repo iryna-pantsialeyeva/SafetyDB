@@ -7,6 +7,6 @@
 
   <error-page>
     <exception-type>javax.servlet.ServletException</exception-type>
-    <location>/Error.jsp</location>
+    <location>/error.jsp</location>
   </error-page>
 </web-app>

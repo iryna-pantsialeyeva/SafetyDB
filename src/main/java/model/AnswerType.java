@@ -12,16 +12,12 @@ public enum AnswerType {
     }
 
     public static AnswerType getAnswerTypeByLabel(String label) {
-        try {
-            for (AnswerType answerType : values()) {
-                if (answerType.label.equals(label)) {
+        for (AnswerType answerType : AnswerType.values()) {
+                if (answerType.label.equalsIgnoreCase(label)) {
                     return answerType;
                 }
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            System.out.println("The provided value does not exist in AnswerType.");
-        }
         return null;
+        }
     }
-}
+

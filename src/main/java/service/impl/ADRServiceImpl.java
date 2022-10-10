@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.protobuf.ServiceException;
 import model.AdverseReaction;
 import model.Criteria;
 import model.Outcome;
@@ -17,6 +18,7 @@ import service.RelationshipService;
 import service.ReporterService;
 import service.UserService;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,13 +43,14 @@ public class ADRServiceImpl implements ADRService {
     @Override
     public void save(String description, String suspectedDrug, String outcome, String criteria, String userEmail,
                         String reporterFullName, String reporterType, String nameGivenByReporter, String timeRelationship,
-                        String withdrawalResult, String reintroductionResult, String otherExplanation) {
+                        String withdrawalResult, String reintroductionResult, String otherExplanation)
+            throws ServiceException {
         AdverseReaction adverseReaction = new AdverseReaction();
         adverseReaction.setReportDate(LocalDate.now());
         adverseReaction.setDescription(description);
         adverseReaction.setSuspectedDrug(suspectedDrug);
-        adverseReaction.setOutcome(Outcome.valueOf(outcome));
-        adverseReaction.setCriteria(Criteria.valueOf(criteria));
+        adverseReaction.setOutcome(Outcome.getOutcomeByLabel(outcome));
+        adverseReaction.setCriteria(Criteria.getCriteriaByLabel(criteria));
         adverseReaction.setUser(userRepository.getByEmail(userEmail));
         reporterService.save(reporterFullName, reporterType);
         adverseReaction.setReporter(reporterRepository.getByName(reporterFullName));
@@ -55,6 +58,11 @@ public class ADRServiceImpl implements ADRService {
                 reintroductionResult, otherExplanation);
         adverseReaction.setRelationship(relationshipService.getById(relationshipService.getId(relationship)));
         adverseReaction.setRelationshipByCompany(relationshipService.evaluate(relationship));
+        try {
+            adverseReactionRepository.save(adverseReaction);
+        } catch (SQLException e) {
+            throw new ServiceException("Error while saving in the database.", e);
+        }
     }
 
 //    @Override

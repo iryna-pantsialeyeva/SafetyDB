@@ -1,5 +1,6 @@
 package service;
 
+import com.google.protobuf.ServiceException;
 import model.AdverseReaction;
 import model.Relationship;
 import model.RelationshipType;
@@ -9,7 +10,7 @@ public interface ADRService {
 
     void save(String description, String suspectedDrug, String outcome, String criteria, String userEmail,
                  String reporterFullName, String reporterType, String nameGivenByReporter, String timeRelationship,
-                 String withdrawalResult, String reintroductionResult, String otherExplanation);
+                 String withdrawalResult, String reintroductionResult, String otherExplanation) throws ServiceException;
 //
 //    List<AdverseReaction> get(String suspectedDrug) throws ServiceException;
 

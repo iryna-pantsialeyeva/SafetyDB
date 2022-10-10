@@ -20,7 +20,6 @@ public class DataSourceUtil implements ConnectionPool {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-
     public DataSourceUtil(String url, String user, String password, List<Connection> pool) {
         this.url = url;
         this.user = user;

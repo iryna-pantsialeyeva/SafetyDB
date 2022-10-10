@@ -20,7 +20,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     private final ReporterRepository reporterRepository;
     private final CompanyAssessmentRepository companyAssessmentRepository;
     private final RelationshipTypeRepository relationshipTypeRepository;
-    private static DataSourceUtil pool;
+    private final DataSourceUtil pool;
 
     public AdverseReactionRepositoryImpl() {
         outcomeRepository = new OutcomeRepositoryImpl();

@@ -14,8 +14,8 @@ public class DataSourceUtil implements ConnectionPool {
 
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
-    private static final int INITIAL_POOL_SIZE = 20;
-//    private static final String URL = "jdbc:mysql://localhost:3306/adverse_reaction";
+    private static final int INITIAL_POOL_SIZE = 10;
+    //    private static final String URL = "jdbc:mysql://localhost:3306/adverse_reaction";
     private static final String URL = "jdbc:mysql://127.0.0.1/adverse_reaction?useSSL=false";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
@@ -28,7 +28,7 @@ public class DataSourceUtil implements ConnectionPool {
         this.connectionPool = pool;
     }
 
-    public static DataSourceUtil create() throws SQLException {
+    public static DataSourceUtil create() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -36,15 +36,20 @@ public class DataSourceUtil implements ConnectionPool {
         }
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
         int retries = 0;
-        while (pool.size() < 20 || retries >= 10) {
-            Connection connection = createConnection(URL, USER, PASSWORD);
-            if(connection == null) {
-                retries++;
-                continue;
+        try {
+            while (pool.size() < 10 || retries >= 5) {
+                Connection connection = createConnection(URL, USER, PASSWORD);
+                if (connection == null) {
+                    retries++;
+                    continue;
+                }
+                pool.add(connection);
+                retries = 0;
             }
-            pool.add(connection);
-            retries = 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return new DataSourceUtil(URL, USER, PASSWORD, pool);
     }
 

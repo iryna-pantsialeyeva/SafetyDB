@@ -9,50 +9,53 @@ import java.sql.*;
 
 public class UserRepositoryImpl implements UserRepository {
 
+    private final DataSourceUtil pool;
+
     public UserRepositoryImpl() {
+        pool = DataSourceUtil.create();
     }
 
     @Override
     public User getById(int id) {
-        User newUser = new User();
-        try (Connection con = DataSourceUtil.create().getConnection();
+        User user = new User();
+        try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_USERID)) {
 
             ps.setInt(1, id);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    newUser = new User(rs.getInt("id"), rs.getString("email"),
+                    user = new User(rs.getInt("id"), rs.getString("email"),
                             rs.getString("password"), rs.getBoolean("active"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return newUser;
+        return user;
     }
 
     @Override
     public User getByEmail(String email) {
-        User newUser = null;
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_USERS_BY_NAME);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            ps.setString(1, email);
-//            if (rs.next()) {
-//                newUser = new User(rs.getInt("id"), rs.getString("email"),
-//                        rs.getString("password"), rs.getBoolean("active"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return newUser;
+        User user = null;
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_EMAIL)) {
+
+            ps.setString(1, email);
+            try(ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = new User(rs.getInt("id"), rs.getString("email"),
+                            rs.getString("password"), rs.getBoolean("active"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
     public User add(User user) {
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//        try (Connection con = pool.getConnection();
 //             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_USERS, Statement.RETURN_GENERATED_KEYS);
 //             ResultSet rs = ps.getGeneratedKeys()) {
 //
@@ -72,7 +75,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public int getId(User user) {
         int id = 0;
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
+//        try (Connection con = pool.getConnection();
 //             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_CRITERIAS_BY_NAME);
 //             ResultSet rs = ps.executeQuery();) {
 //

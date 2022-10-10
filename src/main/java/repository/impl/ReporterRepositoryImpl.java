@@ -11,15 +11,17 @@ import java.sql.*;
 public class ReporterRepositoryImpl implements ReporterRepository {
 
     private final ReporterTypeRepositoryImpl reporterTypeRepository;
+    private final DataSourceUtil pool;
 
     public ReporterRepositoryImpl() {
         this.reporterTypeRepository = new ReporterTypeRepositoryImpl();
+        pool = DataSourceUtil.create();
     }
 
     @Override
     public Reporter getById(int id) {
         Reporter newReporter = new Reporter();
-        try (Connection con = DataSourceUtil.create().getConnection();
+        try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_REPORTERID)) {
 
             ps.setInt(1, id);
@@ -36,55 +38,54 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     }
 
     @Override
-    public Reporter getByName(String name) {
-        Reporter newReporter = null;
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            ps.setString(1, name);
-//            if (rs.next()) {
-//                newReporter = new Reporter(rs.getInt("id"), rs.getString("name"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return newReporter;
-    }
-
-    @Override
-    public Reporter add(Reporter reporter) {
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS, Statement.RETURN_GENERATED_KEYS);
-//             ResultSet rs = ps.getGeneratedKeys()) {
-//
-//            ps.setString(1, reporter.getFullName());
-//            int updatedRows = ps.executeUpdate();
-//            System.out.println(updatedRows + " rows were updated in 'authors'.");
-//
-//            if (rs.next()) {
-//                reporter.setId(rs.getInt(1));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return reporter;
-    }
-
-    @Override
-    public int getId(String name) {
+    public int getId(String fullName) {
         int id = 0;
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_FROM_REPORTERS_BY_NAME);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            ps.setString(1, name);
-//            if (rs.next()) {
-//                id = rs.getInt("id");
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME)) {
+
+            ps.setString(1, fullName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    id = rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return id;
+    }
+
+    @Override
+    public void add(Reporter reporter) {
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS)) {
+
+            ps.setString(1, reporter.getFullName());
+            ps.setString(2, reporter.getType().name());
+            ps.executeUpdate();
+//            int updatedRows = ps.executeUpdate();
+//            System.out.println(updatedRows + " rows were updated in 'reporters'.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Reporter getByName(String fullName) {
+        Reporter newReporter = null;
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_NAME)) {
+
+            ps.setString(1, fullName);
+            try(ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
+                            ReporterType.getReporterTypeByLabel(rs.getString("reporter_type_name")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newReporter;
     }
 }

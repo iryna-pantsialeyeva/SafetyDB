@@ -49,8 +49,8 @@ public class ADRServiceImpl implements ADRService {
         adverseReaction.setReportDate(LocalDate.now());
         adverseReaction.setDescription(description);
         adverseReaction.setSuspectedDrug(suspectedDrug);
-        adverseReaction.setOutcome(Outcome.valueOf(outcome));
-        adverseReaction.setCriteria(Criteria.valueOf(criteria));
+        adverseReaction.setOutcome(Outcome.getOutcomeByLabel(outcome));
+        adverseReaction.setCriteria(Criteria.getCriteriaByLabel(criteria));
         adverseReaction.setUser(userRepository.getByEmail(userEmail));
         reporterService.save(reporterFullName, reporterType);
         adverseReaction.setReporter(reporterRepository.getByName(reporterFullName));

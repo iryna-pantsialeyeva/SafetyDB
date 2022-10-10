@@ -11,16 +11,11 @@ public enum ReporterType {
     }
 
     public static ReporterType getReporterTypeByLabel(String label) {
-        try {
-            for (ReporterType reporterType : values()) {
-                if (reporterType.label.equals(label)) {
+        for (ReporterType reporterType : ReporterType.values()) {
+                if (reporterType.label.equalsIgnoreCase(label)) {
                     return reporterType;
                 }
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            System.out.println("The provided value does not exist in ReporterType.");
-        }
         return null;
     }
 }

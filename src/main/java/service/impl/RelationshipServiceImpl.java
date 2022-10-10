@@ -19,11 +19,11 @@ public class RelationshipServiceImpl implements RelationshipService {
     public Relationship save(String nameGivenByReporter, String timeRelationship,
                      String withdrawalResult, String reintroductionResult, String otherExplanation) {
         Relationship relationship = new Relationship();
-        relationship.setNameGivenByReporter(RelationshipType.valueOf(nameGivenByReporter));
-        relationship.setTimeRelationship(AnswerType.valueOf(timeRelationship));
-        relationship.setWithdrawalResult(AnswerType.valueOf(withdrawalResult));
-        relationship.setReintroductionResult(AnswerType.valueOf(reintroductionResult));
-        relationship.setOtherExplanation(AnswerType.valueOf(otherExplanation));
+        relationship.setNameGivenByReporter(RelationshipType.getRelationshipTypeByLabel(nameGivenByReporter));
+        relationship.setTimeRelationship(AnswerType.getAnswerTypeByLabel(timeRelationship));
+        relationship.setWithdrawalResult(AnswerType.getAnswerTypeByLabel(withdrawalResult));
+        relationship.setReintroductionResult(AnswerType.getAnswerTypeByLabel(reintroductionResult));
+        relationship.setOtherExplanation(AnswerType.getAnswerTypeByLabel(otherExplanation));
         relationshipRepository.save(relationship);
         return relationship;
     }
@@ -41,7 +41,7 @@ public class RelationshipServiceImpl implements RelationshipService {
     //WHO-UMC system assessment
     @Override
     public RelationshipType evaluate(Relationship relationship) {
-        RelationshipType relationshipByCompany = RelationshipType.UNCLASSIFIABLE;
+        RelationshipType relationshipByCompany;
         AnswerType timeRelationship = relationship.getTimeRelationship();
         AnswerType withdrawalResult = relationship.getWithdrawalResult();
         AnswerType reintroductionResult = relationship.getReintroductionResult();

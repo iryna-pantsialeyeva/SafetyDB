@@ -13,16 +13,11 @@ public enum Outcome {
     }
 
     public static Outcome getOutcomeByLabel(String label) {
-        try {
-            for (Outcome outcome : values()) {
-                if (outcome.label.equals(label)) {
+        for (Outcome outcome : Outcome.values()) {
+                if (outcome.label.equalsIgnoreCase(label)) {
                     return outcome;
                 }
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            System.out.println("The provided value does not exist in Outcome.");
-        }
         return null;
     }
 }

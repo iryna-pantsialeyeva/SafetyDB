@@ -15,16 +15,11 @@ public enum RelationshipType {
     }
 
     public static RelationshipType getRelationshipTypeByLabel(String label) {
-        try {
-            for (RelationshipType relationshipType : values()) {
-                if (relationshipType.label.equals(label)) {
+        for (RelationshipType relationshipType : RelationshipType.values()) {
+                if (relationshipType.label.equalsIgnoreCase(label)) {
                     return relationshipType;
                 }
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            System.out.println("The provided value does not exist in RelationshipType.");
-        }
         return null;
     }
 }

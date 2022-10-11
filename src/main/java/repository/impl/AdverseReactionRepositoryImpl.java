@@ -383,26 +383,37 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 
     @Override
     public AdverseReaction getById(int id) {
-        AdverseReaction advReaction = new AdverseReaction();
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            ps.setInt(1, id);
-//            while (rs.next()) {
-//                advReaction.setId(id);
-//                advReaction.setReportDate(rs.getDate("report_date"));
-//                advReaction.setDescription(rs.getString("description"));
-//                advReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-//                advReaction.setOutcome(outcomeRepository.getByID(rs.getInt("outcome_id")));
-//                advReaction.setCriteria(criteriaRepository.getByID(rs.getInt("criteria_id")));
-//                advReaction.setFullName(reporterRepository.getByID(rs.getInt("reporter_id")));
-//                advReaction.setType(reporterTypeRepository.getByID(rs.getInt("reporter_type_id")));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return advReaction;
+        AdverseReaction newADReaction = new AdverseReaction();
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    newADReaction.setId(rs.getInt("id"));
+                    newADReaction.setReportDate(rs.getDate("report_date").toLocalDate());
+                    newADReaction.setDescription(rs.getString("description"));
+                    newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
+                    newADReaction.setCriteria(Criteria.getCriteriaByLabel(rs.getString("criteria_name")));
+                    newADReaction.setOutcome(Outcome.getOutcomeByLabel(rs.getString("outcome_name")));
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    newADReaction.setUser(user);
+                    Reporter reporter = new Reporter();
+                    reporter.setId(rs.getInt("reporter_id"));
+                    newADReaction.setReporter(reporter);
+                    Relationship relationship = new Relationship();
+                    relationship.setId(rs.getInt("causal_relationship_reporter_id"));
+                    newADReaction.setRelationship(relationship);
+                    newADReaction.setRelationshipByCompany(RelationshipType.getRelationshipTypeByLabel(rs.getString("causal_relationship_company")));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newADReaction;
     }
 
     @Override

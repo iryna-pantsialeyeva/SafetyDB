@@ -36,8 +36,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     @Override
     public List<AdverseReaction> getAll() {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -62,6 +62,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return adverseReactions;
     }
@@ -209,8 +211,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 
     @Override
     public void save(AdverseReaction advReact) throws SQLException {
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
 
             ps.setDate(1, Date.valueOf(advReact.getReportDate()));
             ps.setString(2, advReact.getDescription());
@@ -226,6 +228,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
     }
 
@@ -384,8 +388,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     @Override
     public AdverseReaction getById(int id) {
         AdverseReaction newADReaction = new AdverseReaction();
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID)) {
 
             ps.setInt(1, id);
 
@@ -407,11 +411,12 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
                     relationship.setId(rs.getInt("causal_relationship_reporter_id"));
                     newADReaction.setRelationship(relationship);
                     newADReaction.setRelationshipByCompany(RelationshipType.getRelationshipTypeByLabel(rs.getString("causal_relationship_company")));
-
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return newADReaction;
     }

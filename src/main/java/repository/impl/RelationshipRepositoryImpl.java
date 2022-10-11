@@ -19,8 +19,8 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
     @Override
     public Relationship getById(int id) {
         Relationship relationship = new Relationship();
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_RELATIONSHIPID)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_BY_RELATIONSHIPID)) {
 
             ps.setInt(1, id);
 
@@ -50,14 +50,16 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return relationship;
     }
 
     @Override
     public void save(Relationship relationship) {
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_RELATIONSHIPS)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_RELATIONSHIPS)) {
 
             ps.setString(1, relationship.getNameGivenByReporter().name());
             ps.setString(2, relationship.getTimeRelationship().name());
@@ -69,14 +71,16 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
 //            System.out.println(updatedRows + " rows were updated in 'causal_relationships'.");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
     }
 
     @Override
     public int getId(Relationship relationship) {
         int id = 0;
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_ID)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIP_ID)) {
 
             ps.setString(1, relationship.getNameGivenByReporter().name());
             ps.setString(2, relationship.getTimeRelationship().name());
@@ -91,6 +95,8 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return id;
     }

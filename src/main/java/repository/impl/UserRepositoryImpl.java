@@ -18,8 +18,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getById(int id) {
         User user = new User();
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_USERID)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_USERID)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -30,6 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return user;
     }
@@ -37,8 +39,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByEmail(String email) {
         User user = null;
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_EMAIL)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USER_BY_EMAIL)) {
 
             ps.setString(1, email);
             try(ResultSet rs = ps.executeQuery()) {
@@ -49,6 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return user;
     }

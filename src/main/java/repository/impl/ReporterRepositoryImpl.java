@@ -21,8 +21,8 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     @Override
     public Reporter getById(int id) {
         Reporter newReporter = new Reporter();
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_REPORTERID)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_REPORTERID)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -33,6 +33,8 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return newReporter;
     }
@@ -40,8 +42,8 @@ public class ReporterRepositoryImpl implements ReporterRepository {
     @Override
     public int getId(String fullName) {
         int id = 0;
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME)) {
 
             ps.setString(1, fullName);
             try (ResultSet rs = ps.executeQuery()) {
@@ -51,14 +53,16 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return id;
     }
 
     @Override
     public void add(Reporter reporter) {
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_REPORTERS)) {
 
             ps.setString(1, reporter.getFullName());
             ps.setString(2, reporter.getType().name());
@@ -67,14 +71,16 @@ public class ReporterRepositoryImpl implements ReporterRepository {
 //            System.out.println(updatedRows + " rows were updated in 'reporters'.");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
     }
 
     @Override
     public Reporter getByName(String fullName) {
         Reporter newReporter = null;
-        try (Connection con = pool.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_NAME)) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_NAME)) {
 
             ps.setString(1, fullName);
             try(ResultSet rs = ps.executeQuery()) {
@@ -85,6 +91,8 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
         }
         return newReporter;
     }

@@ -14,8 +14,8 @@ public interface AdverseReactionRepository {
     int getId(AdverseReaction advReaction);
     List<AdverseReaction> get(String suspectedDrug);
     List<AdverseReaction> getByFullName(String fullName);
-    boolean update(AdverseReaction advReact) throws SQLException;
-    boolean delete(Date reportDate, Reporter fullName) throws SQLException;
+    void update(AdverseReaction advReact);
+    void delete(int id);
     AdverseReaction getById(int id);
     AdverseReaction getByName(String title);
 

@@ -68,147 +68,6 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         return adverseReactions;
     }
 
-//    public List<Integer> getAllId() {
-//        List<Integer> ADRId = new ArrayList<>();
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADR_ID);
-//             ResultSet rs = ps.executeQuery()) {
-//
-//            while (rs.next()) {
-//                ADRId.add(rs.getInt("id"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return ADRId;
-//    }
-//
-//    public Date getDateById(int id) {
-//        Date date = new Date(0);
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DATE_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    date = new Date(rs.getLong("report_date"));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return date;
-//    }
-//
-//    public String getDescriptionById(int id) {
-//        String description = "";
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_DESCRIPTION_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    description = rs.getString("report_date"); //make StringBuffer
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return description;
-//    }
-//
-//    public String getSuspectedDrugById(int id) {
-//        String suspectedDrug = "";
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_SUSPECTED_DRUG_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    suspectedDrug = rs.getString("suspected_drug"); //make StringBuffer
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return suspectedDrug;
-//    }
-//
-//    public Criteria getCriteriaById(int id) {
-//        return criteriaRepository.getById(id);
-//    }
-//
-//    public Outcome getOutcomeById(int id) {
-//        return outcomeRepository.getById(id);
-//    }
-//
-//    public int getUserId(int id) {
-//        int userId = 0;
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_USERID_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    userId = rs.getInt("user_id");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return userId;
-//    }
-//
-//    public User getUserById(int userId) {
-//        return userRepository.getById(userId);
-//    }
-//
-//    public int getReporterId(int id) {
-//        int reporterId = 0;
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTERID_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    reporterId = rs.getInt("reporter_id");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return reporterId;
-//    }
-//
-//    public Reporter getReporterById(int reporterId) {
-//        return reporterRepository.getById(reporterId);
-//    }
-//
-//    public int getRelationshipId(int id) {
-//        int relationshipId = 0;
-//        try (Connection con = DataSourceUtil.create().getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.GET_RELATIONSHIPID_BY_ID)) {
-//
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    relationshipId = rs.getInt("causal_relationship_reporter_id");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return relationshipId;
-//    }
-//
-//    public Relationship getRelationshipById(int relationshipId) {
-//        return relationshipRepository.getById(relationshipId);
-//    }
-//
-//    public RelationshipType getRelationshipTypeById(int id) {
-//        return relationshipTypeRepository.getById(id);
-//    }
-
     @Override
     public void save(AdverseReaction advReact) throws SQLException {
         Connection con = pool.getConnection();
@@ -231,6 +90,82 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
         } finally {
             pool.releaseConnection(con);
         }
+    }
+
+    @Override
+    public void update(AdverseReaction advReact) {
+//        int updatedRows = 0;
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_ADVERSE_REACTIONS)) {
+
+            ps.setDate(1, Date.valueOf(advReact.getReportDate()));
+            ps.setString(2, advReact.getDescription());
+            ps.setString(3, advReact.getSuspectedDrug());
+            ps.setString(4, advReact.getOutcome().name());
+            ps.setString(5, advReact.getCriteria().name());
+            ps.setInt(6, advReact.getUser().getId());
+            ps.setInt(7, advReact.getReporter().getId());
+            ps.setInt(8, advReact.getRelationship().getId());
+            ps.setString(9, advReact.getRelationshipByCompany().name());
+            ps.setInt(10, advReact.getId());
+            ps.executeUpdate();
+//            updatedRows = ps.executeUpdate();
+//            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.DELETE_FROM_ADVERSE_REACTIONS_BY_ID)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
+        }
+    }
+
+    @Override
+    public AdverseReaction getById(int id) {
+        AdverseReaction newADReaction = new AdverseReaction();
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    newADReaction.setId(rs.getInt("id"));
+                    newADReaction.setReportDate(rs.getDate("report_date").toLocalDate());
+                    newADReaction.setDescription(rs.getString("description"));
+                    newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
+                    newADReaction.setCriteria(Criteria.getCriteriaByLabel(rs.getString("criteria_name")));
+                    newADReaction.setOutcome(Outcome.getOutcomeByLabel(rs.getString("outcome_name")));
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    newADReaction.setUser(user);
+                    Reporter reporter = new Reporter();
+                    reporter.setId(rs.getInt("reporter_id"));
+                    newADReaction.setReporter(reporter);
+                    Relationship relationship = new Relationship();
+                    relationship.setId(rs.getInt("causal_relationship_reporter_id"));
+                    newADReaction.setRelationship(relationship);
+                    newADReaction.setRelationshipByCompany(RelationshipType.getRelationshipTypeByLabel(rs.getString("causal_relationship_company")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
+        }
+        return newADReaction;
     }
 
     @Override
@@ -332,93 +267,6 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 //            e.printStackTrace();
 //        }
         return advReactions;
-    }
-
-    @Override
-    public boolean delete(Date reportDate, Reporter fullName) throws SQLException {
-        boolean updatedRows = false;
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.DELETE_FROM_ADVERSE_REACTIONS);
-//             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME);
-//             ResultSet rs = ps2.executeQuery()) {
-//
-//            ps.setDate(1, reportDate);
-//
-//            ps2.setString(1, fullName.getFullName());
-//            if (rs.next()) {
-//                ps.setInt(2, rs.getInt(1));
-//            }
-//
-//            updatedRows = ps.executeUpdate();
-//            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return true;
-    }
-
-    @Override
-    public boolean update(AdverseReaction advReact) throws SQLException {
-        int updatedRows = 0;
-//        try (Connection con = ConnectionToDB.connectionPool.getConnection();
-//             PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_ADVERSE_REACTIONS);
-//             PreparedStatement ps2 = con.prepareStatement(SQLQuery.GET_CRITERIA_ID_BY_NAME);
-//             ResultSet rs = ps2.executeQuery();
-//             PreparedStatement ps3 = con.prepareStatement(SQLQuery.GET_OUTCOME_ID_BY_NAME);
-//             ResultSet rs2 = ps3.executeQuery()) {
-//
-//            ps.setString(1, advReact.getDescription());
-//            ps.setString(2, advReact.getSuspectedDrug());
-//
-//            ps2.setString(1, advReact.getCriteria().getName());
-//            ps.setInt(3, rs.getInt("id"));
-//
-//            ps3.setString(1, advReact.getOutcome().getName());
-//            ps.setInt(4, rs2.getInt("id"));
-//
-//            ps.setInt(5, advReact.getId());
-//            updatedRows = ps.executeUpdate();
-//            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return true;
-    }
-
-    @Override
-    public AdverseReaction getById(int id) {
-        AdverseReaction newADReaction = new AdverseReaction();
-        Connection con = pool.getConnection();
-        try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ADVERSE_REACTION_BY_ID)) {
-
-            ps.setInt(1, id);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    newADReaction.setId(rs.getInt("id"));
-                    newADReaction.setReportDate(rs.getDate("report_date").toLocalDate());
-                    newADReaction.setDescription(rs.getString("description"));
-                    newADReaction.setSuspectedDrug(rs.getString("suspected_drug"));
-                    newADReaction.setCriteria(Criteria.getCriteriaByLabel(rs.getString("criteria_name")));
-                    newADReaction.setOutcome(Outcome.getOutcomeByLabel(rs.getString("outcome_name")));
-                    User user = new User();
-                    user.setId(rs.getInt("user_id"));
-                    newADReaction.setUser(user);
-                    Reporter reporter = new Reporter();
-                    reporter.setId(rs.getInt("reporter_id"));
-                    newADReaction.setReporter(reporter);
-                    Relationship relationship = new Relationship();
-                    relationship.setId(rs.getInt("causal_relationship_reporter_id"));
-                    newADReaction.setRelationship(relationship);
-                    newADReaction.setRelationshipByCompany(RelationshipType.getRelationshipTypeByLabel(rs.getString("causal_relationship_company")));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            pool.releaseConnection(con);
-        }
-        return newADReaction;
     }
 
     @Override

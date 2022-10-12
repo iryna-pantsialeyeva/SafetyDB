@@ -25,7 +25,7 @@ public class GetAllServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+//        Roman's comment
 //        List<String> params = request.getAllPArams();
 //        MyObj mo = new MyObj(params.get(0)...);
 //        try {
@@ -46,6 +46,8 @@ public class GetAllServlet extends HttpServlet {
                 writer.println("</br>");
             }
             writer.println("</h4>");
+            writer.println("</br>");
+            writer.println("<h4><a href=\"main_page.jsp\">Return to main page</a></h4>");
         } finally {
             writer.close();
         }

@@ -49,8 +49,9 @@ public class SaveServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         writer.println("<h2>Adverse reaction was successfully saved.</h2>");
         writer.println("<h4> ");
-//        writer.write("Adverse reaction was successfully saved.");
-//        writer.flush();
+        writer.println("</h4>");
+        writer.println("</br>");
+        writer.println("<h4><a href=\"main_page.jsp\">Return to main page</a></h4>");
         writer.close();
     }
 }

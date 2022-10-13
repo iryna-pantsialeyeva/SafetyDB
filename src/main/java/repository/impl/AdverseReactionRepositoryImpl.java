@@ -7,7 +7,6 @@ import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     @Override
-    public List<AdverseReaction> getAll() {
+    public List<AdverseReaction> getAll() throws RepositoryException {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
@@ -62,6 +61,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RepositoryException("Trouble in the database while reading.", e);
         } finally {
             pool.releaseConnection(con);
         }
@@ -69,7 +69,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     @Override
-    public void save(AdverseReaction advReact) throws SQLException {
+    public void save(AdverseReaction advReact) throws RepositoryException {
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
 
@@ -87,13 +87,14 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RepositoryException("Trouble in the database while saving.", e);
         } finally {
             pool.releaseConnection(con);
         }
     }
 
     @Override
-    public void update(AdverseReaction advReact) {
+    public void update(AdverseReaction advReact) throws RepositoryException {
 //        int updatedRows = 0;
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_ADVERSE_REACTIONS)) {
@@ -113,13 +114,14 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RepositoryException("Trouble in the database while updating.", e);
         } finally {
             pool.releaseConnection(con);
         }
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws RepositoryException {
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.DELETE_FROM_ADVERSE_REACTIONS_BY_ID)) {
 
@@ -127,6 +129,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RepositoryException("Trouble in the database while deleting.", e);
         } finally {
             pool.releaseConnection(con);
         }

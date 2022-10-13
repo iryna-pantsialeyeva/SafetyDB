@@ -25,6 +25,9 @@ public class SQLQuery {
     public static final String UPDATE_IN_REPORTERS = "update reporters set full_name = ?, reporter_type_name = ? " +
             "where id = ?";
 
+    public static final String UPDATE_IN_USERS = "update users set email = ?, password = ?, active = ? " +
+            "where id = ?";
+
     public static final String GET_RELATIONSHIP_BY_RELATIONSHIPID = "select id, name, time_relationship, " +
             "withdrawal_result, reintroduction_result, other_explanaition from causal_relationships where id = ?";
     public static final String INSERT_IN_RELATIONSHIPS = "insert into causal_relationships (name, " +

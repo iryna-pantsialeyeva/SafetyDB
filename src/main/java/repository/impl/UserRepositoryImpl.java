@@ -16,6 +16,22 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void update (User user) {
+        Connection con = pool.getConnection();
+        try(PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_IN_USERS)) {
+
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
+            ps.setBoolean(3, user.isActive());
+            ps.setInt(4, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
+        }
+    }
+    @Override
     public User getById(int id) {
         User user = new User();
         Connection con = pool.getConnection();

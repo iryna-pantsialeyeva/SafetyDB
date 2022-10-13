@@ -9,8 +9,7 @@ public class SQLQuery {
             "description, suspected_drug, outcome_name, criteria_name, user_id, reporter_id, causal_relationship_reporter_id, " +
             "causal_relationship_company) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_ADVERSE_REACTIONS = "update adverse_reactions set report_date = ?, description = ?, " +
-            "suspected_drug = ?, outcome_name = ?, criteria_name = ?, user_id = ?, reporter_id = ?, " +
-            "causal_relationship_reporter_id = ?, causal_relationship_company = ? where id = ?";
+            "suspected_drug = ?, outcome_name = ?, criteria_name = ?, causal_relationship_company = ? where id = ?";
     public static final String DELETE_FROM_ADVERSE_REACTIONS_BY_ID = "delete from adverse_reactions where id = ?";
 
     public static final String GET_USER_BY_USERID = "select id, email, password, active from users where id = ?";
@@ -23,6 +22,8 @@ public class SQLQuery {
             "(?, ?)";
     public static final String GET_REPORTER_BY_NAME = "select id, full_name, reporter_type_name from reporters where " +
             "full_name = ?";
+    public static final String UPDATE_IN_REPORTERS = "update reporters set full_name = ?, reporter_type_name = ? " +
+            "where id = ?";
 
     public static final String GET_RELATIONSHIP_BY_RELATIONSHIPID = "select id, name, time_relationship, " +
             "withdrawal_result, reintroduction_result, other_explanaition from causal_relationships where id = ?";
@@ -32,7 +33,9 @@ public class SQLQuery {
     public static final String GET_RELATIONSHIP_ID = "select id from causal_relationships where " +
             "name = ? and time_relationship = ? and withdrawal_result = ? and reintroduction_result = ? " +
             "and other_explanaition = ?";
-
+    public static final String UPDATE_IN_RELATIONSHIPS = "update causal_relationships set " +
+            "name = ? and time_relationship = ? and withdrawal_result = ? and reintroduction_result = ? " +
+            "and other_explanaition = ? where id = ?";
 
     public static final String GET_ADVERSE_REACTION_BY_ID = "select * from adverse_reactions where id = ?";
     public static final String GET_ADVERSE_REACTION_BY_TITLE = "select * from adverse_reactions where title = ?";

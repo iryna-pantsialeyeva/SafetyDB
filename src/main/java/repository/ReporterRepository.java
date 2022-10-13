@@ -4,9 +4,10 @@ import model.Reporter;
 
 public interface ReporterRepository {
 
+    void add(Reporter reporter);
+    void update(Reporter reporter);
     Reporter getById(int id);
     Reporter getByName(String name);
-    void add(Reporter reporter);
     int getId(String fullName);
 
 

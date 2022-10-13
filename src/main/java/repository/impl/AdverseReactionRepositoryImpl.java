@@ -33,7 +33,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     @Override
-    public List<AdverseReaction> getAll() throws RepositoryException {
+    public List<AdverseReaction> getAll() {
         List<AdverseReaction> adverseReactions = new ArrayList<>();
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_ALL_ADVERSE_REACTIONS);
@@ -61,7 +61,6 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RepositoryException("Trouble in the database while reading.", e);
         } finally {
             pool.releaseConnection(con);
         }
@@ -69,7 +68,7 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
     }
 
     @Override
-    public void save(AdverseReaction advReact) throws RepositoryException {
+    public void save(AdverseReaction advReact) {
         Connection con = pool.getConnection();
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.INSERT_IN_ADVERSE_REACTIONS)) {
 
@@ -87,7 +86,6 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RepositoryException("Trouble in the database while saving.", e);
         } finally {
             pool.releaseConnection(con);
         }
@@ -104,11 +102,8 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             ps.setString(3, advReact.getSuspectedDrug());
             ps.setString(4, advReact.getOutcome().name());
             ps.setString(5, advReact.getCriteria().name());
-            ps.setInt(6, advReact.getUser().getId());
-            ps.setInt(7, advReact.getReporter().getId());
-            ps.setInt(8, advReact.getRelationship().getId());
-            ps.setString(9, advReact.getRelationshipByCompany().name());
-            ps.setInt(10, advReact.getId());
+            ps.setString(6, advReact.getRelationshipByCompany().name());
+            ps.setInt(7, advReact.getId());
             ps.executeUpdate();
 //            updatedRows = ps.executeUpdate();
 //            System.out.println(updatedRows + " rows were updated in 'adverse_reactions'.");

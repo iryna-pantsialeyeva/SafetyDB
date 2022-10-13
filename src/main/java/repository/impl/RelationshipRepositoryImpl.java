@@ -77,6 +77,27 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
     }
 
     @Override
+    public void update(Relationship relationship) {
+        Connection con = pool.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQLQuery.UPDATE_IN_RELATIONSHIPS)) {
+
+            ps.setString(1, relationship.getNameGivenByReporter().name());
+            ps.setString(2, relationship.getTimeRelationship().name());
+            ps.setString(3, relationship.getWithdrawalResult().name());
+            ps.setString(4, relationship.getReintroductionResult().name());
+            ps.setString(5, relationship.getOtherExplanation().name());
+            ps.setInt(6, relationship.getId());
+            ps.executeUpdate();
+//            int updatedRows = ps.executeUpdate();
+//            System.out.println(updatedRows + " rows were updated in 'causal_relationships'.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.releaseConnection(con);
+        }
+    }
+
+    @Override
     public int getId(Relationship relationship) {
         int id = 0;
         Connection con = pool.getConnection();

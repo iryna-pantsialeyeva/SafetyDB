@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
     public User getById(int id) {
         return userRepository.getById(id);
     }
+
+//    @Override
+//    public void update(User user) {
+//        userRepository.update(user);
+//    }
 }

@@ -33,4 +33,9 @@ public class ReporterServiceImpl implements ReporterService {
     public Reporter getById(int id) {
         return reporterRepository.getById(id);
     }
+
+    @Override
+    public void update(Reporter reporter) {
+        reporterRepository.update(reporter);
+    }
 }

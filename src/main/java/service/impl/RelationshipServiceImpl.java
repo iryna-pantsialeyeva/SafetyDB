@@ -66,4 +66,9 @@ public class RelationshipServiceImpl implements RelationshipService {
         }
         return relationshipByCompany;
     }
+
+    @Override
+    public void update(Relationship relationship) {
+        relationshipRepository.update(relationship);
+    }
 }

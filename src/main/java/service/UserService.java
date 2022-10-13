@@ -11,4 +11,6 @@ public interface UserService {
     int getId(User user);
 
     User getById(int id);
+
+//    void update(User user);
 }

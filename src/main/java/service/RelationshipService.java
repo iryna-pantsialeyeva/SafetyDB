@@ -11,5 +11,7 @@ public interface RelationshipService {
 
     Relationship getById(int id);
 
-    public RelationshipType evaluate(Relationship relationship);
+    RelationshipType evaluate(Relationship relationship);
+
+    void update(Relationship relationship);
 }

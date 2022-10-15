@@ -7,29 +7,20 @@ import repository.util.DataSourceUtil;
 import repository.util.SQLQuery;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class AdverseReactionRepositoryImpl implements AdverseReactionRepository {
 
-    private final OutcomeRepository outcomeRepository;
-    private final CriteriaRepository criteriaRepository;
     private final UserRepository userRepository;
     private final RelationshipRepository relationshipRepository;
     private final ReporterRepository reporterRepository;
-    private final CompanyAssessmentRepository companyAssessmentRepository;
-    private final RelationshipTypeRepository relationshipTypeRepository;
     private final DataSourceUtil pool;
 
     public AdverseReactionRepositoryImpl() {
-        outcomeRepository = new OutcomeRepositoryImpl();
-        criteriaRepository = new CriteriaRepositoryImpl();
         userRepository = new UserRepositoryImpl();
         relationshipRepository = new RelationshipRepositoryImpl();
         reporterRepository = new ReporterRepositoryImpl();
-        companyAssessmentRepository = new CompanyAssessmentRepositoryImpl();
-        relationshipTypeRepository = new RelationshipTypeRepositoryImpl();
         pool = DataSourceUtil.create();
     }
 

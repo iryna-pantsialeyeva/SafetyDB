@@ -10,11 +10,9 @@ import java.sql.*;
 
 public class ReporterRepositoryImpl implements ReporterRepository {
 
-    private final ReporterTypeRepositoryImpl reporterTypeRepository;
     private final DataSourceUtil pool;
 
     public ReporterRepositoryImpl() {
-        this.reporterTypeRepository = new ReporterTypeRepositoryImpl();
         pool = DataSourceUtil.create();
     }
 

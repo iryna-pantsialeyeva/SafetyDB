@@ -1,10 +1,10 @@
 package controller;
 
-import com.google.protobuf.ServiceException;
 import mapper.AdverseReactionMapper;
 import mapper.AdverseReactionMapperImpl;
 import model.*;
 import service.ADRService;
+import service.ServiceException;
 import service.impl.ADRServiceImpl;
 
 import javax.servlet.ServletException;
@@ -44,7 +44,11 @@ public class SaveServlet extends HttpServlet {
                 new User(0), supposedDrugOutcomeCriteria, dependsOnTime,
                 dependsOnDrugCancellation, dependsOnDrugReturn, otherPossibleExplanation);
 
-        adrService.save(adverseReaction);
+        try {
+            adrService.save(adverseReaction);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
 
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
@@ -52,7 +56,7 @@ public class SaveServlet extends HttpServlet {
         writer.println("<h4> ");
         writer.println("</h4>");
         writer.println("</br>");
-        writer.println("<h4><a href=\"main_page.jsp\">Return to main page</a></h4>");
+        writer.println("<h4><a href=\"index.jsp\">Return to main page</a></h4>");
         writer.close();
     }
 }

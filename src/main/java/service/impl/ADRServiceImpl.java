@@ -4,6 +4,7 @@ import model.AdverseReaction;
 import repository.AdverseReactionRepository;
 import repository.impl.AdverseReactionRepositoryImpl;
 import service.ADRService;
+import service.ServiceException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,29 +12,23 @@ import java.util.List;
 public class ADRServiceImpl implements ADRService {
 
     private AdverseReactionRepository adverseReactionRepository;
-    private ReporterService reporterService;
-    private UserRepository userRepository;
-    private ReporterRepository reporterRepository;
 
     public ADRServiceImpl() {
         adverseReactionRepository = new AdverseReactionRepositoryImpl();
-        reporterService = new ReporterServiceImpl();
-        userRepository = new UserRepositoryImpl();
-        reporterRepository = new ReporterRepositoryImpl();
     }
 
     @Override
-    public void save(AdverseReaction reaction) {
+    public void save(AdverseReaction adverseReaction) throws ServiceException {
         try {
-            adverseReactionRepository.save(reaction);
+            adverseReactionRepository.save(adverseReaction);
         } catch (SQLException e) {
-//            logger.log("....");
-            System.out.println("Something wrong");
+            throw new ServiceException(e.getMessage());
         }
     }
 
     @Override
     public List<AdverseReaction> getAll() {
-        return adverseReactionRepository.getAll();
+        List<AdverseReaction> adverseReactions = adverseReactionRepository.getAll();
+        return adverseReactions;
     }
 }

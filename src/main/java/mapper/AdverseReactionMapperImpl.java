@@ -1,6 +1,11 @@
 package mapper;
 
-import model.*;
+import model.AdverseReaction;
+import model.AnswerType;
+import model.Criteria;
+import model.Outcome;
+import model.RelationshipType;
+import model.User;
 import utils.RelationshipCalculator;
 
 public class AdverseReactionMapperImpl implements AdverseReactionMapper {

@@ -43,7 +43,7 @@ public class GetAllServlet extends HttpServlet {
             }
             writer.println("</h4>");
             writer.println("</br>");
-            writer.println("<h4><a href=\"main_page.jsp\">Return to main page</a></h4>");
+            writer.println("<h4><a href=\"index.jsp\">Return to main page</a></h4>");
         } finally {
             writer.close();
         }

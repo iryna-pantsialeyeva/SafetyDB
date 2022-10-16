@@ -8,7 +8,7 @@ public interface UserService {
 
     User authorization(String email) throws ServiceException;
 
-    int getId(User user);
+//    int getId(User user);
 
     User getById(int id);
 }

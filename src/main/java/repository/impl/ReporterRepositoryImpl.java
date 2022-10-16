@@ -23,12 +23,12 @@ public class ReporterRepositoryImpl implements ReporterRepository {
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_REPORTERID)) {
 
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                            ReporterType.getReporterTypeByLabel(rs.getString("reporter_type_name")));
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
+                        ReporterType.getReporterTypeByLabel(rs.getString("reporter_type_name")));
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -44,11 +44,11 @@ public class ReporterRepositoryImpl implements ReporterRepository {
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_ID_BY_NAME)) {
 
             ps.setString(1, fullName);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    id = rs.getInt("id");
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -65,8 +65,6 @@ public class ReporterRepositoryImpl implements ReporterRepository {
             ps.setString(1, reporter.getFullName());
             ps.setString(2, reporter.getType().name());
             ps.executeUpdate();
-//            int updatedRows = ps.executeUpdate();
-//            System.out.println(updatedRows + " rows were updated in 'reporters'.");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -81,12 +79,12 @@ public class ReporterRepositoryImpl implements ReporterRepository {
         try (PreparedStatement ps = con.prepareStatement(SQLQuery.GET_REPORTER_BY_NAME)) {
 
             ps.setString(1, fullName);
-            try(ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
-                            ReporterType.getReporterTypeByLabel(rs.getString("reporter_type_name")));
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                newReporter = new Reporter(rs.getInt("id"), rs.getString("full_name"),
+                        ReporterType.getReporterTypeByLabel(rs.getString("reporter_type_name")));
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

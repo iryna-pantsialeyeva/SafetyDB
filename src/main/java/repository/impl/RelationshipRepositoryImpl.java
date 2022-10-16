@@ -12,6 +12,7 @@ import java.sql.*;
 public class RelationshipRepositoryImpl implements RelationshipRepository {
 
     private final DataSourceUtil pool;
+
     public RelationshipRepositoryImpl() {
         pool = DataSourceUtil.create();
     }
@@ -24,30 +25,30 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
 
             ps.setInt(1, id);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    relationship.setId(rs.getInt("id"));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                relationship.setId(rs.getInt("id"));
 
-                    RelationshipType nameGivenByReporter = RelationshipType.getRelationshipTypeByLabel(rs.getString
-                            ("name"));
-                    relationship.setNameGivenByReporter(nameGivenByReporter);
+                RelationshipType nameGivenByReporter = RelationshipType.getRelationshipTypeByLabel(rs.getString
+                        ("name"));
+                relationship.setNameGivenByReporter(nameGivenByReporter);
 
-                    AnswerType timeRelationship = AnswerType.getAnswerTypeByLabel(rs.getString
-                            ("time_relationship"));
-                    relationship.setTimeRelationship(timeRelationship);
+                AnswerType timeRelationship = AnswerType.getAnswerTypeByLabel(rs.getString
+                        ("time_relationship"));
+                relationship.setTimeRelationship(timeRelationship);
 
-                    AnswerType withdrawalResult = AnswerType.getAnswerTypeByLabel(rs.getString
-                            ("withdrawal_result"));
-                    relationship.setWithdrawalResult(withdrawalResult);
+                AnswerType withdrawalResult = AnswerType.getAnswerTypeByLabel(rs.getString
+                        ("withdrawal_result"));
+                relationship.setWithdrawalResult(withdrawalResult);
 
-                    AnswerType reintroductionResult = AnswerType.getAnswerTypeByLabel(rs.getString
-                            ("reintroduction_result"));
-                    relationship.setReintroductionResult(reintroductionResult);
+                AnswerType reintroductionResult = AnswerType.getAnswerTypeByLabel(rs.getString
+                        ("reintroduction_result"));
+                relationship.setReintroductionResult(reintroductionResult);
 
-                    AnswerType otherExplanation = AnswerType.getAnswerTypeByLabel(rs.getString("other_explanaition"));
-                    relationship.setOtherExplanation(otherExplanation);
-                }
+                AnswerType otherExplanation = AnswerType.getAnswerTypeByLabel(rs.getString("other_explanaition"));
+                relationship.setOtherExplanation(otherExplanation);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -67,8 +68,6 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
             ps.setString(4, relationship.getReintroductionResult().name());
             ps.setString(5, relationship.getOtherExplanation().name());
             ps.executeUpdate();
-//            int updatedRows = ps.executeUpdate();
-//            System.out.println(updatedRows + " rows were updated in 'causal_relationships'.");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -88,11 +87,11 @@ public class RelationshipRepositoryImpl implements RelationshipRepository {
             ps.setString(4, relationship.getReintroductionResult().name());
             ps.setString(5, relationship.getOtherExplanation().name());
 
-            try(ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    id = rs.getInt("id");
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

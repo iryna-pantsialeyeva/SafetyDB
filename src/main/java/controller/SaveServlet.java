@@ -16,11 +16,9 @@ import java.io.PrintWriter;
 public class SaveServlet extends HttpServlet {
 
     private ADRService adrService;
-//    AuthorizationServlet authorizationServlet;
 
     public SaveServlet() {
         adrService = new ADRServiceImpl();
-//        authorizationServlet = new AuthorizationServlet();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

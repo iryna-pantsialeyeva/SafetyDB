@@ -5,7 +5,7 @@ import model.RelationshipType;
 
 public class RelationshipCalculator {
 
-    public static void calculateRElationship(AdverseReaction reaction) {
+    public static void calculateRelationship(AdverseReaction reaction) {
         reaction.setRelationshipByCompany(RelationshipType.CONDITIONAL);
     }
 

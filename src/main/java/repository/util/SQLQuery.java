@@ -3,11 +3,13 @@ package repository.util;
 public class SQLQuery {
 
     public static final String GET_ALL_ADVERSE_REACTIONS = "select id, report_date, description, suspected_drug," +
-            " criteria_name, outcome_name, user_id, reporter_id, causal_relationship_reporter_id, " +
-            "causal_relationship_company from adverse_reactions";
+            " criteria_name, outcome_name, user_id, reporter_id, causal_relationship_company, " +
+            "causal_relationship_reporter, time_relationship, withdrawal_result, reintroduction_result, " +
+            "other_explanation from adverse_reactions";
     public static final String INSERT_IN_ADVERSE_REACTIONS = "insert into adverse_reactions (report_date, " +
-            "description, suspected_drug, outcome_name, criteria_name, user_id, reporter_id, causal_relationship_reporter_id, " +
-            "causal_relationship_company) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "description, suspected_drug, outcome_name, criteria_name, user_id, causal_relationship_company, " +
+            "causal_relationship_reporter, time_relationship, withdrawal_result, reintroduction_result, " +
+            "other_explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_ADVERSE_REACTIONS = "update adverse_reactions set report_date = ?, description = ?, " +
             "suspected_drug = ?, outcome_name = ?, criteria_name = ?, user_id = ?, reporter_id = ?, " +
             "causal_relationship_reporter_id = ?, causal_relationship_company = ? where id = ?";

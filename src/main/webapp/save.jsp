@@ -37,23 +37,8 @@
             </select></td>
         </tr>
         <tr>
-            <td>User e-mail:</td>
-            <td><input type="text" name="user_email" placeholder="Enter e-mail" required></td>
-        </tr>
-        <tr>
-            <td>Reporter name:</td>
-            <td><input type="text" name="reporter_full_name" placeholder="Enter name" required></td>
-        </tr>
-        <tr>
-            <td>Reporter type:</td>
-            <td><select name="reporter_type">
-                <option>health professional</option>
-                <option>patient</option>
-            </select></td>
-        </tr>
-        <tr>
             <td>Relationship type:</td>
-            <td><select name="name_given_by_reporter">
+            <td><select name="supposed_drug_outcome_criteria">
                 <option>unclassifiable</option>
                 <option>unlikely</option>
                 <option>conditional</option>
@@ -64,7 +49,7 @@
         </tr>
         <tr>
             <td>Time relationship:</td>
-            <td><select name="time_relationship">
+            <td><select name="effect_depends_on_time">
                 <option>yes</option>
                 <option>no</option>
                 <option>na</option>
@@ -72,7 +57,7 @@
         </tr>
         <tr>
             <td>Withdrawal result:</td>
-            <td><select name="withdrawal_result">
+            <td><select name="effect_depends_on_drug_cancellation">
                 <option>yes</option>
                 <option>no</option>
                 <option>na</option>
@@ -80,7 +65,7 @@
         </tr>
         <tr>
             <td>Reintroduction result:</td>
-            <td><select name="reintroduction_result">
+            <td><select name="effect_depends_on_drug_return">
                 <option>yes</option>
                 <option>no</option>
                 <option>na</option>

@@ -35,7 +35,7 @@ public class AdverseReaction {
         this.outcome = outcome;
         this.criteria = criteria;
         this.user = user;
-        this.nameGivenByReporter = relationshipByCompany;
+        this.nameGivenByReporter = nameGivenByReporter;
         this.timeRelationship = timeRelationship;
         this.withdrawalResult = withdrawalResult;
         this.reintroductionResult = reintroductionResult;

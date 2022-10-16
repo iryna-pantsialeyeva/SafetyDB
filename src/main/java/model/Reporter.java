@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-
 public class Reporter {
     @NonNull private int id;
     private String fullName;

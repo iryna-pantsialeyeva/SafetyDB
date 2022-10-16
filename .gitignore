@@ -1,3 +1,12 @@
-# Project exclude paths
-/target/
-/.idea/
+*/target/**
+*/lib
+*/classes
+*/checkouts
+*.class
+*/.boot
+*/target
+.idea
+*/.idea
+target/*
+*.iml
+.DS_store

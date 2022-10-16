@@ -12,15 +12,9 @@ import java.util.List;
 
 public final class AdverseReactionRepositoryImpl implements AdverseReactionRepository {
 
-    private final UserRepository userRepository;
-    private final RelationshipRepository relationshipRepository;
-    private final ReporterRepository reporterRepository;
     private final DataSourceUtil pool;
 
     public AdverseReactionRepositoryImpl() {
-        userRepository = new UserRepositoryImpl();
-        relationshipRepository = new RelationshipRepositoryImpl();
-        reporterRepository = new ReporterRepositoryImpl();
         pool = DataSourceUtil.create();
     }
 
@@ -70,7 +64,6 @@ public final class AdverseReactionRepositoryImpl implements AdverseReactionRepos
             ps.setString(4, advReact.getOutcome().name());
             ps.setString(5, advReact.getCriteria().name());
             ps.setInt(6, advReact.getUser().getId());
-            ps.setInt(7, advReact.getReporter().getId());
             ps.setInt(8, advReact.getRelationship().getId());
             ps.setString(9, advReact.getRelationshipByCompany().name());
             ps.executeUpdate();

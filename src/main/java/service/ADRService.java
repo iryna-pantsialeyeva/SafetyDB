@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface ADRService {
 
-    void save(String description, String suspectedDrug, String outcome, String criteria, String userEmail,
-                 String reporterFullName, String reporterType, String nameGivenByReporter, String timeRelationship,
-                 String withdrawalResult, String reintroductionResult, String otherExplanation) throws ServiceException;
+    void save(AdverseReaction reaction);
 
     List<AdverseReaction> getAll();
 }

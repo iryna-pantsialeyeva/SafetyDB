@@ -1,6 +1,9 @@
 package controller;
 
 import com.google.protobuf.ServiceException;
+import mapper.AdverseReactionMapper;
+import mapper.AdverseReactionMapperImpl;
+import model.*;
 import service.ADRService;
 import service.impl.ADRServiceImpl;
 
@@ -16,32 +19,32 @@ import java.io.PrintWriter;
 public class SaveServlet extends HttpServlet {
 
     private ADRService adrService;
+    private AdverseReactionMapper arMapper;
 
     public SaveServlet() {
         adrService = new ADRServiceImpl();
+        this.arMapper = new AdverseReactionMapperImpl();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
         String description = request.getParameter("description");
         String suspectedDrug = request.getParameter("suspected_drug");
         String outcome = request.getParameter("outcome");
         String criteria = request.getParameter("criteria");
-        String userEmail = request.getParameter("user_email");
-        String reporterFullName = request.getParameter("reporter_full_name");
-        String reporterType = request.getParameter("reporter_type");
-        String nameGivenByReporter = request.getParameter("name_given_by_reporter");
-        String timeRelationship = request.getParameter("time_relationship");
-        String withdrawalResult = request.getParameter("withdrawal_result");
-        String reintroductionResult = request.getParameter("reintroduction_result");
-        String otherExplanation = request.getParameter("other_explanation");
+        String supposedDrugOutcomeCriteria = request.getParameter("supposed_drug_outcome_criteria");
+        String dependsOnTime = request.getParameter("effect_depends_on_time");
+        String dependsOnDrugCancellation = request.getParameter("effect_depends_on_drug_cancellation");
+        String dependsOnDrugReturn = request.getParameter("effect_depends_on_drug_return");
+        String otherPossibleExplanation = request.getParameter("other_explanation");
 
+        //TODO replace user with real one
+        AdverseReaction adverseReaction = arMapper.fromFields(description, suspectedDrug, outcome, criteria,
+                new User(0), supposedDrugOutcomeCriteria, dependsOnTime,
+                dependsOnDrugCancellation, dependsOnDrugReturn, otherPossibleExplanation);
 
-        try {
-            adrService.save(description, suspectedDrug, outcome, criteria, userEmail, reporterFullName, reporterType,
-                    nameGivenByReporter, timeRelationship,withdrawalResult, reintroductionResult, otherExplanation);
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+        adrService.save(adverseReaction);
 
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();

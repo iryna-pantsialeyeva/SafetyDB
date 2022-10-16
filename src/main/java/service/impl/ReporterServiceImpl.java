@@ -19,18 +19,8 @@ public class ReporterServiceImpl implements ReporterService {
         Reporter reporter = new Reporter();
         reporter.setFullName(reporterFullName);
         reporter.setType(ReporterType.getReporterTypeByLabel(reporterType));
-        if(getId(reporter) == 0) {
+        if (getId(reporter) == 0) {
             reporterRepository.add(reporter);
         }
-    }
-
-    @Override
-    public int getId(Reporter reporter) {
-        return reporterRepository.getId(reporter.getFullName());
-    }
-
-    @Override
-    public Reporter getById(int id) {
-        return reporterRepository.getById(id);
     }
 }

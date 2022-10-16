@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataSourceUtil implements ConnectionPool{
+public class DataSourceUtil implements ConnectionPool {
 
     private String url;
     private String user;
@@ -15,6 +15,9 @@ public class DataSourceUtil implements ConnectionPool{
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
     private static final int INITIAL_POOL_SIZE = 10;
+    private static final String URL = "jdbc:mysql://127.0.0.1/adverse_reaction?useSSL=false";
+    private static final String USER = "root";
+    private static final String PASSWORD = "root";
 
     public DataSourceUtil(String url, String user, String password, List<Connection> pool) {
         this.url = url;
@@ -23,12 +26,29 @@ public class DataSourceUtil implements ConnectionPool{
         this.connectionPool = pool;
     }
 
-    public static DataSourceUtil create(String url, String user, String password) throws SQLException {
-        List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
-        for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
-            pool.add(createConnection(url, user, password));
+    public static DataSourceUtil create() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return new DataSourceUtil(url, user, password, pool);
+        List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
+        int retries = 0;
+        try {
+            while (pool.size() < INITIAL_POOL_SIZE && retries <= 5) {
+                Connection connection = createConnection(URL, USER, PASSWORD);
+                if (connection == null) {
+                    retries++;
+                    continue;
+                }
+                pool.add(connection);
+                retries = 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new DataSourceUtil(URL, USER, PASSWORD, pool);
     }
 
     @Override

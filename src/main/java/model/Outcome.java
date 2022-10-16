@@ -1,13 +1,23 @@
 package model;
 
-import lombok.*;
-import model.enums.OutcomeType;
+public enum Outcome {
+    DEATH("death"),
+    RECOVERED("recovered"),
+    NOT_RECOVERED("not recovered"),
+    UNKNOWN("unknown");
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class Outcome {
-    private int id;
-    @NonNull private OutcomeType name;
+    private String label;
+
+    Outcome (String label) {
+        this.label = label;
+    }
+
+    public static Outcome getOutcomeByLabel(String label) {
+        for (Outcome outcome : Outcome.values()) {
+                if (outcome.label.equalsIgnoreCase(label)) {
+                    return outcome;
+                }
+            }
+        return null;
+    }
 }

@@ -20,4 +20,8 @@ public enum Outcome {
             }
         return null;
     }
+
+    public String getLabel() {
+        return label;
+    }
 }

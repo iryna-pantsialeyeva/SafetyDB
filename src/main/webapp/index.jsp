@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,9 @@
 <b><a href="getall"> 1. Show all adverse reaction </a></b>
 <p>
     <b><a href="save.jsp">2. Add new adverse reaction</a></b>
+</p>
+<p>
+    <b><a href="getReaction_page.jsp">3. Update/delete adverse reaction</a></b>
 </p>
 </body>
 </html>

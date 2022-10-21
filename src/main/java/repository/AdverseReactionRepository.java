@@ -8,5 +8,7 @@ public interface AdverseReactionRepository {
 
     List<AdverseReaction> getAll();
     void save(AdverseReaction advReact) throws SQLException;
-
+    void update(AdverseReaction advReact) throws SQLException;
+    void delete(int id) throws SQLException;
+    AdverseReaction getById(int id);
 }

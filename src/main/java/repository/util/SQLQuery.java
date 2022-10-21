@@ -10,9 +10,12 @@ public class SQLQuery {
             "causal_relationship_reporter, time_relationship, withdrawal_result, reintroduction_result, " +
             "other_explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String UPDATE_ADVERSE_REACTIONS = "update adverse_reactions set report_date = ?, description = ?, " +
-            "suspected_drug = ?, outcome_name = ?, criteria_name = ?, user_id = ?, reporter_id = ?, " +
-            "causal_relationship_reporter_id = ?, causal_relationship_company = ? where id = ?";
+            "suspected_drug = ?, outcome_name = ?, criteria_name = ? where id = ?";
     public static final String DELETE_FROM_ADVERSE_REACTIONS_BY_ID = "delete from adverse_reactions where id = ?";
+    public static final String GET_ADVERSE_REACTION_BY_ID = "select id, report_date, description, suspected_drug," +
+            " criteria_name, outcome_name, user_id,causal_relationship_company, causal_relationship_reporter, " +
+            "time_relationship, withdrawal_result, reintroduction_result, other_explanation from adverse_reactions " +
+            "where id = ?";
 
     public static final String GET_USER_BY_USERID = "select id, email, password, active from users where id = ?";
     public static final String GET_USER_BY_EMAIL = "select id, email, password, active from users where email = ?";
@@ -35,7 +38,7 @@ public class SQLQuery {
             "and other_explanaition = ?";
 
 
-    public static final String GET_ADVERSE_REACTION_BY_ID = "select * from adverse_reactions where id = ?";
+
     public static final String GET_ADVERSE_REACTION_BY_TITLE = "select * from adverse_reactions where title = ?";
     public static final String GET_ADVERSE_REACTION_BY_SUSPECTED_DRUG = "select * from adverse_reactions where " +
             "suspected_drug = ?";

@@ -1,17 +1,12 @@
 package service.impl;
 
 import model.AdverseReaction;
-import model.AnswerType;
-import model.Criteria;
-import model.Outcome;
-import model.RelationshipType;
 import repository.AdverseReactionRepository;
 import repository.impl.AdverseReactionRepositoryImpl;
 import service.ADRService;
 import service.ServiceException;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ADRServiceImpl implements ADRService {
@@ -38,27 +33,25 @@ public class ADRServiceImpl implements ADRService {
     }
 
     @Override
-    public void delete(int id) {
-        //adverseReactionRepository.delete(id);
-        // TODO: 21.10.2022 edit after repository method creation by Ilya  
-        System.out.println("Adverse reaction was deleted.");
+    public void delete(int id) throws ServiceException {
+        try {
+            adverseReactionRepository.delete(id);
+        } catch (SQLException e) {
+            throw new ServiceException("St went wrong during deleting.", e);
+        }
     }
 
     @Override
-    public void update(AdverseReaction adverseReaction) {
-        //adverseReactionRepository.update(adverseReaction);
-        // TODO: 21.10.2022 edit after repository method creation by Ilya 
-        System.out.println(adverseReaction);
+    public void update(AdverseReaction adverseReaction) throws ServiceException {
+        try {
+            adverseReactionRepository.update(adverseReaction);
+        } catch (SQLException e) {
+            throw new ServiceException("Something went wrong during updating", e);
+        }
     }
-
 
     @Override
     public AdverseReaction getByID(int id) {
-        AdverseReaction adverseReaction = new AdverseReaction(5,LocalDate.now(),"rash", "Panadol", Outcome.RECOVERED,
-                Criteria.CONGENITAL_ANOMALY, null, RelationshipType.CERTAIN, RelationshipType.POSSIBLE,
-                AnswerType.YES, AnswerType.NA, AnswerType.NO, AnswerType.NO, true);
-        return adverseReaction;
-        // TODO: 21.10.2022 edit after repository method creation by Ilya 
-        //return adverseReactionRepository.getByID(id);
+        return adverseReactionRepository.getById(id);
     }
 }

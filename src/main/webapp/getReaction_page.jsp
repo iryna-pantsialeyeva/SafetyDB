@@ -26,6 +26,11 @@
     </tr>
     <tr>
       <td><input type="submit" value="Proceed"></td>
+      <td style="color: darkblue">
+        <c:if test="${error_delete != null}">
+          <c:out value="${error_delete}"/>
+        </c:if>
+      </td>
     </tr>
   </table>
 </form>

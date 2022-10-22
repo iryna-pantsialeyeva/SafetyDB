@@ -1,6 +1,7 @@
 package controller;
 
 import service.ADRService;
+import service.ServiceException;
 import service.impl.ADRServiceImpl;
 
 import javax.servlet.ServletException;
@@ -21,7 +22,12 @@ public class DeleteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        adrService.delete(Integer.parseInt(request.getParameter("id")));
+        try {
+            adrService.delete(Integer.parseInt(request.getParameter("id")));
+        } catch (ServiceException e) {
+            request.setAttribute("error_delete", e.getMessage());
+            request.getRequestDispatcher("/getReaction_page.jsp").forward(request,response);
+        }
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         writer.println("<h2>Adverse reaction was deleted.</h2>");

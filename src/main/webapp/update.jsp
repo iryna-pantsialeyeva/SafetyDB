@@ -61,6 +61,12 @@
         </tr>
         <tr>
             <td><input type="submit" value="Update"/></td>
+            <td style="color: darkblue">
+                <c:if test="${error_update != null}">
+                    <c:out value="${error_update}"/>
+                    <a href="index.jsp">Return to the main page</a>
+                </c:if>
+            </td>
         </tr>
     </table>
 </form>

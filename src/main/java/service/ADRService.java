@@ -9,9 +9,9 @@ public interface ADRService {
 
     List<AdverseReaction> getAll();
 
-    void delete(int id);
+    void delete(int id) throws ServiceException;
 
-    void update(AdverseReaction adverseReaction);
+    void update(AdverseReaction adverseReaction) throws ServiceException;
 
     AdverseReaction getByID(int id);
 }

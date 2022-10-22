@@ -6,6 +6,7 @@ import model.AdverseReaction;
 import model.Criteria;
 import model.Outcome;
 import service.ADRService;
+import service.ServiceException;
 import service.impl.ADRServiceImpl;
 
 import javax.servlet.ServletException;
@@ -39,7 +40,12 @@ public class UpdateServlet extends HttpServlet {
         adverseReaction.setSuspectedDrug(suspectedDrug);
         adverseReaction.setOutcome(outcome);
         adverseReaction.setCriteria(criteria);
-        adrService.update(adverseReaction);
+        try {
+            adrService.update(adverseReaction);
+        } catch (ServiceException e) {
+            request.setAttribute("error_update", e.getMessage());
+            request.getRequestDispatcher("/update.jsp").forward(request,response);
+        }
 
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();

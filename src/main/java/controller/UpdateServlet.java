@@ -5,6 +5,8 @@ import mapper.AdverseReactionMapperImpl;
 import model.AdverseReaction;
 import model.Criteria;
 import model.Outcome;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.ADRService;
 import service.ServiceException;
 import service.impl.ADRServiceImpl;
@@ -21,6 +23,7 @@ import java.io.PrintWriter;
 public class UpdateServlet extends HttpServlet {
     private ADRService adrService;
     private AdverseReactionMapper adverseReactionMapper;
+    private static final Logger logger = LogManager.getLogger(UpdateServlet.class);
 
     public UpdateServlet() {
         this.adrService = new ADRServiceImpl();
@@ -30,6 +33,7 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        logger.info("UPDATE SERVLET STARTED");
         int id = Integer.parseInt(request.getParameter("id"));
         String description = request.getParameter("description");
         String suspectedDrug = request.getParameter("suspected_drug");
@@ -43,6 +47,7 @@ public class UpdateServlet extends HttpServlet {
         try {
             adrService.update(adverseReaction);
         } catch (ServiceException e) {
+            logger.error("UPDATE SERVLET ERROR", e);
             request.setAttribute("error_update", e.getMessage());
             request.getRequestDispatcher("/update.jsp").forward(request,response);
         }
@@ -55,5 +60,6 @@ public class UpdateServlet extends HttpServlet {
         writer.println("</br>");
         writer.println("<h4><a href=\"index.jsp\">Return to main page</a></h4>");
         writer.close();
+        logger.info("UPDATE SERVLET ENDED");
     }
 }

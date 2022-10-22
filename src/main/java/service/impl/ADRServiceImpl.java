@@ -1,6 +1,8 @@
 package service.impl;
 
 import model.AdverseReaction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import repository.AdverseReactionRepository;
 import repository.impl.AdverseReactionRepositoryImpl;
 import service.ADRService;
@@ -12,6 +14,7 @@ import java.util.List;
 public class ADRServiceImpl implements ADRService {
 
     private AdverseReactionRepository adverseReactionRepository;
+    private static final Logger logger = LogManager.getLogger(ADRServiceImpl.class);
 
     public ADRServiceImpl() {
         adverseReactionRepository = new AdverseReactionRepositoryImpl();
@@ -37,17 +40,21 @@ public class ADRServiceImpl implements ADRService {
         try {
             adverseReactionRepository.delete(id);
         } catch (SQLException e) {
-            throw new ServiceException("St went wrong during deleting.", e);
+            logger.error("DELETING ERROR", e);
+            throw new ServiceException("Something went wrong during deleting.", e);
         }
     }
 
     @Override
     public void update(AdverseReaction adverseReaction) throws ServiceException {
         try {
+            logger.info("UPDATE STARTED");
             adverseReactionRepository.update(adverseReaction);
         } catch (SQLException e) {
+            logger.error("UPDATING ERROR", e);
             throw new ServiceException("Something went wrong during updating", e);
         }
+        logger.info("UPDATE FINISHED");
     }
 
     @Override

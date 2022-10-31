@@ -22,4 +22,8 @@ public enum Criteria {
             }
         return null;
     }
+
+    public String getLabel() {
+        return label;
+    }
 }

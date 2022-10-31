@@ -19,5 +19,9 @@ public enum AnswerType {
             }
         return null;
         }
+
+    public String getLabel() {
+        return label;
     }
+}
 

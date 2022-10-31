@@ -22,4 +22,8 @@ public enum RelationshipType {
             }
         return null;
     }
+
+    public String getLabel() {
+        return label;
+    }
 }

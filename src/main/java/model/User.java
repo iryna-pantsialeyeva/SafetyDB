@@ -1,21 +1,42 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@RequiredArgsConstructor
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
 public class User {
-    @NonNull private int id;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
+    @Column(name = "active")
     private boolean isActive;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<AdverseReaction> adrs = new HashSet<>();
+
     private UserType type;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email=" + email +
+                ", password=" + password +
+                ", active=" + isActive +
+                ", adverse reactions=" + adrs +
+                "}";
+    }
 }
 
 

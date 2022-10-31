@@ -1,44 +1,65 @@
 package model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "adverse_reactions")
 public class AdverseReaction {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "report_date")
     private LocalDate reportDate;
+    @Column(name = "description")
     private String description;
+    @Column(name = "suspected_drug")
     private String suspectedDrug;
+    @Column(name = "outcome_name")
     private Outcome outcome;
+    @Column(name = "criteria_name")
     private Criteria criteria;
-    private User user;
+    @Column(name = "causal_relationship_company")
     private RelationshipType relationshipByCompany;
-
+    @Column(name = "causal_relationship_reporter")
     private RelationshipType nameGivenByReporter;
+    @Column(name = "time_relationship")
     private AnswerType timeRelationship;
+    @Column(name = "withdrawal_result")
     private AnswerType withdrawalResult;
+    @Column(name = "reintroduction_result")
     private AnswerType reintroductionResult;
+    @Column(name = "other_explanation")
     private AnswerType otherExplanation;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     boolean isVerified = false;
 
-    public AdverseReaction(String description, String suspectedDrug, Outcome outcome,
-                           Criteria criteria, User user, RelationshipType nameGivenByReporter,
-                           AnswerType timeRelationship, AnswerType withdrawalResult, AnswerType reintroductionResult, AnswerType otherExplanation) {
-        this.reportDate = LocalDate.now();
-        this.description = description;
-        this.suspectedDrug = suspectedDrug;
-        this.outcome = outcome;
-        this.criteria = criteria;
-        this.user = user;
-        this.nameGivenByReporter = nameGivenByReporter;
-        this.timeRelationship = timeRelationship;
-        this.withdrawalResult = withdrawalResult;
-        this.reintroductionResult = reintroductionResult;
-        this.otherExplanation = otherExplanation;
+    @Override
+    public String toString() {
+        return "Adverse Reaction{" +
+                "id=" + id +
+                ", report date=" + reportDate +
+                ", description=" + description +
+                ", suspected drug=" + suspectedDrug +
+                ", outcome=" + outcome +
+                ", criteria=" + criteria +
+                ", causal relationship company=" + relationshipByCompany +
+                ", causal relationship reporter=" + nameGivenByReporter +
+                ", time relationship=" + timeRelationship +
+                ", withdrawal result=" + withdrawalResult +
+                ", reintroduction result=" + reintroductionResult +
+                ", other explanation=" + otherExplanation +
+                "}";
     }
 }
